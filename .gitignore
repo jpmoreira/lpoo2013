@@ -1,4 +1,6 @@
 *.class
+LPOO-Lab/bin/
+LPOO-Lab/.settings/
 
 # Package Files #
 *.jar
