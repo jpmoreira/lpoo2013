@@ -1,6 +1,7 @@
 package logica_jogo;
 
 
+//a coment
 abstract public class Character extends Element{
 
 	
