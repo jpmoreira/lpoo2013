@@ -26,7 +26,7 @@ public class LabGenerator {
 																			// limit
 																			// point
 																			// or
-																			// beiond
+																			// beyond
 																			// bounds
 			return false;
 		}
