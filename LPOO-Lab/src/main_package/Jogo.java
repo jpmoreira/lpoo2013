@@ -36,6 +36,7 @@ public class Jogo {
 	}
 	
 		
+	//TODO how to get input from window!!!
 	LabGenerator.prepareLab(inpHandler.getDimention());
 	char[][] lab=LabGenerator.getLab();
 	int mode=inpHandler.getMode();
