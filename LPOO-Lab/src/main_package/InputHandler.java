@@ -5,6 +5,7 @@ import java.util.Scanner;
 import logica_jogo.Tabuleiro;
 
 public interface InputHandler {
+	
 
 	
 	public void getInGameInput();

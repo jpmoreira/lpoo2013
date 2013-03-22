@@ -1,4 +1,7 @@
 package main_package;
+import gui.GUI_InputHandler;
+import gui.gameWindow;
+
 import java.io.ObjectInputStream.GetField;
 import java.util.Currency;
 import java.util.Random;
@@ -17,7 +20,7 @@ public class Jogo {
 	
 	static Tabuleiro tab;
 	static InputHandler inpHandler;
-	static JFrame window;
+	static gameWindow window;
 	
 	
 	public static void main(String[] args) {
@@ -28,6 +31,7 @@ public class Jogo {
 	int playingMode=inpHandler.getPlayingMode();
 	
 	if(playingMode==0){//switch to GUI mode
+		setupWindow();
 		inpHandler=new GUI_InputHandler(tab);
 	}
 	
@@ -52,6 +56,12 @@ public class Jogo {
 			
 		}
 
+	}
+
+
+	private static void setupWindow() {
+		window=new gameWindow();
+		window.makeVisible();
 	}
 
 	
