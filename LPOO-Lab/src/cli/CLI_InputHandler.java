@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import logica_jogo.Tabuleiro;
+import main_package.InputHandler;
 
 
-public class CLI_InputHandler {
+public class CLI_InputHandler implements InputHandler{
 	private Tabuleiro theTab;
 	private Scanner inputScanner;
 	
@@ -86,4 +87,18 @@ public class CLI_InputHandler {
 		
 	}
 
+	public int getPlayingMode(){
+		System.out.print("Play in GUI mode?  ");
+		try{
+			String answer=inputScanner.next();
+			if(answer.charAt(0)=='y' || answer.charAt(0)=='Y'){
+				return 0;
+				
+			}
+		}
+		catch(Exception e){
+			System.out.println("Invalid input.");
+		}
+		return 1;//default behaviour (cli)!
+	}
 }
