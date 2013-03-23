@@ -6,9 +6,6 @@ import logica_jogo.Tabuleiro;
 
 public interface InputHandler {
 	
-
-	
-	public void getInGameInput();
 	
 	public int getDimention();
 
@@ -17,4 +14,7 @@ public interface InputHandler {
 	public int getNumberOfDragons();
 
 	public int getPlayingMode();
+	
+	public void HandleGameInput();
+	public void setTabuleiro(Tabuleiro newTab);
 }

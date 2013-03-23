@@ -20,19 +20,17 @@ public class Jogo {
 	
 	static Tabuleiro tab;
 	static InputHandler inpHandler;
-	static gameWindow window;
 	
 	
 	public static void main(String[] args) {
 		
-		inpHandler=new CLI_InputHandler(tab);//start with cli input;
+		inpHandler=new CLI_InputHandler();//start with cli input, set no tab
 				
 	
 	int playingMode=inpHandler.getPlayingMode();
 	
 	if(playingMode==0){//switch to GUI mode
-		setupWindow();
-		inpHandler=new GUI_InputHandler(tab);
+		inpHandler=new GUI_InputHandler();
 	}
 	
 		
@@ -49,21 +47,15 @@ public class Jogo {
 				6,3,
 				lab,mode,nrDragons);
 		tab.printLayout();
-		inpHandler=new CLI_InputHandler(tab);
+		inpHandler.setTabuleiro(tab);
 		
-		while(1==1){
-			inpHandler.getInGameInput();
-			tab.printLayout();
-			
-		}
+		inpHandler.HandleGameInput();//deliever command to the inputHandler
+		//if in cli mode this will result in a loop
+		//if in a gui mode this will result in setting up the apropriate listeners
 
 	}
 
 
-	private static void setupWindow() {
-		window=new gameWindow();
-		window.makeVisible();
-	}
 
 	
 	

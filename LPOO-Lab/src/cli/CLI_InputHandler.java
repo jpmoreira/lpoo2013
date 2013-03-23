@@ -16,6 +16,11 @@ public class CLI_InputHandler implements InputHandler{
 		inputScanner=new Scanner(System.in);
 	}
 	
+	public CLI_InputHandler(){
+		theTab=null;
+		inputScanner=new Scanner(System.in);
+	}
+	
 	public void getInGameInput(){
 		char input='\0';			
 		input=inputScanner.next().toUpperCase().charAt(0);
@@ -101,4 +106,20 @@ public class CLI_InputHandler implements InputHandler{
 		}
 		return 1;//default behaviour (cli)!
 	}
+
+	@Override
+	public void HandleGameInput() {
+		while(1==1){//forever loop
+			getInGameInput();
+			theTab.printLayout();
+			
+		}
+		
+	}
+	@Override
+	public void setTabuleiro(Tabuleiro newTab) {
+		theTab=newTab;
+		
+	}
+	
 }

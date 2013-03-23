@@ -5,23 +5,27 @@ import javax.management.openmbean.TabularData;
 import logica_jogo.Tabuleiro;
 import main_package.InputHandler;
 
+
+
 public class GUI_InputHandler implements InputHandler {
 
 	private Tabuleiro theTab;
+	private gameWindow window;
 	
+
+	public GUI_InputHandler() {
+		theTab=null;
+		setupWindow();
+	}
 	public GUI_InputHandler(Tabuleiro tab) {
 		theTab=tab;
-	}
-	@Override
-	public void getInGameInput() {
-		// TODO Auto-generated method stub
-
+		setupWindow();
 	}
 
 	@Override
 	public int getDimention() {
-		// TODO Auto-generated method stub
-		return 0;
+		return window.
+		return 10;
 	}
 
 	@Override
@@ -42,4 +46,17 @@ public class GUI_InputHandler implements InputHandler {
 		return 0;
 	}
 
+	private void setupWindow(){
+		window=new gameWindow();
+		window.makeVisible();
+	}
+	@Override
+	public void setTabuleiro(Tabuleiro newTab) {
+	
+		theTab=newTab;
+	}
+	@Override
+	public void HandleGameInput() {
+		//TODO setup listeners
+	}
 }
