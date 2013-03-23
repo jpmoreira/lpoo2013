@@ -24,8 +24,7 @@ public class GUI_InputHandler implements InputHandler {
 
 	@Override
 	public int getDimention() {
-		return window.
-		return 10;
+		return window.getControlPanel().getLabSizeSlider().getValue();
 	}
 
 	@Override

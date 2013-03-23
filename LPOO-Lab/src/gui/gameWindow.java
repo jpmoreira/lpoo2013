@@ -68,4 +68,10 @@ public class gameWindow {
 		
 		
 	}
+	ControlPanel getControlPanel(){
+		return theControlPanel;
+	}
+	JPanel getMainPanel(){
+		return mainPanel;
+	}
 }
