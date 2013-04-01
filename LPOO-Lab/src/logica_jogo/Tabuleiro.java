@@ -23,7 +23,6 @@ public class Tabuleiro {
 		theGen=new GameSpecificRanGen();
 		layout = lab;
 		dragonArray=new Dragon[nrDrag];
-		//TODO CHANGE setupDragon to setupDragons!!! and maybe remove dragonX and dragonY parameters,
 
 		// setup Hero
 		setupHero(playerX, playerY);
@@ -322,4 +321,7 @@ public class Tabuleiro {
 		return terminated;
 	}
 
+	public char[][] getLayout(){
+		return layout;
+	}
 }

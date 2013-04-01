@@ -35,19 +35,7 @@ public class Jogo {
 	
 		
 	//TODO how to get input from window!!!
-	LabGenerator.prepareLab(inpHandler.getDimention());
-	char[][] lab=LabGenerator.getLab();
-	int mode=inpHandler.getMode();
-	int nrDragons=inpHandler.getNumberOfDragons();
-	
-		
-		
-		tab=new Tabuleiro(
-				1,2,
-				6,3,
-				lab,mode,nrDragons);
-		tab.printLayout();
-		inpHandler.setTabuleiro(tab);
+	inpHandler.makeGame();
 		
 		inpHandler.HandleGameInput();//deliever command to the inputHandler
 		//if in cli mode this will result in a loop

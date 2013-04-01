@@ -3,6 +3,7 @@ package cli;
 import java.io.IOException;
 import java.util.Scanner;
 
+import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
 import main_package.InputHandler;
 
@@ -24,7 +25,6 @@ public class CLI_InputHandler implements InputHandler{
 	public void getInGameInput(){
 		char input='\0';			
 		input=inputScanner.next().toUpperCase().charAt(0);
-		
 		
 		switch (input) {
 		case 'A':
@@ -120,6 +120,17 @@ public class CLI_InputHandler implements InputHandler{
 	public void setTabuleiro(Tabuleiro newTab) {
 		theTab=newTab;
 		
+	}
+	
+	@Override
+	public void makeGame() {
+		int dim=getDimention();
+		int mode=getMode();
+		int nrD=getNumberOfDragons();
+		LabGenerator.prepareLab(dim);
+		char[][] lab=LabGenerator.getLab();
+		theTab=new Tabuleiro(1,2, 0, 0, lab, mode, nrD);
+		theTab.printLayout();
 	}
 	
 }
