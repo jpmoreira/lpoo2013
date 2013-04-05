@@ -1,6 +1,8 @@
 package cli;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import logica_jogo.LabGenerator;
@@ -38,6 +40,9 @@ public class CLI_InputHandler implements InputHandler{
 			break;
 		case 'S':
 			theTab.movePlayer(0, 1);
+			break;
+		case 'F':
+			saveGame();
 			break;
 		default:
 			break;
@@ -133,4 +138,24 @@ public class CLI_InputHandler implements InputHandler{
 		theTab.printLayout();
 	}
 	
+	
+	public void saveGame(){
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("jogo.ser");
+	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
+	         out.writeObject(theTab);
+	         out.close();
+	          fileOut.close();
+	          
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+	}
+	
+	public void loadGame(){
+		
+	}
 }

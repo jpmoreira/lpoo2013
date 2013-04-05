@@ -113,4 +113,13 @@ public class GUI_InputHandler implements InputHandler {
 	public char[][] getLayout(){
 		return theTab.getLayout();
 	}
+
+	public void saveGame(){
+		
+	}
+	
+	public void loadGame(){
+		
+	}
+
 }

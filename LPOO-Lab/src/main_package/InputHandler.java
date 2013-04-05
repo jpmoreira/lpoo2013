@@ -18,4 +18,6 @@ public interface InputHandler {
 	public void HandleGameInput();
 	public void setTabuleiro(Tabuleiro newTab);
 	public void makeGame();
+	public void saveGame();
+	public void loadGame();
 }
