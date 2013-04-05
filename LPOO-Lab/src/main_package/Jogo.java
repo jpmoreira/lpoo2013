@@ -2,6 +2,7 @@ package main_package;
 import gui.GUI_InputHandler;
 import gui.gameWindow;
 
+import java.io.Serializable;
 import java.io.ObjectInputStream.GetField;
 import java.util.Currency;
 import java.util.Random;
@@ -15,7 +16,7 @@ import logica_jogo.Tabuleiro;
 import cli.CLI_InputHandler;
 
 
-public class Jogo {
+public class Jogo implements Serializable{
 
 	
 	static Tabuleiro tab;
