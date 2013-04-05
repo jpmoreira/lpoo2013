@@ -20,6 +20,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSlider;
 
+import pictures.PictureLoader;
+
 
 public class gameWindow {
 
@@ -59,13 +61,16 @@ public class gameWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		String wall_pic_path="/home/mppl/Desktop/pics/raw/brick2.png";
-		String hero_pic_path="/home/mppl/Desktop/pics/final/hero.png";
-		String dragon_pic_path="/home/mppl/Desktop/pics/final/dragon.png";
-		String sleeping_dragon_pic_path="/home/mppl/Desktop/pics/final/sleeping_dragon.png";
-		String sword_pic_path="/home/mppl/Desktop/pics/final/sword.png";
-		String armed_pic_path="/home/mppl/Desktop/pics/final/hero.png";
-		String empty_pic_path="/home/mppl/Desktop/pics/raw/grass.jpg";
+		String wall_pic_path=PictureLoader.getImagePath("brick2.png");
+		String hero_pic_path=PictureLoader.getImagePath("hero.png");
+		String dragon_pic_path=PictureLoader.getImagePath("dragon.png");
+		String sleeping_dragon_pic_path=PictureLoader.getImagePath("sleeping_dragon.png");
+		String sword_pic_path=PictureLoader.getImagePath("sword.png");
+		String armed_pic_path=PictureLoader.getImagePath("hero.png");
+		String empty_pic_path=PictureLoader.getImagePath("grass.jpg");
+		
+		
+		
 		frame.getContentPane().setLayout(null);
 		
 		
