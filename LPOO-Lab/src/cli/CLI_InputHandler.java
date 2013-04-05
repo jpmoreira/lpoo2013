@@ -1,12 +1,16 @@
 package cli;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
+import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
+import main_package.InputHandler;
 
 
-public class CLI_InputHandler {
+public class CLI_InputHandler implements InputHandler{
 	private Tabuleiro theTab;
 	private Scanner inputScanner;
 	
@@ -15,10 +19,14 @@ public class CLI_InputHandler {
 		inputScanner=new Scanner(System.in);
 	}
 	
+	public CLI_InputHandler(){
+		theTab=null;
+		inputScanner=new Scanner(System.in);
+	}
+	
 	public void getInGameInput(){
 		char input='\0';			
 		input=inputScanner.next().toUpperCase().charAt(0);
-		
 		
 		switch (input) {
 		case 'A':
@@ -32,6 +40,9 @@ public class CLI_InputHandler {
 			break;
 		case 'S':
 			theTab.movePlayer(0, 1);
+			break;
+		case 'F':
+			saveGame();
 			break;
 		default:
 			break;
@@ -86,4 +97,65 @@ public class CLI_InputHandler {
 		
 	}
 
+	public int getPlayingMode(){
+		System.out.print("Play in GUI mode?  ");
+		try{
+			String answer=inputScanner.next();
+			if(answer.charAt(0)=='y' || answer.charAt(0)=='Y'){
+				return 0;
+				
+			}
+		}
+		catch(Exception e){
+			System.out.println("Invalid input.");
+		}
+		return 1;//default behaviour (cli)!
+	}
+
+	@Override
+	public void HandleGameInput() {
+		while(1==1){//forever loop
+			getInGameInput();
+			theTab.printLayout();
+			
+		}
+		
+	}
+	@Override
+	public void setTabuleiro(Tabuleiro newTab) {
+		theTab=newTab;
+		
+	}
+	
+	@Override
+	public void makeGame() {
+		int dim=getDimention();
+		int mode=getMode();
+		int nrD=getNumberOfDragons();
+		LabGenerator.prepareLab(dim);
+		char[][] lab=LabGenerator.getLab();
+		theTab=new Tabuleiro(1,2, 0, 0, lab, mode, nrD);
+		theTab.printLayout();
+	}
+	
+	
+	public void saveGame(){
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("jogo.ser");
+	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
+	         out.writeObject(theTab);
+	         out.close();
+	          fileOut.close();
+	          
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+	}
+	
+	public void loadGame(){
+		
+	}
 }
