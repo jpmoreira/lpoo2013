@@ -24,6 +24,7 @@ public class Tabuleiro {
 		layout = lab;
 		dragonArray=new Dragon[nrDrag];
 
+		
 		// setup Hero
 		setupHero(playerX, playerY);
 

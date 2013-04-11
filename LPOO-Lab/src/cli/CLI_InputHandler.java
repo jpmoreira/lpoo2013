@@ -1,5 +1,6 @@
 package cli;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -156,6 +157,8 @@ public class CLI_InputHandler implements InputHandler{
 	}
 	
 	public void loadGame(){
-		
+		try
+		{	
+		}
 	}
 }
