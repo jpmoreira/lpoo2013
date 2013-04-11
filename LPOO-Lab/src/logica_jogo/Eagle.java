@@ -1,6 +1,6 @@
 package logica_jogo;
 
-import algorithms.dijkstra.engine.DijkstraAlgorithm;
+
 
 public class Eagle extends Character {
 
@@ -9,8 +9,9 @@ public class Eagle extends Character {
 	/** True if eagle is attached to hero shoulder */
 	private boolean attached;
 	private boolean reached = false;
-
-	private boolean lastx = false;
+	/** Int x y with position of hero when sends eagle */
+	private int tempx;
+	private int tempy;
 	/** Coordinates of the Eagle when is sleeping */
 	private int[] pos;
 
@@ -37,40 +38,68 @@ public class Eagle extends Character {
 		return pos;
 	}
 
-	public void sleep() {
-		sleeping = true;
+	public void sleep(boolean state) {
+		sleeping = state;
 	}
 
-	/* TODO: Adapt Diijkstra Algorithm and improvate later to A* */
+	public void StartEagle(Object o) {
+		/* Method that should be called before moveEagle */
+		tempx = ((Hero) o).getX();
+		tempy = ((Hero) o).getY();
+	}
 
-	public void getSword(int x, int y) {
+	/* TODO: Adapt Dijkstra Algorithm and improve later to A* */
+
+	public void moveEagle(int x, int y) {
 		sleeping = false;
 		attached = false;
+
 		if (!reached) {
 			if (this.getX() == x && this.getY() == y) {
 				reached = true;
-
+				/* TODO: Change Tabuleiro method herovsdragon and verifyDragonProximity to work with obj o instead
+				 * of harcoded hero */
 			}
 
-			if (!reached && this.getX() > x && this.getY() > y) {
+			if (this.getX() > x && this.getY() > y) {
 				this.moveTo(this.getX() - 1, this.getY() - 1);
-			} else if (!reached && this.getX() < x && this.getY() < y) {
+			} else if (this.getX() < x && this.getY() < y) {
 				this.moveTo(this.getX() + 1, this.getY() + 1);
-			} else if (!reached && this.getX() < x && this.getY() == y) {
+			} else if (this.getX() < x && this.getY() == y) {
 				this.moveTo(this.getX() + 1, this.getY());
-			} else if (!reached && this.getX() > x && this.getY() == y) {
+			} else if (this.getX() > x && this.getY() == y) {
 				this.moveTo(this.getX() - 1, this.getY());
-			} else if (!reached && this.getY() < y && this.getX() == x) {
+			} else if (this.getY() < y && this.getX() == x) {
 				this.moveTo(this.getX(), this.getY() + 1);
 
-			} else if (!reached && this.getY() > y && this.getX() == x) {
+			} else if (this.getY() > y && this.getX() == x) {
 				this.moveTo(this.getX(), this.getY() - 1);
 
 			}
 		}
-		if (reached){
-			
+		if (reached) {
+			if (this.getX() == tempx && this.getY() == tempy) {
+				sleeping = true;
+				/* TODO: do the eaglevsdragon too here and change routine to if sleeping be able to be killed by dragon */
+			}
+
+			if (this.getX() > tempx && this.getY() > tempy) {
+				this.moveTo(this.getX() - 1, this.getY() - 1);
+			} else if (this.getX() < tempx && this.getY() < tempy) {
+				this.moveTo(this.getX() + 1, this.getY() + 1);
+			} else if (this.getX() < tempx && this.getY() == tempy) {
+				this.moveTo(this.getX() + 1, this.getY());
+			} else if (this.getX() > tempx && this.getY() == tempy) {
+				this.moveTo(this.getX() - 1, this.getY());
+			} else if (this.getY() < tempy && this.getX() == tempx) {
+				this.moveTo(this.getX(), this.getY() + 1);
+
+			} else if (this.getY() > tempy && this.getX() == tempx) {
+				this.moveTo(this.getX(), this.getY() - 1);
+
+			}
 		}
+
 	}
 
 }
