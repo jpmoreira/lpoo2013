@@ -45,6 +45,8 @@ public class CLI_InputHandler implements InputHandler{
 		case 'F':
 			saveGame();
 			break;
+		case 'E':
+			theTab.getEagle().StartEagle(theTab.getHero());
 		default:
 			break;
 		}
@@ -115,7 +117,7 @@ public class CLI_InputHandler implements InputHandler{
 
 	@Override
 	public void HandleGameInput() {
-		while(1==1){//forever loop
+		while(true){//forever loop
 			getInGameInput();
 			theTab.printLayout();
 			
@@ -157,8 +159,6 @@ public class CLI_InputHandler implements InputHandler{
 	}
 	
 	public void loadGame(){
-		try
-		{	
-		}
+		
 	}
 }
