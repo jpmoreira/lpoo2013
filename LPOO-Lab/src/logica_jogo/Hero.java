@@ -9,6 +9,10 @@ public class Hero extends Character {
 	public void Arm(){
 		placeHolder='A';
 	}
+	public void EagleShoulder(){
+		// G stands for Guardian / Guarded . Something like that :D
+		placeHolder='G';
+	}
 	public boolean isArmed(){
 		return placeHolder=='A';
 	}
