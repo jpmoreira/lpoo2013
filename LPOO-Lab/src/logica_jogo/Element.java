@@ -6,12 +6,14 @@ public class Element implements java.io.Serializable{
 	protected char placeHolder;
 	protected Coordinate position;
 	protected boolean playing;
+	protected boolean overlaped;
 	
 	
 	public Element(char pH,int x, int y) {
 		placeHolder=pH;
 		position=new Coordinate(x, y);
 		playing=true;
+		overlaped=false;
 		
 	}
 	
@@ -39,4 +41,15 @@ public class Element implements java.io.Serializable{
 	public void unvanish(){
 		playing=true;
 	}
+	public void overlap(){
+		overlaped=true;
+	}
+	
+	public void unhide(){
+		overlaped=false;
+	}
+	public boolean isOverlaped(){
+		return overlaped;
+	}
+	
 }

@@ -2,26 +2,29 @@ package logica_jogo;
 
 public class Tabuleiro implements java.io.Serializable {
 
+	//TODO criacao do tab n ve se hero/dragon/sword calham uns em cima dos outros
+	//TODO eagle fica no layout... pk?? sera q fica no cleanLayout??
 	Hero hero;
 	Element sword;
-
+	Element exit;
 	Eagle eagle;
-	// Dragon dragon;
 	int mode;
 	Dragon[] dragonArray;
 	GameSpecificRanGen theGen;
-	Coordinate theExit;
 	boolean terminated;
 	boolean debugging;
 
 	char[][] layout;
+	char[][] cleanLayout;
 
 	public Tabuleiro(int playerX, int playerY, int swordX, int swordY,
 			char[][] lab, int mod, int nrDrag) {
 
 		theGen = new GameSpecificRanGen();
-		layout = lab;
+		cleanLayout=lab;
+		layout=new char[lab.length][lab.length];
 		dragonArray = new Dragon[nrDrag];
+		
 
 		// setup Hero
 		setupHero(playerX, playerY);
@@ -33,11 +36,14 @@ public class Tabuleiro implements java.io.Serializable {
 		setupDragons(nrDrag);
 
 		grabExit();
+		//System.out.println("exit x="+exit.getX()+" y="+exit.getY());
 
 		mode = mod;
 		terminated = false;
 		debugging = false;
 
+		updateLayout();
+		System.out.println("updated");
 	}
 
 	public void printLayout() {
@@ -52,22 +58,22 @@ public class Tabuleiro implements java.io.Serializable {
 
 	private void grabExit() {
 		for (int i = 0; i <= Coordinate.getBounds().getX(); i++) {
-			if (layout[0][i] == 'S') {
-				theExit = new Coordinate(0, i);
+			if (cleanLayout[0][i] == 'S') {
+				exit =new Element('S',i,0);
 				return;
-			} else if (layout[Coordinate.getBounds().getY()][i] == 'S') {
-				theExit = new Coordinate(Coordinate.getBounds().getY(), i);
+			} else if (cleanLayout[Coordinate.getBounds().getY()][i] == 'S') {
+				exit = new Element('S',i,Coordinate.getBounds().getY());
 				return;
 			}
 		}
 		for (int i = 0; i <= Coordinate.getBounds().getY(); i++) {
-			if (layout[i][0] == 'S') {
-				theExit = new Coordinate(i, 0);
+			if (cleanLayout[i][0] == 'S') {
+				exit = new Element('S',0, i);
 				return;
 			}
 
-			if (layout[i][Coordinate.getBounds().getX()] == 'S') {
-				theExit = new Coordinate(i, Coordinate.getBounds().getY());
+			if (cleanLayout[i][Coordinate.getBounds().getX()] == 'S') {
+				exit = new Element('S',Coordinate.getBounds().getY(),i);
 				return;
 			}
 		}
@@ -85,29 +91,28 @@ public class Tabuleiro implements java.io.Serializable {
 	public void movePlayer(int dx, int dy) {
 		int newX = hero.getPosition().getX() + dx;
 		int newY = hero.getPosition().getY() + dy;
-		System.out.println("hero newx= "+newX+" newY= "+newY);
-		System.out.println("hero x= "+hero.getX()+" hero y="+hero.getY());
+		Coordinate newCord= new Coordinate(newX,newY);
 		moveDragons();
 		moveEagle();
 		if (Coordinate.validCoordinate(newX, newY)) {
 
-			switch (layout[newY][newX]) {
-
-			case ' ':
-				switchPlace(hero, newX, newY);
-				break;
-			case 'S':
-				exitLab();
-				break;
-			case 'E':
+			
+			if(newCord.equals(sword.getPosition()) && !sword.isOverlaped()){//se encontramos a espada e ela n esta fora de jogo por o dragao estar la
 				getEspada();
-			default:
-				break;
+				hero.moveTo(newX, newY);
+			}
+			else if(newCord.equals(exit.getPosition())){//if we are trying to exit
+				attemptExit();
+			}
+			
+			else if(layout[newY][newX]==' '){//if not a wall
+				hero.moveTo(newX, newY);
 			}
 
 		}
 
 		HeroVsDragons();
+		updateLayout();
 	}
 
 	private void moveDragon(Dragon dragon) {
@@ -120,7 +125,6 @@ public class Tabuleiro implements java.io.Serializable {
 															// zero and we are
 															// in mode tree
 				dragon.sleep();
-				layout[dragon.getY()][dragon.getX()] = dragon.getPlaceHolder();
 				return;
 			}
 
@@ -143,45 +147,22 @@ public class Tabuleiro implements java.io.Serializable {
 				break;
 			}
 
-			if (Coordinate.validCoordinate(newX, newY) && mode != 1) {// if we
-																		// are
-																		// not
-																		// of
-																		// bounds
-																		// and
-																		// dragon
-																		// isn't
-																		// supposed
-																		// to be
-																		// still
+			if (Coordinate.validCoordinate(newX, newY) && mode != 1) {//if we are not out of bounds and dragon is supposed to move
 
 				if (emptyPlace(newX, newY)) {
-					if (dragon.getX() != sword.getX()
-							|| dragon.getY() != sword.getY()) {// we were not at
-																// the sword
-																// place
-						switchPlace(dragon, newX, newY);
-					} else {// we are at the sword place
-						layout[dragon.getY()][dragon.getX()] = 'S';// leave the
-																	// sword
-																	// there
+					if (!dragon.getPosition().equals(sword.getPosition())) {// we were not at the sword place
 						dragon.moveTo(newX, newY);
-						dragon.defortify();// get back our placeholder
-						layout[dragon.getY()][dragon.getX()] = dragon
-								.getPlaceHolder();// draw the draagon
+					} else {// we are at the sword place
+						dragon.defortify();
+						sword.unhide();
+						System.out.println("dragon will switch");
+						
+						dragon.moveTo(newX, newY);
 					}
-				} else if (newX == sword.getX() && newY == sword.getY()) {// if
-																			// we
-																			// are
-																			// going
-																			// to
-																			// the
-																			// sword
-					layout[dragon.getY()][dragon.getX()] = ' ';
+				} else if (newX == sword.getX() && newY == sword.getY()) {// if we are heading touards the sword
 					dragon.fortify();
+					sword.overlap();//signal the dragon is there
 					dragon.moveTo(newX, newY);
-					layout[dragon.getY()][dragon.getX()] = dragon
-							.getPlaceHolder();
 
 				}
 
@@ -193,7 +174,6 @@ public class Tabuleiro implements java.io.Serializable {
 
 			if (theGen.dragonShouldWake()) {// 1/3 chance to awake
 				dragon.awake();
-				layout[dragon.getY()][dragon.getX()] = dragon.getPlaceHolder();
 			}
 		}
 
@@ -201,14 +181,11 @@ public class Tabuleiro implements java.io.Serializable {
 
 	private void getEspada() {
 		hero.Arm();
-		layout[hero.getY()][hero.getX()] = ' ';
-		layout[sword.getY()][sword.getX()] = hero.getPlaceHolder();
-		hero.moveTo(sword.getX(), sword.getY());
 		sword.vanish();
 	}
 
 	private boolean emptyPlace(int x, int y) {
-		if (Coordinate.validCoordinate(x, y) && layout[y][x] == ' ') {
+		if (Coordinate.validCoordinate(x, y) && cleanLayout[y][x] == ' ') {
 			return true;
 		}
 		return false;
@@ -233,7 +210,6 @@ public class Tabuleiro implements java.io.Serializable {
 		for (int i = 0; i < nrOfDragons; i++) {
 			Coordinate pos = findEmptyPosition();
 			dragonArray[i] = new Dragon(pos.getX(), pos.getY());
-			layout[pos.getY()][pos.getX()] = dragonArray[i].getPlaceHolder();
 		}
 	}
 
@@ -245,7 +221,6 @@ public class Tabuleiro implements java.io.Serializable {
 			hero = new Hero(pos.getX(), pos.getY());
 		}
 
-		layout[hero.getY()][hero.getX()] = hero.getPlaceHolder();
 	}
 
 	private void setupSword(int swordX, int swordY) {
@@ -256,24 +231,20 @@ public class Tabuleiro implements java.io.Serializable {
 			sword = new Element('E', pos.getX(), pos.getY());
 		}
 
-		layout[sword.getY()][sword.getX()] = sword.getPlaceHolder();
+		//layout[sword.getY()][sword.getX()] = sword.getPlaceHolder();
 	}
 
 	private void setupEagle() {
 		eagle = new Eagle(hero.getX(), hero.getY());
-		//hero.EagleShoulder();
-		//layout[hero.getY()][hero.getX()] = ' ';
-		//layout[eagle.getY()][eagle.getX()] = hero.getPlaceHolder();
-		//hero.moveTo(eagle.getX(), eagle.getY());
-		//eagle.vanish();
+		
 	}
 
 	private void verifyDragonProximity(Dragon dragon) {
 		int dx = Math.abs(dragon.getX() - hero.getX());
 		int dy = Math.abs(dragon.getY() - hero.getY());
 		if ((dx <= 1 && dy == 0) || (dy <= 1 && dx == 0)) {
-			if (hero.getPlaceHolder() == 'A') {
-				layout[dragon.getY()][dragon.getX()] = ' ';
+			if (hero.isArmed()) {
+				//layout[dragon.getY()][dragon.getX()] = ' ';
 				dragon.vanish();
 
 			} else if (dragon.isPlaying() && !dragon.isSleeping()) {
@@ -320,22 +291,11 @@ public class Tabuleiro implements java.io.Serializable {
 
 	public void placeDragonAt(int x, int y) {
 		if (dragonArray.length == 1 && emptyPlace(x, y)) {
-			switchPlace(dragonArray[0], x, y);
+			dragonArray[0].moveTo(x, y);
 		}
 	}
 
-	private void switchPlace(Element el, int newX, int newY) {
-		if (el instanceof Character) {// if it's movable
-			if (layout[el.getY()][el.getX()] == el.getPlaceHolder()) {// if it's
-																		// acctually
-																		// there
-				layout[el.getY()][el.getX()] = ' ';
-				((Character) el).moveTo(newX, newY);
-				layout[el.getY()][el.getX()] = el.getPlaceHolder();
-			}
-
-		}
-	}
+	
 
 	public void debugOn() {
 		debugging = true;
@@ -360,39 +320,96 @@ public class Tabuleiro implements java.io.Serializable {
 			System.out.println("eagle x= "+newPos.getX()+" y= "+newPos.getY());
 			System.out.println("hero x="+hero.getX()+" y= "+hero.getY());
 			System.out.println("sword x="+sword.getX()+" y= "+sword.getY());
-			char behind='#';
 			if(Coordinate.validCoordinate(newPos)){
 				
 				if(hero.getPosition().equals(newPos)){
 					eagle.vanish();
 					hero.Arm();
 				}
-				else if(sword.getPosition().equals(newPos)){
+				else if(sword.getPosition().equals(newPos) && !eagle.hasSword()){
 					System.out.println("cheguei");
 					eagle.reachedSword();
-					behind=' ';
 					sword.vanish();
+				}
+				else if(sword.getPosition().equals(newPos) && eagle.hasSword()){
+					sword=new Element('E', eagle.getX(), eagle.getY());
+					//layout[eagle.getY()][eagle.getX()]=sword.placeHolder;
+					eagle.vanish();
+					
 				}
 				else if(!eagle.isFlying()){
 					for(int i=0; i<dragonArray.length; i++){
 						Dragon d=dragonArray[i];
 						if(d.getPosition()==newPos){
+							if(eagle.hasSword()){
+								sword=new Element('E', eagle.getX(), eagle.getY());//"leave" sword
+							}
 							eagle.vanish();
+							
 							break;
 						}
 					}
+					
+					
+					
 				}
 				
-				if(behind=='#'){
-					behind=layout[newPos.getY()][newPos.getX()];
-				}
 			
-				layout[eagle.getPosition().getY()][eagle.getPosition().getX()]=eagle.moveTo(newPos.getX(), newPos.getY(),behind);
-				layout[eagle.getPosition().getY()][eagle.getPosition().getX()]=eagle.getPlaceHolder();
+				eagle.moveTo(newPos.getX(), newPos.getY());
 				
 			}
 			
 		}
 	}
 
+	void attemptExit(){
+		for(int i=0;i<dragonArray.length;i++){
+			if(dragonArray[i].isPlaying()){
+				return;
+			}
+		}
+		exitLab();//if no one is playing
+	}
+
+	void updateLayout(){
+		for(int i=0;i<layout.length;i++){
+			for(int f=0;f<layout.length;f++){
+				layout[i][f]=getSymbol(f,i);
+			}
+		}
+		
+	}
+	private char getSymbol(int x, int y){
+		Coordinate cord=new Coordinate(x, y);
+		Dragon d=getDragonAt(x, y);
+		if(d!=null){//if there's a dragon
+			return d.getPlaceHolder();
+		}
+		else if(hero.getPosition().equals(cord)){
+			return hero.getPlaceHolder();
+		}
+		else if(exit.getPosition().equals(cord)){
+			return exit.getPlaceHolder();
+		}
+		else if(sword.getPosition().equals(cord) && !sword.isOverlaped()){
+			return sword.getPlaceHolder();
+		}
+		else if(eagle.getPosition().equals(cord)){
+			return eagle.getPlaceHolder();
+		}
+		else{
+			return cleanLayout[y][x];
+		}
+		
+		
+	}
+	
+	public Dragon getDragonAt(int x, int y){
+		for(int i=0;i<dragonArray.length;i++){
+			if(dragonArray[i].getX()==x && dragonArray[i].getY()==y){
+				return dragonArray[i];
+			}
+		}
+		return null;
+	}
 }

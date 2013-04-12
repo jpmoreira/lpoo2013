@@ -56,7 +56,6 @@ public static boolean validCoordinate(int x, int y){
 	}
 	@Override
 	public boolean equals(Object obj) {
-		System.out.println("equals");
 		if(obj instanceof Coordinate){
 			//System.out.println("comparing this.x= "+x+" this.y= "+y+" other.x="+((Coordinate) obj).x+" other.y= "+((Coordinate) obj).y);
 			return (x==((Coordinate) obj).x && y==((Coordinate) obj).y);

@@ -13,13 +13,12 @@ public class Eagle extends Character {
 	/** Coordinates of the Eagle when is sleeping */
 	private Coordinate startPos;
 	private Coordinate endingPos;
-	private char behind;
+	private boolean hasSword;
 
 	public Eagle(int x, int y) {
 		super('e', x, y);
 		vanish();
-		behind=' ';
-
+		hasSword=false;
 	}
 
 	/**
@@ -37,7 +36,6 @@ public class Eagle extends Character {
 		startPos=new Coordinate(h.getPosition());
 		endingPos=s.getPosition();
 		
-		behind=h.getPlaceHolder();
 		unvanish();
 		((Hero) h).useEagle();
 		position=new Coordinate(h.getX(), h.getY());
@@ -83,29 +81,21 @@ public class Eagle extends Character {
 
 	}
 	
-	public char moveTo(int x,int y,char b){
-		
-		char temp=behind;
-		super.moveTo(x, y);
-		behind=b;
-		if(position.equals(startPos) || position.equals(endingPos)){
-			flying=false;
-		}
-		else{
-			flying=true;
-		}
-		return temp;
-		
-	}
+
 	
 	public void reachedSword(){
+		System.out.println("reached");
 		Coordinate temp=startPos;
 		startPos=endingPos;
 		endingPos=temp;
+		hasSword=true;
 	}
 	
 	public boolean isFlying(){
 		return flying;
+	}
+	public boolean hasSword(){
+		return hasSword;
 	}
 	
 
