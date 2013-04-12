@@ -31,7 +31,11 @@ public class Coordinate implements java.io.Serializable{
 		setY(theY);
 		
 	}
-	public static boolean validCoordinate(int x, int y){
+	public Coordinate(Coordinate c){
+		x=c.x;
+		y=c.y;
+	}
+public static boolean validCoordinate(int x, int y){
 		
 		if(x>=0 && x<=MAX_X && y>=0 && y<=MAX_Y){
 			return true;
@@ -52,7 +56,9 @@ public class Coordinate implements java.io.Serializable{
 	}
 	@Override
 	public boolean equals(Object obj) {
+		System.out.println("equals");
 		if(obj instanceof Coordinate){
+			//System.out.println("comparing this.x= "+x+" this.y= "+y+" other.x="+((Coordinate) obj).x+" other.y= "+((Coordinate) obj).y);
 			return (x==((Coordinate) obj).x && y==((Coordinate) obj).y);
 		}
 		return false;

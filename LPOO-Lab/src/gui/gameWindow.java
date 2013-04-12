@@ -60,7 +60,7 @@ public class gameWindow {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
+
 		String wall_pic_path=PictureLoader.getImagePath("brick2.png");
 		String hero_pic_path=PictureLoader.getImagePath("hero.png");
 		String dragon_pic_path=PictureLoader.getImagePath("dragon.png");
@@ -68,7 +68,8 @@ public class gameWindow {
 		String sword_pic_path=PictureLoader.getImagePath("sword.png");
 		String armed_pic_path=PictureLoader.getImagePath("hero.png");
 		String empty_pic_path=PictureLoader.getImagePath("grass.jpg");
-		
+		String eagle_grass_pic_path=PictureLoader.getImagePath("eagle_grass.png");
+		String eagle_wall_pic_path=PictureLoader.getImagePath("eagle_wall.png");
 		
 		
 		frame.getContentPane().setLayout(null);
@@ -80,7 +81,7 @@ public class gameWindow {
 		//theControlPanel.setBackground(Color.yellow);
 		frame.getContentPane().add(theControlPanel);
 		
-		mainPanel = new LabPanel(wall_pic_path,dragon_pic_path,hero_pic_path,sword_pic_path,sleeping_dragon_pic_path,armed_pic_path,empty_pic_path);
+		mainPanel = new LabPanel(wall_pic_path,dragon_pic_path,hero_pic_path,sword_pic_path,sleeping_dragon_pic_path,armed_pic_path,empty_pic_path,eagle_grass_pic_path,eagle_wall_pic_path);
 		mainPanel.setBounds(10, 10+theControlPanel.getHeight()+theControlPanel.getY(), 240, 280);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);

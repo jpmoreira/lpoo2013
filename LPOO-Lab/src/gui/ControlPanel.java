@@ -62,6 +62,7 @@ public class ControlPanel extends JPanel {
 		int width=getWidth()/3-(20/3);
 		int height=getHeight()/2-(20/2);
 		resetBtn.setBounds(0, 0, width, height);
+
 		
 		
 		//setup listener
@@ -129,6 +130,7 @@ public class ControlPanel extends JPanel {
 		int height=getHeight()/2-(20/2);
 		System.out.println("GetWidth:"+getWidth()+"Width"+width);
 		exitBtn.setBounds(2*width, height, width, height);
+
 		
 		
 		//setup listener

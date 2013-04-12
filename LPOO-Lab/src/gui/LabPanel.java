@@ -24,12 +24,14 @@ public class LabPanel extends JPanel {
 	private ImageIcon sleeping_dragon_pic;
 	private ImageIcon armed_hero_pic;
 	private ImageIcon empty_place_pic;
+	private ImageIcon eagle_wall_pic;
+	private ImageIcon eagle_grass_pic;
 	
 	private char[][]layout=null;
 	private JLabel[][] visualLayout=null;
 
 	
-	public LabPanel(String wall_pic_path,String dragon_pic_path,String hero_pic_path,String sword_pic_path,String sleeping_dragon_pic_path,String armed_hero_pic_path,String empty_pic_path) throws IOException{
+	public LabPanel(String wall_pic_path,String dragon_pic_path,String hero_pic_path,String sword_pic_path,String sleeping_dragon_pic_path,String armed_hero_pic_path,String empty_pic_path,String eagle_grass_pic_path, String eagle_wall_pic_path) throws IOException{
 		
 		
 		Image temp=ImageIO.read(new File(wall_pic_path));
@@ -79,6 +81,18 @@ public class LabPanel extends JPanel {
 		
 		empty_place_pic=new ImageIcon(tempResized);
 		System.out.println("just before");
+		
+		temp=ImageIO.read(new File(eagle_grass_pic_path));
+		tempResized=temp.getScaledInstance(Cell_Width, Cell_Height, java.awt.Image.SCALE_SMOOTH);
+
+		
+		eagle_grass_pic=new ImageIcon(tempResized);
+		
+		temp=ImageIO.read(new File(eagle_wall_pic_path));
+		tempResized=temp.getScaledInstance(Cell_Width, Cell_Height, java.awt.Image.SCALE_SMOOTH);
+
+		
+		eagle_wall_pic=new ImageIcon(tempResized);
 	}
 	
 	public void layoutModified(char[][] newLayout){
@@ -139,16 +153,23 @@ public class LabPanel extends JPanel {
 		case 'A':
 			visualLayout[i][f].setIcon(armed_hero_pic);
 			break;
+		case 'G':
+			visualLayout[i][f].setIcon(hero_pic);
 		case 'D':
 			visualLayout[i][f].setIcon(dragon_pic);
 			break;
 		case 'd':
 			visualLayout[i][f].setIcon(sleeping_dragon_pic);
-			break;
-		
+			break;	
 		case 'E':
 			visualLayout[i][f].setIcon(sword_pic);
 			break;
+		case 'F':
+			visualLayout[i][f].setIcon(eagle_wall_pic);
+			break;
+		case 'f':
+			visualLayout[i][f].setIcon(eagle_grass_pic);
+			break;	
 		case ' ':
 			visualLayout[i][f].setIcon(empty_place_pic);
 			

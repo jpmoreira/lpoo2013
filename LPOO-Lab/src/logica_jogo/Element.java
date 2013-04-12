@@ -36,4 +36,7 @@ public class Element implements java.io.Serializable{
 		position.setXandY(-1, -1);
 		
 	}
+	public void unvanish(){
+		playing=true;
+	}
 }

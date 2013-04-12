@@ -1,51 +1,112 @@
 package logica_jogo;
 
 
+import java.awt.Point;
 
-public class Eagle extends Character  implements java.io.Serializable{
-	
-	
+
+
+public class Eagle extends Character {
+
 	/** True if eagle is waiting on position or hero shoulder */
-	private boolean sleeping;
-	/** True if eagle is attached to hero shoulder */
-	private boolean attached;
+	private boolean flying;
+
 	/** Coordinates of the Eagle when is sleeping */
-	private int[] pos;
-	
-	
-	
+	private Coordinate startPos;
+	private Coordinate endingPos;
+	private char behind;
+
 	public Eagle(int x, int y) {
-		super('E', x, y);
+		super('e', x, y);
+		vanish();
+		behind=' ';
 
 	}
-	 /** Updates the Coordinates of the Eagle depending on it relation to the hero
-	 * 	Attached and/or sleeping
+
+	/**
+	 * Updates the Coordinates of the Eagle depending on it relation to the hero
+	 * Attached and/or sleeping
 	 * 
-	 * @param o			Object o (Hero)
-	 * @return 			Position of eagle after update
+	 * @param o
+	 *            Object o (Hero)
+	 * @return Position of eagle after update
 	 */
-	public int[] SleepingPos(Object o) {
-			
-		if (sleeping && attached) {
-			pos[0] = ((Hero)o).getX();
-			pos[1] = ((Hero)o).getY();
+
+
+	public void StartEagle(Element h,Element s) {
+		/* Method that should be called before moveEagle */
+		startPos=new Coordinate(h.getPosition());
+		endingPos=s.getPosition();
+		
+		behind=h.getPlaceHolder();
+		unvanish();
+		((Hero) h).useEagle();
+		position=new Coordinate(h.getX(), h.getY());
+		
+	}
+
+	/* TODO: Adapt Dijkstra Algorithm and improve later to A* */
+
+	public Coordinate newEaglePos() {
+		
+		int xf=endingPos.getX();
+		int yf=endingPos.getY();
+		
+		int xi=position.getX();
+		int yi=position.getY();
+
+		  int w = xf - xi ;
+		    int h = yf - yi ;
+		    int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0 ;
+		    if (w<0) dx1 = -1 ; else if (w>0) dx1 = 1 ;
+		    if (h<0) dy1 = -1 ; else if (h>0) dy1 = 1 ;
+		    if (w<0) dx2 = -1 ; else if (w>0) dx2 = 1 ;
+		    int longest = Math.abs(w) ;
+		    int shortest = Math.abs(h) ;
+		    if (!(longest>shortest)) {
+		        longest = Math.abs(h) ;
+		        shortest = Math.abs(w) ;
+		        if (h<0) dy2 = -1 ; else if (h>0) dy2 = 1 ;
+		        dx2 = 0 ;            
+		    }
+		    int numerator = longest >> 1 ;
+		        
+		        numerator += shortest ;
+		        if (!(numerator<longest)) {
+		            numerator -= longest ;
+		            xi += dx1 ;
+		            yi += dy1 ;
+		        } else {
+		            xi += dx2 ;
+		            yi += dy2 ;
+		        }
+		        return new Coordinate(xi, yi) ;
+
+	}
+	
+	public char moveTo(int x,int y,char b){
+		
+		char temp=behind;
+		super.moveTo(x, y);
+		behind=b;
+		if(position.equals(startPos) || position.equals(endingPos)){
+			flying=false;
 		}
-		this.moveTo(pos[0], pos[1]);
-		return pos;
-	}
-
-	public void sleep() {
-		sleeping = true;
-	}
-	
-	/* TODO: Adapt Diijkstra Algorithm and improvate later to A* */
-	
-	public void getSword(int x , int y) {
-		sleeping = false;
-		attached = false;
+		else{
+			flying=true;
+		}
+		return temp;
+		
 	}
 	
-
+	public void reachedSword(){
+		Coordinate temp=startPos;
+		startPos=endingPos;
+		endingPos=temp;
+	}
+	
+	public boolean isFlying(){
+		return flying;
+	}
 	
 
 }

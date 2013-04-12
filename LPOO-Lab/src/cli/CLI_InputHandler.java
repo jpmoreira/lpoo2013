@@ -48,6 +48,11 @@ public class CLI_InputHandler implements InputHandler{
 			break;
 		case 'L':
 			loadGame();
+		case 'E':
+			if( !theTab.getHero().eagleUsed()){
+				System.out.println("called");
+				theTab.getEagle().StartEagle(theTab.getHero(),theTab.getSword());				
+			}
 		default:
 			break;
 		}
@@ -118,7 +123,7 @@ public class CLI_InputHandler implements InputHandler{
 
 	@Override
 	public void HandleGameInput() {
-		while(1==1){//forever loop
+		while(true){//forever loop
 			getInGameInput();
 			theTab.printLayout();
 			

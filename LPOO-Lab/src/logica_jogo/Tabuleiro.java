@@ -4,6 +4,8 @@ public class Tabuleiro implements java.io.Serializable {
 
 	Hero hero;
 	Element sword;
+
+	Eagle eagle;
 	// Dragon dragon;
 	int mode;
 	Dragon[] dragonArray;
@@ -23,7 +25,7 @@ public class Tabuleiro implements java.io.Serializable {
 
 		// setup Hero
 		setupHero(playerX, playerY);
-
+		setupEagle();
 		// setup sword
 		setupSword(swordX, swordY);
 
@@ -83,7 +85,10 @@ public class Tabuleiro implements java.io.Serializable {
 	public void movePlayer(int dx, int dy) {
 		int newX = hero.getPosition().getX() + dx;
 		int newY = hero.getPosition().getY() + dy;
+		System.out.println("hero newx= "+newX+" newY= "+newY);
+		System.out.println("hero x= "+hero.getX()+" hero y="+hero.getY());
 		moveDragons();
+		moveEagle();
 		if (Coordinate.validCoordinate(newX, newY)) {
 
 			switch (layout[newY][newX]) {
@@ -254,6 +259,15 @@ public class Tabuleiro implements java.io.Serializable {
 		layout[sword.getY()][sword.getX()] = sword.getPlaceHolder();
 	}
 
+	private void setupEagle() {
+		eagle = new Eagle(hero.getX(), hero.getY());
+		//hero.EagleShoulder();
+		//layout[hero.getY()][hero.getX()] = ' ';
+		//layout[eagle.getY()][eagle.getX()] = hero.getPlaceHolder();
+		//hero.moveTo(eagle.getX(), eagle.getY());
+		//eagle.vanish();
+	}
+
 	private void verifyDragonProximity(Dragon dragon) {
 		int dx = Math.abs(dragon.getX() - hero.getX());
 		int dy = Math.abs(dragon.getY() - hero.getY());
@@ -290,10 +304,12 @@ public class Tabuleiro implements java.io.Serializable {
 		}
 	}
 
-	public Element getHero() {
+	public Hero getHero() {
 		return hero;
 	}
-
+	public Eagle getEagle(){
+		return eagle;
+	}
 	public Element[] getDragons() {
 		return dragonArray;
 	}
@@ -333,5 +349,50 @@ public class Tabuleiro implements java.io.Serializable {
 		return layout;
 	}
 
+
+	public Element getSword(){
+		return sword;
+	}
 	
+	private void moveEagle(){
+		if(eagle.isPlaying()){
+			Coordinate newPos=eagle.newEaglePos();
+			System.out.println("eagle x= "+newPos.getX()+" y= "+newPos.getY());
+			System.out.println("hero x="+hero.getX()+" y= "+hero.getY());
+			System.out.println("sword x="+sword.getX()+" y= "+sword.getY());
+			char behind='#';
+			if(Coordinate.validCoordinate(newPos)){
+				
+				if(hero.getPosition().equals(newPos)){
+					eagle.vanish();
+					hero.Arm();
+				}
+				else if(sword.getPosition().equals(newPos)){
+					System.out.println("cheguei");
+					eagle.reachedSword();
+					behind=' ';
+					sword.vanish();
+				}
+				else if(!eagle.isFlying()){
+					for(int i=0; i<dragonArray.length; i++){
+						Dragon d=dragonArray[i];
+						if(d.getPosition()==newPos){
+							eagle.vanish();
+							break;
+						}
+					}
+				}
+				
+				if(behind=='#'){
+					behind=layout[newPos.getY()][newPos.getX()];
+				}
+			
+				layout[eagle.getPosition().getY()][eagle.getPosition().getX()]=eagle.moveTo(newPos.getX(), newPos.getY(),behind);
+				layout[eagle.getPosition().getY()][eagle.getPosition().getX()]=eagle.getPlaceHolder();
+				
+			}
+			
+		}
+	}
+
 }
