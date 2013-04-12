@@ -1,10 +1,11 @@
 package logica_jogo;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
-public class Tabuleiro {
+public class Tabuleiro implements Serializable{
 
 	Hero hero;
 	Element sword;

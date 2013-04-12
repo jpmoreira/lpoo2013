@@ -1,6 +1,8 @@
 package logica_jogo;
 
-public class GameSpecificRanGen extends RandomGenerator{
+import java.io.Serializable;
+
+public class GameSpecificRanGen extends RandomGenerator implements Serializable{
 
 	private int[] dragonSleepList;
 	private int sleepIndex;
