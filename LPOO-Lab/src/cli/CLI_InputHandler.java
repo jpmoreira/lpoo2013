@@ -1,7 +1,9 @@
 package cli;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
@@ -44,6 +46,8 @@ public class CLI_InputHandler implements InputHandler{
 		case 'F':
 			saveGame();
 			break;
+		case 'L':
+			loadGame();
 		default:
 			break;
 		}
@@ -143,7 +147,7 @@ public class CLI_InputHandler implements InputHandler{
 		try
 	      {
 	         FileOutputStream fileOut =
-	         new FileOutputStream("jogo.ser");
+	         new FileOutputStream("jogo.bin");
 	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
 	         out.writeObject(theTab);
 	         out.close();
@@ -156,6 +160,25 @@ public class CLI_InputHandler implements InputHandler{
 	}
 	
 	public void loadGame(){
-		
+		try
+	      {
+	         FileInputStream fileIn =
+	                          new FileInputStream("jogo.bin");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         theTab = null ;
+	         theTab = (Tabuleiro) in.readObject();
+	         in.close();
+	         fileIn.close();
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	         return;
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Tabuleiro class not found");
+	         c.printStackTrace();
+	         return;
+	      }
+		theTab.printLayout();
 	}
 }

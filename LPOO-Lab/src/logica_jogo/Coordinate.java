@@ -1,8 +1,7 @@
 package logica_jogo;
 
-import java.io.Serializable;
 
-public class Coordinate implements Serializable{
+public class Coordinate implements java.io.Serializable{
 	
 	
 	private static int MAX_X;

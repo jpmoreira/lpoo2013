@@ -1,8 +1,7 @@
 package logica_jogo;
 
-import java.io.Serializable;
 
-public class Element implements Serializable{
+public class Element implements java.io.Serializable{
 
 	protected char placeHolder;
 	protected Coordinate position;

@@ -74,8 +74,9 @@ public class gameWindow {
 		frame.getContentPane().setLayout(null);
 		
 		
-		theControlPanel = new ControlPanel(this,10,10,400,50);
+		theControlPanel = new ControlPanel(this,10,10,350,50);
 		theControlPanel.setLayout(null);
+
 		//theControlPanel.setBackground(Color.yellow);
 		frame.getContentPane().add(theControlPanel);
 		

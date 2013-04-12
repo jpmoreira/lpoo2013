@@ -1,15 +1,10 @@
 package logica_jogo;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
-public class Tabuleiro implements Serializable{
+public class Tabuleiro implements java.io.Serializable {
 
 	Hero hero;
 	Element sword;
-	//Dragon dragon;
+	// Dragon dragon;
 	int mode;
 	Dragon[] dragonArray;
 	GameSpecificRanGen theGen;
@@ -19,11 +14,12 @@ public class Tabuleiro implements Serializable{
 
 	char[][] layout;
 
-	public Tabuleiro(int playerX, int playerY, int swordX, int swordY, char[][] lab, int mod, int nrDrag) {
+	public Tabuleiro(int playerX, int playerY, int swordX, int swordY,
+			char[][] lab, int mod, int nrDrag) {
 
-		theGen=new GameSpecificRanGen();
+		theGen = new GameSpecificRanGen();
 		layout = lab;
-		dragonArray=new Dragon[nrDrag];
+		dragonArray = new Dragon[nrDrag];
 
 		// setup Hero
 		setupHero(playerX, playerY);
@@ -33,12 +29,12 @@ public class Tabuleiro implements Serializable{
 
 		// setup dragon
 		setupDragons(nrDrag);
-		
+
 		grabExit();
-		
-		mode=mod;
-		terminated=false;
-		debugging=false;
+
+		mode = mod;
+		terminated = false;
+		debugging = false;
 
 	}
 
@@ -52,36 +48,34 @@ public class Tabuleiro implements Serializable{
 		}
 	}
 
-
-
-	private void grabExit(){
-		for(int i=0;i<=Coordinate.getBounds().getX();i++){
-			if(layout[0][i]=='S'){
-				theExit=new Coordinate(0, i);
+	private void grabExit() {
+		for (int i = 0; i <= Coordinate.getBounds().getX(); i++) {
+			if (layout[0][i] == 'S') {
+				theExit = new Coordinate(0, i);
 				return;
-			}
-			else if(layout[Coordinate.getBounds().getY()][i]=='S'){
-				theExit=new Coordinate(Coordinate.getBounds().getY(), i);
+			} else if (layout[Coordinate.getBounds().getY()][i] == 'S') {
+				theExit = new Coordinate(Coordinate.getBounds().getY(), i);
 				return;
 			}
 		}
-		for(int i=0;i<=Coordinate.getBounds().getY();i++){
-			if(layout[i][0]=='S'){
-				theExit=new Coordinate(i, 0);
+		for (int i = 0; i <= Coordinate.getBounds().getY(); i++) {
+			if (layout[i][0] == 'S') {
+				theExit = new Coordinate(i, 0);
 				return;
 			}
-			
-			if(layout[i][Coordinate.getBounds().getX()]=='S'){
-				theExit=new Coordinate(i, Coordinate.getBounds().getY());
+
+			if (layout[i][Coordinate.getBounds().getX()] == 'S') {
+				theExit = new Coordinate(i, Coordinate.getBounds().getY());
 				return;
 			}
 		}
 	}
+
 	private void exitLab() {
 		if (hero.isArmed()) {// if armed
-			terminated=true;
-			if(!debugging){
-				System.exit(0);//we terminate only if we are not debugging				
+			terminated = true;
+			if (!debugging) {
+				System.exit(0);// we terminate only if we are not debugging
 			}
 		}
 	}
@@ -114,15 +108,17 @@ public class Tabuleiro implements Serializable{
 	private void moveDragon(Dragon dragon) {
 
 		if (dragon.isPlaying() && !dragon.isSleeping()) {
-			
-			
-			if(theGen.dragonShouldSleep() && mode==3){//put to sleep only if the random number returns zero and we are in mode tree
+
+			if (theGen.dragonShouldSleep() && mode == 3) {// put to sleep only
+															// if the random
+															// number returns
+															// zero and we are
+															// in mode tree
 				dragon.sleep();
-				layout[dragon.getY()][dragon.getX()]=dragon.getPlaceHolder();
+				layout[dragon.getY()][dragon.getX()] = dragon.getPlaceHolder();
 				return;
 			}
-			
-			
+
 			int nr = theGen.dragonMoveNumber();
 			int newX = dragon.getX();
 			int newY = dragon.getY();
@@ -142,7 +138,17 @@ public class Tabuleiro implements Serializable{
 				break;
 			}
 
-			if (Coordinate.validCoordinate(newX, newY) && mode!=1) {//if we are not of bounds and dragon isn't supposed to be still
+			if (Coordinate.validCoordinate(newX, newY) && mode != 1) {// if we
+																		// are
+																		// not
+																		// of
+																		// bounds
+																		// and
+																		// dragon
+																		// isn't
+																		// supposed
+																		// to be
+																		// still
 
 				if (emptyPlace(newX, newY)) {
 					if (dragon.getX() != sword.getX()
@@ -175,19 +181,16 @@ public class Tabuleiro implements Serializable{
 				}
 
 			}
-		
+
 		}
-		
-		else if(dragon.isPlaying()){//if sleeping
-			
-			if(theGen.dragonShouldWake()){//1/3 chance to awake
+
+		else if (dragon.isPlaying()) {// if sleeping
+
+			if (theGen.dragonShouldWake()) {// 1/3 chance to awake
 				dragon.awake();
-				layout[dragon.getY()][dragon.getX()]=dragon.getPlaceHolder();
+				layout[dragon.getY()][dragon.getX()] = dragon.getPlaceHolder();
 			}
 		}
-		
-		
-		
 
 	}
 
@@ -211,22 +214,21 @@ public class Tabuleiro implements Serializable{
 		int maxY = Coordinate.getBounds().getY();
 		int x = theGen.giveRandom(0, maxX);
 		int y = theGen.giveRandom(0, maxY);
-		
-		while(!emptyPlace(x, y)){
+
+		while (!emptyPlace(x, y)) {
 			x = theGen.giveRandom(0, maxX);
 			y = theGen.giveRandom(0, maxY);
 		}
-		
 
-		return new Coordinate(x,y);
+		return new Coordinate(x, y);
 	}
 
 	private void setupDragons(int nrOfDragons) {
-		dragonArray=new Dragon[nrOfDragons];
-		for(int i=0;i<nrOfDragons;i++){
-			Coordinate pos=findEmptyPosition();
-			dragonArray[i]=new Dragon(pos.getX(), pos.getY());
-			layout[pos.getY()][pos.getX()]=dragonArray[i].getPlaceHolder();
+		dragonArray = new Dragon[nrOfDragons];
+		for (int i = 0; i < nrOfDragons; i++) {
+			Coordinate pos = findEmptyPosition();
+			dragonArray[i] = new Dragon(pos.getX(), pos.getY());
+			layout[pos.getY()][pos.getX()] = dragonArray[i].getPlaceHolder();
 		}
 	}
 
@@ -255,12 +257,12 @@ public class Tabuleiro implements Serializable{
 	private void verifyDragonProximity(Dragon dragon) {
 		int dx = Math.abs(dragon.getX() - hero.getX());
 		int dy = Math.abs(dragon.getY() - hero.getY());
-		if ((dx <= 1 && dy ==0) || (dy<=1 && dx==0)) {
+		if ((dx <= 1 && dy == 0) || (dy <= 1 && dx == 0)) {
 			if (hero.getPlaceHolder() == 'A') {
-				layout[dragon.getY()][dragon.getX()]=' ';
+				layout[dragon.getY()][dragon.getX()] = ' ';
 				dragon.vanish();
-				
-			} else if(dragon.isPlaying() && !dragon.isSleeping()){
+
+			} else if (dragon.isPlaying() && !dragon.isSleeping()) {
 
 				System.exit(0);
 			}
@@ -271,58 +273,65 @@ public class Tabuleiro implements Serializable{
 		layout = newLO;
 	}
 
-	public void makeNonRandom(int[] move,int[] sleep,int[] wake){
+	public void makeNonRandom(int[] move, int[] sleep, int[] wake) {
 		theGen.randomModeOff(sleep, wake, move);
 	}
 
-	public void moveDragons(){
-		for(int i=0;i<dragonArray.length;i++){
+	public void moveDragons() {
+		for (int i = 0; i < dragonArray.length; i++) {
 			moveDragon(dragonArray[i]);
 		}
-	
+
 	}
-	
-	public void HeroVsDragons(){
-		for(int i=0;i<dragonArray.length;i++){
+
+	public void HeroVsDragons() {
+		for (int i = 0; i < dragonArray.length; i++) {
 			verifyDragonProximity(dragonArray[i]);
 		}
 	}
 
-	public Element getHero(){
+	public Element getHero() {
 		return hero;
 	}
-	
-	public Element[] getDragons(){
+
+	public Element[] getDragons() {
 		return dragonArray;
 	}
-	
-	public void makeRandom(){
+
+	public void makeRandom() {
 		theGen.randomModeOn();
 	}
-	public void placeDragonAt(int x, int y){
-		if(dragonArray.length==1 && emptyPlace(x, y)){
+
+	public void placeDragonAt(int x, int y) {
+		if (dragonArray.length == 1 && emptyPlace(x, y)) {
 			switchPlace(dragonArray[0], x, y);
 		}
 	}
-	private void switchPlace(Element el,int newX,int newY){
-		if(el instanceof Character){//if it's movable
-			if(layout[el.getY()][el.getX()]==el.getPlaceHolder()){//if it's acctually there
-				layout[el.getY()][el.getX()]=' ';
-				((Character)el).moveTo(newX, newY);
-				layout[el.getY()][el.getX()]=el.getPlaceHolder();
+
+	private void switchPlace(Element el, int newX, int newY) {
+		if (el instanceof Character) {// if it's movable
+			if (layout[el.getY()][el.getX()] == el.getPlaceHolder()) {// if it's
+																		// acctually
+																		// there
+				layout[el.getY()][el.getX()] = ' ';
+				((Character) el).moveTo(newX, newY);
+				layout[el.getY()][el.getX()] = el.getPlaceHolder();
 			}
 
 		}
 	}
-	public void debugOn(){
-		debugging=true;
+
+	public void debugOn() {
+		debugging = true;
 	}
 
-	public boolean isFinished(){
+	public boolean isFinished() {
 		return terminated;
 	}
 
-	public char[][] getLayout(){
+	public char[][] getLayout() {
 		return layout;
 	}
+
+	
 }

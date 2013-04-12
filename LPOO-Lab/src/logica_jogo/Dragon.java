@@ -1,6 +1,6 @@
 package logica_jogo;
 
-public class Dragon extends Character {
+public class Dragon extends Character implements java.io.Serializable {
 
 	private boolean sleeping;
 	public Dragon(int x,int y) {

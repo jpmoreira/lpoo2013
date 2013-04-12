@@ -1,6 +1,6 @@
 package logica_jogo;
 
-public class Hero extends Character {
+public class Hero extends Character implements java.io.Serializable {
 	
 	public Hero(int x, int y) {
 		super('H',x,y);

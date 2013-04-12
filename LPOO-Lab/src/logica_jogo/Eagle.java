@@ -1,8 +1,8 @@
 package logica_jogo;
 
-import algorithms.dijkstra.engine.DijkstraAlgorithm;
 
-public class Eagle extends Character {
+
+public class Eagle extends Character  implements java.io.Serializable{
 	
 	
 	/** True if eagle is waiting on position or hero shoulder */

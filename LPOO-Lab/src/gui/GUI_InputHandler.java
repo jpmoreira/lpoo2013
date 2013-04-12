@@ -2,6 +2,11 @@ package gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.management.openmbean.TabularData;
 
@@ -115,11 +120,43 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	public void saveGame(){
-		
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("jogo.bin");
+	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
+	         out.writeObject(theTab);
+	         out.close();
+	          fileOut.close();
+	          
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
 	}
 	
 	public void loadGame(){
-		
+		try
+	      {
+	         FileInputStream fileIn =
+	                          new FileInputStream("jogo.bin");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         theTab = null ;
+	         theTab = (Tabuleiro) in.readObject();
+	         in.close();
+	         fileIn.close();
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	         return;
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Tabuleiro class not found");
+	         c.printStackTrace();
+	         return;
+	      }
+		theTab.printLayout();
+		window.updateDrawbleContent();
 	}
 
 }

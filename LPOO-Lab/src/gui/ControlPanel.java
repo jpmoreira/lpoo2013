@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -9,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -19,6 +19,9 @@ public class ControlPanel extends JPanel {
 	
 	private JButton resetBtn;
 	private JButton exitBtn;
+	private JButton saveBtn;
+	private JButton loadBtn;
+	private JButton editorBtn;
 	
 	
 	private JLabel modeLabel;
@@ -41,6 +44,8 @@ public class ControlPanel extends JPanel {
 		
 		//create Buttons
 		setupResetButton();//order is relevant
+		setupSaveButton();
+		setupLoadButton();
 		setupExitButton();
 		
 //		setupSlider();
@@ -52,9 +57,11 @@ public class ControlPanel extends JPanel {
 	
 	private void setupResetButton(){
 		resetBtn = new JButton("Reset");
-		int width=getWidth()/5;
-		int height=30;
-		resetBtn.setBounds(width/2, (getHeight()-height)/2, width, height);
+		//Font newButtonFont=new Font(resetBtn.getFont().getName(),resetBtn.getFont().getStyle(),5); 
+		//resetBtn.setFont(newButtonFont);
+		int width=getWidth()/3-(20/3);
+		int height=getHeight()/2-(20/2);
+		resetBtn.setBounds(0, 0, width, height);
 		
 		
 		//setup listener
@@ -73,12 +80,55 @@ public class ControlPanel extends JPanel {
 		
 		add(resetBtn);
 	}
-	
+	private void setupSaveButton(){
+		saveBtn = new JButton("Save");
+		int width=getWidth()/3-(20/3);
+		int height=getHeight()/2-(20/2);
+		System.out.println("GetWidth:"+getWidth()+"Width"+width);
+		saveBtn.setBounds(width, 0, width, height);;
+		
+		
+		//setup listener
+		saveBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				GUI_InputHandler inpHandler=parent.getInputHandler();
+				inpHandler.saveGame();
+				parent.redirectFocus();
+			}
+		});
+		
+		
+		add(saveBtn);
+	}
+	private void setupLoadButton(){
+		loadBtn = new JButton("Load");
+		int width=getWidth()/3-(20/3);
+		int height=getHeight()/2-(20/2);
+		System.out.println("GetWidth:"+getWidth()+"Width"+width);
+		loadBtn.setBounds(2*width, 0, width, height);
+		
+		
+		//setup listener
+		loadBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				GUI_InputHandler inpHandler=parent.getInputHandler();
+				inpHandler.loadGame();
+				parent.redirectFocus();
+			}
+		});
+		
+		
+		add(loadBtn);
+	}
+
 	private void setupExitButton(){
 		exitBtn = new JButton("Exit");
-		int width=getWidth()/5;
-		int height=30;
-		exitBtn.setBounds(2*width, (getHeight()-height)/2, width, height);
+		int width=getWidth()/3-(20/3);
+		int height=getHeight()/2-(20/2);
+		System.out.println("GetWidth:"+getWidth()+"Width"+width);
+		exitBtn.setBounds(2*width, height, width, height);
 		
 		
 		//setup listener
