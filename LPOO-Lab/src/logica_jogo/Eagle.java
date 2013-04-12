@@ -16,7 +16,7 @@ public class Eagle extends Character {
 	private int[] pos;
 
 	public Eagle(int x, int y) {
-		super('E', x, y);
+		super('F', x, y);
 
 	}
 

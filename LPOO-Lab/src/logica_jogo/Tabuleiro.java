@@ -28,7 +28,7 @@ public class Tabuleiro {
 
 		// setup Hero
 		setupHero(playerX, playerY);
-		setupEagle(playerX, playerY);
+		setupEagle();
 		// setup sword
 		setupSword(swordX, swordY);
 
@@ -259,9 +259,13 @@ public class Tabuleiro {
 		layout[sword.getY()][sword.getX()] = sword.getPlaceHolder();
 	}
 
-	private void setupEagle(int playerX, int playerY) {
-		eagle = new Eagle(playerX, playerY);
+	private void setupEagle() {
+		eagle = new Eagle(hero.getX(), hero.getY());
 		hero.EagleShoulder();
+		layout[hero.getY()][hero.getX()] = ' ';
+		layout[eagle.getY()][eagle.getX()] = hero.getPlaceHolder();
+		hero.moveTo(eagle.getX(), eagle.getY());
+		eagle.vanish();
 	}
 
 	private void verifyDragonProximity(Dragon dragon) {
