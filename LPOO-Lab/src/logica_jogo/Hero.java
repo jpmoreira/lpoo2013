@@ -2,6 +2,8 @@ package logica_jogo;
 
 public class Hero extends Character {
 	
+	private boolean usedEagle=false;
+	
 	public Hero(int x, int y) {
 		super('H',x,y);
 	}
@@ -15,6 +17,12 @@ public class Hero extends Character {
 	}
 	public boolean isArmed(){
 		return placeHolder=='A';
+	}
+	public void useEagle(){
+		usedEagle=true;
+	}
+	public boolean eagleUsed(){
+		return usedEagle;
 	}
 
 }

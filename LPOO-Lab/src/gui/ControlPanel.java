@@ -52,9 +52,9 @@ public class ControlPanel extends JPanel {
 	
 	private void setupResetButton(){
 		resetBtn = new JButton("Reset");
-		int width=getWidth()/5;
+		int width=getWidth()/3;
 		int height=30;
-		resetBtn.setBounds(width/2, (getHeight()-height)/2, width, height);
+		resetBtn.setBounds(0, (getHeight()-height)/2, width, height);
 		
 		
 		//setup listener
@@ -76,9 +76,9 @@ public class ControlPanel extends JPanel {
 	
 	private void setupExitButton(){
 		exitBtn = new JButton("Exit");
-		int width=getWidth()/5;
+		int width=getWidth()/3;
 		int height=30;
-		exitBtn.setBounds(2*width, (getHeight()-height)/2, width, height);
+		exitBtn.setBounds(width, (getHeight()-height)/2, width, height);
 		
 		
 		//setup listener

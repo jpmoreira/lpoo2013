@@ -46,7 +46,10 @@ public class CLI_InputHandler implements InputHandler{
 			saveGame();
 			break;
 		case 'E':
-			theTab.getEagle().StartEagle(theTab.getHero());
+			if( !theTab.getHero().eagleUsed()){
+				System.out.println("called");
+				theTab.getEagle().StartEagle(theTab.getHero(),theTab.getSword());				
+			}
 		default:
 			break;
 		}

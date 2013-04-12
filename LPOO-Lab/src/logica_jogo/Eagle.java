@@ -1,22 +1,23 @@
 package logica_jogo;
 
+import java.awt.Point;
+
 
 
 public class Eagle extends Character {
 
 	/** True if eagle is waiting on position or hero shoulder */
-	private boolean sleeping;
-	/** True if eagle is attached to hero shoulder */
-	private boolean attached;
-	private boolean reached = false;
-	/** Int x y with position of hero when sends eagle */
-	private int tempx;
-	private int tempy;
+	private boolean flying;
+
 	/** Coordinates of the Eagle when is sleeping */
-	private int[] pos;
+	private Coordinate startPos;
+	private Coordinate endingPos;
+	private char behind;
 
 	public Eagle(int x, int y) {
-		super('F', x, y);
+		super('e', x, y);
+		vanish();
+		behind=' ';
 
 	}
 
@@ -28,78 +29,84 @@ public class Eagle extends Character {
 	 *            Object o (Hero)
 	 * @return Position of eagle after update
 	 */
-	public int[] SleepingPos(Object o) {
 
-		if (sleeping && attached) {
-			pos[0] = ((Hero) o).getX();
-			pos[1] = ((Hero) o).getY();
-		}
-		this.moveTo(pos[0], pos[1]);
-		return pos;
-	}
 
-	public void sleep(boolean state) {
-		sleeping = state;
-	}
-
-	public void StartEagle(Object o) {
+	public void StartEagle(Element h,Element s) {
 		/* Method that should be called before moveEagle */
-		tempx = ((Hero) o).getX();
-		tempy = ((Hero) o).getY();
+		startPos=new Coordinate(h.getPosition());
+		endingPos=s.getPosition();
+		
+		behind=h.getPlaceHolder();
+		unvanish();
+		((Hero) h).useEagle();
+		position=new Coordinate(h.getX(), h.getY());
+		
 	}
 
 	/* TODO: Adapt Dijkstra Algorithm and improve later to A* */
 
-	public void moveEagle(int x, int y) {
-		sleeping = false;
-		attached = false;
+	public Coordinate newEaglePos() {
+		
+		int xf=endingPos.getX();
+		int yf=endingPos.getY();
+		
+		int xi=position.getX();
+		int yi=position.getY();
 
-		if (!reached) {
-			if (this.getX() == x && this.getY() == y) {
-				reached = true;
-				/* TODO: Change Tabuleiro method herovsdragon and verifyDragonProximity to work with obj o instead
-				 * of harcoded hero */
-			}
-
-			if (this.getX() > x && this.getY() > y) {
-				this.moveTo(this.getX() - 1, this.getY() - 1);
-			} else if (this.getX() < x && this.getY() < y) {
-				this.moveTo(this.getX() + 1, this.getY() + 1);
-			} else if (this.getX() < x && this.getY() == y) {
-				this.moveTo(this.getX() + 1, this.getY());
-			} else if (this.getX() > x && this.getY() == y) {
-				this.moveTo(this.getX() - 1, this.getY());
-			} else if (this.getY() < y && this.getX() == x) {
-				this.moveTo(this.getX(), this.getY() + 1);
-
-			} else if (this.getY() > y && this.getX() == x) {
-				this.moveTo(this.getX(), this.getY() - 1);
-
-			}
-		}
-		else if (reached) {
-			if (this.getX() == tempx && this.getY() == tempy) {
-				sleeping = true;
-				/* TODO: do the eaglevsdragon too here and change routine to if sleeping be able to be killed by dragon */
-			}
-
-			if (this.getX() > tempx && this.getY() > tempy) {
-				this.moveTo(this.getX() - 1, this.getY() - 1);
-			} else if (this.getX() < tempx && this.getY() < tempy) {
-				this.moveTo(this.getX() + 1, this.getY() + 1);
-			} else if (this.getX() < tempx && this.getY() == tempy) {
-				this.moveTo(this.getX() + 1, this.getY());
-			} else if (this.getX() > tempx && this.getY() == tempy) {
-				this.moveTo(this.getX() - 1, this.getY());
-			} else if (this.getY() < tempy && this.getX() == tempx) {
-				this.moveTo(this.getX(), this.getY() + 1);
-
-			} else if (this.getY() > tempy && this.getX() == tempx) {
-				this.moveTo(this.getX(), this.getY() - 1);
-
-			}
-		}
+		  int w = xf - xi ;
+		    int h = yf - yi ;
+		    int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0 ;
+		    if (w<0) dx1 = -1 ; else if (w>0) dx1 = 1 ;
+		    if (h<0) dy1 = -1 ; else if (h>0) dy1 = 1 ;
+		    if (w<0) dx2 = -1 ; else if (w>0) dx2 = 1 ;
+		    int longest = Math.abs(w) ;
+		    int shortest = Math.abs(h) ;
+		    if (!(longest>shortest)) {
+		        longest = Math.abs(h) ;
+		        shortest = Math.abs(w) ;
+		        if (h<0) dy2 = -1 ; else if (h>0) dy2 = 1 ;
+		        dx2 = 0 ;            
+		    }
+		    int numerator = longest >> 1 ;
+		        
+		        numerator += shortest ;
+		        if (!(numerator<longest)) {
+		            numerator -= longest ;
+		            xi += dx1 ;
+		            yi += dy1 ;
+		        } else {
+		            xi += dx2 ;
+		            yi += dy2 ;
+		        }
+		        return new Coordinate(xi, yi) ;
 
 	}
+	
+	public char moveTo(int x,int y,char b){
+		
+		char temp=behind;
+		super.moveTo(x, y);
+		behind=b;
+		if(position.equals(startPos) || position.equals(endingPos)){
+			flying=false;
+		}
+		else{
+			flying=true;
+		}
+		return temp;
+		
+	}
+	
+	public void reachedSword(){
+		Coordinate temp=startPos;
+		startPos=endingPos;
+		endingPos=temp;
+	}
+	
+	public boolean isFlying(){
+		return flying;
+	}
+	
+	
 
 }
