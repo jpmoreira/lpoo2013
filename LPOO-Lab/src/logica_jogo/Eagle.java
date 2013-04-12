@@ -77,7 +77,7 @@ public class Eagle extends Character {
 
 			}
 		}
-		if (reached) {
+		else if (reached) {
 			if (this.getX() == tempx && this.getY() == tempy) {
 				sleeping = true;
 				/* TODO: do the eaglevsdragon too here and change routine to if sleeping be able to be killed by dragon */
