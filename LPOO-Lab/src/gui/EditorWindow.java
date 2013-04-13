@@ -65,3 +65,4 @@ public class EditorWindow extends JFrame{
 
 		editPanel.requestFocusInWindow();
 }
+}
