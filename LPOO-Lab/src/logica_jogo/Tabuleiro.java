@@ -2,7 +2,6 @@ package logica_jogo;
 
 public class Tabuleiro implements java.io.Serializable {
 
-	//TODO criacao do tab n ve se hero/dragon/sword calham uns em cima dos outros
 	//TODO eagle fica no layout... pk?? sera q fica no cleanLayout??
 	Hero hero;
 	Element sword;
@@ -36,14 +35,12 @@ public class Tabuleiro implements java.io.Serializable {
 		setupDragons(nrDrag);
 
 		grabExit();
-		//System.out.println("exit x="+exit.getX()+" y="+exit.getY());
 
 		mode = mod;
 		terminated = false;
 		debugging = false;
 
 		updateLayout();
-		System.out.println("updated");
 	}
 
 	public void printLayout() {
@@ -196,7 +193,7 @@ public class Tabuleiro implements java.io.Serializable {
 		int maxY = Coordinate.getBounds().getY();
 		int x = theGen.giveRandom(0, maxX);
 		int y = theGen.giveRandom(0, maxY);
-
+		
 		while (!emptyPlace(x, y)) {
 			x = theGen.giveRandom(0, maxX);
 			y = theGen.giveRandom(0, maxY);
@@ -209,6 +206,9 @@ public class Tabuleiro implements java.io.Serializable {
 		dragonArray = new Dragon[nrOfDragons];
 		for (int i = 0; i < nrOfDragons; i++) {
 			Coordinate pos = findEmptyPosition();
+			while(pos.equals(hero.getPosition()) || pos.equals(sword.getPosition()) || existsDragonAt(pos,i)){
+				pos=findEmptyPosition();
+			}
 			dragonArray[i] = new Dragon(pos.getX(), pos.getY());
 		}
 	}
@@ -224,14 +224,17 @@ public class Tabuleiro implements java.io.Serializable {
 	}
 
 	private void setupSword(int swordX, int swordY) {
-		if (emptyPlace(swordX, swordY)) {
+		Coordinate thePos=new Coordinate(swordX, swordY);
+		if (emptyPlace(swordX, swordY) && !thePos.equals(hero.getPosition())) {
 			sword = new Element('E', swordX, swordY);
 		} else {
-			Coordinate pos = findEmptyPosition();
-			sword = new Element('E', pos.getX(), pos.getY());
+			thePos = findEmptyPosition();
+			while(thePos.equals(hero.getPosition())){
+				thePos =findEmptyPosition();
+			}
+			sword = new Element('E', thePos.getX(), thePos.getY());
 		}
 
-		//layout[sword.getY()][sword.getX()] = sword.getPlaceHolder();
 	}
 
 	private void setupEagle() {
@@ -317,24 +320,27 @@ public class Tabuleiro implements java.io.Serializable {
 	private void moveEagle(){
 		if(eagle.isPlaying()){
 			Coordinate newPos=eagle.newEaglePos();
-			System.out.println("eagle x= "+newPos.getX()+" y= "+newPos.getY());
+			System.out.println("eagle newPos x= "+newPos.getX()+" y= "+newPos.getY());
 			System.out.println("hero x="+hero.getX()+" y= "+hero.getY());
 			System.out.println("sword x="+sword.getX()+" y= "+sword.getY());
 			if(Coordinate.validCoordinate(newPos)){
 				
-				if(hero.getPosition().equals(newPos)){
+				if(hero.getPosition().equals(newPos) && eagle.hasSword()){
 					eagle.vanish();
 					hero.Arm();
+					return;
 				}
 				else if(sword.getPosition().equals(newPos) && !eagle.hasSword()){
 					System.out.println("cheguei");
 					eagle.reachedSword();
 					sword.vanish();
 				}
-				else if(sword.getPosition().equals(newPos) && eagle.hasSword()){
+				else if(eagle.getPosition().equals(newPos) && eagle.hasSword()){//reached end
+					System.out.println("vanish it");
 					sword=new Element('E', eagle.getX(), eagle.getY());
-					//layout[eagle.getY()][eagle.getX()]=sword.placeHolder;
 					eagle.vanish();
+					System.out.println("eagle(vanished) x="+eagle.getX()+" y="+eagle.getY());
+					return;
 					
 				}
 				else if(!eagle.isFlying()){
@@ -353,6 +359,8 @@ public class Tabuleiro implements java.io.Serializable {
 					
 					
 				}
+				System.out.println("eagle true x="+eagle.getPosition().getX()+" y="+eagle.getPosition().getX());
+				
 				
 			
 				eagle.moveTo(newPos.getX(), newPos.getY());
@@ -371,7 +379,7 @@ public class Tabuleiro implements java.io.Serializable {
 		exitLab();//if no one is playing
 	}
 
-	void updateLayout(){
+	public void updateLayout(){
 		for(int i=0;i<layout.length;i++){
 			for(int f=0;f<layout.length;f++){
 				layout[i][f]=getSymbol(f,i);
@@ -411,5 +419,18 @@ public class Tabuleiro implements java.io.Serializable {
 			}
 		}
 		return null;
+	}
+
+	public boolean existsDragonAt(Coordinate pos,int i){
+		for(int f=0;f<i;f++){
+			if(dragonArray[f].getPosition().equals(pos)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public char [][] getBaseLayout(){
+		return cleanLayout;
 	}
 }

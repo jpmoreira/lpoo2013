@@ -174,9 +174,14 @@ public class gameWindow {
 		this.frame.setSize(x, y);
 		this.frame.setResizable(false);
 	}
+<<<<<<< HEAD
 
 	public void updateDrawbleContent() {
 		mainPanel.layoutModified(inputHandler.getLayout());
+=======
+	public void updateDrawbleContent(){
+		mainPanel.layoutModified(inputHandler.getLayout(),inputHandler.getBaseLayout());
+>>>>>>> c73d7ee3a595a757bab176d400a9bc20e4223500
 		readjustSizes();
 	}
 
