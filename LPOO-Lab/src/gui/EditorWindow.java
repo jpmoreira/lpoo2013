@@ -25,7 +25,7 @@ public class EditorWindow extends JFrame{
 	}
 
 	public void makeVisible() {
-		edit_Frame.setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void setupListeners() {
