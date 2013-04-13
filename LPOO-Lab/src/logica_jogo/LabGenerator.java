@@ -139,6 +139,16 @@ public class LabGenerator {
 		generateLab(dimention, exit, exit);
 		theLab[exit.getY()][exit.getX()] = 'S';
 	}
+	
+	public static char[][] InitEditorLab(int dimention){
+		char editlab[][] = new char[dimention][dimention];
+		for (int i = 0; i < editlab.length; i++) {
+			for (int f = 0; f < editlab.length; f++) {
+				editlab[i][f] = 'x';
+			}
+		}
+		return editlab;
+	}
 
 	public static char[][] getLab() {
 		return theLab;

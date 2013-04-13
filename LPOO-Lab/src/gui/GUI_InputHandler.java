@@ -19,12 +19,15 @@ import main_package.InputHandler;
 public class GUI_InputHandler implements InputHandler {
 
 	private Tabuleiro theTab;
+
 	private gameWindow window;
 	
 	private int mode=0;
 	private int labSize=10;
 	private int nrOfDragons=1;
-
+	private GUI_InputHandler editHandler;
+	private EditorWindow Editor;
+	
 	public GUI_InputHandler() {
 		theTab=null;
 		setupWindow();
@@ -114,16 +117,21 @@ public class GUI_InputHandler implements InputHandler {
 		theTab.printLayout();
 		window.updateDrawbleContent();
 	}
+	
+	protected void Prepare_Editor(int editor_size){
+		Editor = new EditorWindow(this,editor_size);
+	}
 
 	public char[][] getLayout(){
 		return theTab.getLayout();
 	}
 
-	public void saveGame(){
+	public void saveGame(String name){
 		try
 	      {
+			 name=name.concat(".save");
 	         FileOutputStream fileOut =
-	         new FileOutputStream("jogo.bin");
+	         new FileOutputStream(name);
 	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
 	         out.writeObject(theTab);
 	         out.close();
@@ -135,11 +143,12 @@ public class GUI_InputHandler implements InputHandler {
 	      }
 	}
 	
-	public void loadGame(){
+	public void loadGame(String name){
 		try
 	      {
+			 name=name.concat(".save");
 	         FileInputStream fileIn =
-	                          new FileInputStream("jogo.bin");
+	                          new FileInputStream(name);
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         theTab = null ;
 	         theTab = (Tabuleiro) in.readObject();

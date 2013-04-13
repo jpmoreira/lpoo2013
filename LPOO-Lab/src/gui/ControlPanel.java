@@ -17,11 +17,6 @@ import javax.swing.event.ChangeListener;
 public class ControlPanel extends JPanel {
 
 	
-	private JButton resetBtn;
-	private JButton exitBtn;
-	private JButton saveBtn;
-	private JButton loadBtn;
-	private JButton editorBtn;
 	
 	
 	private JLabel modeLabel;
@@ -43,106 +38,12 @@ public class ControlPanel extends JPanel {
 
 		
 		//create Buttons
-		setupResetButton();//order is relevant
-		setupSaveButton();
-		setupLoadButton();
-		setupExitButton();
 		
 //		setupSlider();
 //		setupLabels();
 //		setupGameModeButtons();
 		
 		
-	}
-	
-	private void setupResetButton(){
-		resetBtn = new JButton("Reset");
-		//Font newButtonFont=new Font(resetBtn.getFont().getName(),resetBtn.getFont().getStyle(),5); 
-		//resetBtn.setFont(newButtonFont);
-		int width=getWidth()/3-(20/3);
-		int height=getHeight()/2-(20/2);
-		resetBtn.setBounds(0, 0, width, height);
-
-		
-		
-		//setup listener
-		resetBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				GUI_InputHandler inpHandler=parent.getInputHandler();
-				inpHandler.makeGame();
-				parent.redirectFocus();//gives focus back to game Panel
-				
-				
-				
-			}
-		});
-		
-		
-		add(resetBtn);
-	}
-	private void setupSaveButton(){
-		saveBtn = new JButton("Save");
-		int width=getWidth()/3-(20/3);
-		int height=getHeight()/2-(20/2);
-		System.out.println("GetWidth:"+getWidth()+"Width"+width);
-		saveBtn.setBounds(width, 0, width, height);;
-		
-		
-		//setup listener
-		saveBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				GUI_InputHandler inpHandler=parent.getInputHandler();
-				inpHandler.saveGame();
-				parent.redirectFocus();
-			}
-		});
-		
-		
-		add(saveBtn);
-	}
-	private void setupLoadButton(){
-		loadBtn = new JButton("Load");
-		int width=getWidth()/3-(20/3);
-		int height=getHeight()/2-(20/2);
-		System.out.println("GetWidth:"+getWidth()+"Width"+width);
-		loadBtn.setBounds(2*width, 0, width, height);
-		
-		
-		//setup listener
-		loadBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				GUI_InputHandler inpHandler=parent.getInputHandler();
-				inpHandler.loadGame();
-				parent.redirectFocus();
-			}
-		});
-		
-		
-		add(loadBtn);
-	}
-
-	private void setupExitButton(){
-		exitBtn = new JButton("Exit");
-		int width=getWidth()/3-(20/3);
-		int height=getHeight()/2-(20/2);
-		System.out.println("GetWidth:"+getWidth()+"Width"+width);
-		exitBtn.setBounds(2*width, height, width, height);
-
-		
-		
-		//setup listener
-		exitBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.exit(0);
-			}
-		});
-		
-		
-		add(exitBtn);
 	}
 
 	
@@ -185,7 +86,7 @@ public class ControlPanel extends JPanel {
 		
 		modeLabel=new JLabel("Mode:");
 		modeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		modeLabel.setBounds((getWidth()-width)/2, exitBtn.getY()+exitBtn.getHeight()+50, width, height);
+		//modeLabel.setBounds((getWidth()-width)/2, exitBtn.getY()+exitBtn.getHeight()+50, width, height);
 	
 		
 		add(modeLabel);

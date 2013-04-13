@@ -44,10 +44,10 @@ public class CLI_InputHandler implements InputHandler{
 			theTab.movePlayer(0, 1);
 			break;
 		case 'F':
-			saveGame();
+			saveGame("cli_save");
 			break;
 		case 'L':
-			loadGame();
+			loadGame("cli_save");
 		case 'E':
 			if( !theTab.getHero().eagleUsed()){
 				System.out.println("called");
@@ -148,11 +148,12 @@ public class CLI_InputHandler implements InputHandler{
 	}
 	
 	
-	public void saveGame(){
-		try
-	      {
-	         FileOutputStream fileOut =
-	         new FileOutputStream("jogo.bin");
+	public void saveGame(String Name){
+			try
+		      {
+				 Name.concat(".bin");
+		         FileOutputStream fileOut =
+		         new FileOutputStream("Name");
 	         ObjectOutputStream out =new ObjectOutputStream(fileOut);
 	         out.writeObject(theTab);
 	         out.close();
@@ -164,11 +165,12 @@ public class CLI_InputHandler implements InputHandler{
 	      }
 	}
 	
-	public void loadGame(){
+	public void loadGame(String name){
 		try
 	      {
+			 name.concat(".bin");
 	         FileInputStream fileIn =
-	                          new FileInputStream("jogo.bin");
+	                          new FileInputStream(name);
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         theTab = null ;
 	         theTab = (Tabuleiro) in.readObject();
