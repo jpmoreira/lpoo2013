@@ -89,6 +89,7 @@ public class GUI_InputHandler implements InputHandler {
 				else if(arg0.getKeyCode()==KeyEvent.VK_DOWN){
 					theTab.movePlayer(0, 1);
 					window.updateDrawbleContent();
+					
 				}
 				else if(arg0.getKeyCode()==KeyEvent.VK_LEFT){
 					theTab.movePlayer(-1, 0);
