@@ -98,6 +98,10 @@ public class GUI_InputHandler implements InputHandler {
 					theTab.movePlayer(1, 0);
 					window.updateDrawbleContent();
 				}
+				else if(arg0.getKeyCode()==KeyEvent.VK_E){
+					theTab.getEagle().StartEagle(theTab.getHero(),theTab.getSword());
+					window.updateDrawbleContent();
+				}
 				
 			}
 		});
@@ -159,4 +163,7 @@ public class GUI_InputHandler implements InputHandler {
 		window.updateDrawbleContent();
 	}
 
+	public char[][] getBaseLayout(){
+		return theTab.getBaseLayout();
+	}
 }

@@ -28,6 +28,7 @@ public class LabPanel extends JPanel {
 	private ImageIcon eagle_grass_pic;
 	
 	private char[][]layout=null;
+	private char[][]baseLayout=null;
 	private JLabel[][] visualLayout=null;
 
 	
@@ -95,7 +96,7 @@ public class LabPanel extends JPanel {
 		eagle_wall_pic=new ImageIcon(tempResized);
 	}
 	
-	public void layoutModified(char[][] newLayout){
+	public void layoutModified(char[][] newLayout,char[][]newBaseLayout){
 		
 		if(visualLayout!=null){//if we had a layout before
 			for(int i=0;i<visualLayout.length;i++){
@@ -110,6 +111,7 @@ public class LabPanel extends JPanel {
 		
 		
 		layout=newLayout;
+		baseLayout=newBaseLayout;
 		visualLayout=new JLabel[layout.length][layout.length];
 		
 		for(int i=0;i<layout.length;i++){
@@ -141,42 +143,36 @@ public class LabPanel extends JPanel {
 		if(visualLayout[i][f]==null){
 			visualLayout[i][f]=new JLabel();
 		}
-		
-		switch (theCell) {
-		case 'x':
-			visualLayout[i][f].setIcon(brick_pic);
-			break;
 
-		case 'H':
-			visualLayout[i][f].setIcon(hero_pic);
-			break;
-		case 'A':
-			visualLayout[i][f].setIcon(armed_hero_pic);
-			break;
-		case 'G':
-			visualLayout[i][f].setIcon(hero_pic);
-		case 'D':
-			visualLayout[i][f].setIcon(dragon_pic);
-			break;
-		case 'd':
-			visualLayout[i][f].setIcon(sleeping_dragon_pic);
-			break;	
-		case 'E':
-			visualLayout[i][f].setIcon(sword_pic);
-			break;
-		case 'F':
-			visualLayout[i][f].setIcon(eagle_wall_pic);
-			break;
-		case 'f':
-			visualLayout[i][f].setIcon(eagle_grass_pic);
-			break;	
-		case ' ':
-			visualLayout[i][f].setIcon(empty_place_pic);
-			
-			break;
-		default:
-			break;
+		
+		if(theCell=='x'){
+			visualLayout[i][f].setIcon(brick_pic);
 		}
+		else if(theCell=='H'){
+			visualLayout[i][f].setIcon(hero_pic);
+		}
+		else if(theCell=='A'){
+			visualLayout[i][f].setIcon(armed_hero_pic);
+		}
+		else if(theCell=='D' || theCell=='F'){
+			visualLayout[i][f].setIcon(dragon_pic);
+		}
+		else if(theCell=='d'){
+			visualLayout[i][f].setIcon(sleeping_dragon_pic);
+		}
+		else if(theCell=='E'){
+			visualLayout[i][f].setIcon(sword_pic);
+		}
+		else if(theCell=='e' && baseLayout[i][f]=='x'){
+			visualLayout[i][f].setIcon(eagle_wall_pic);
+		}
+		else if(theCell=='e' && baseLayout[i][f]==' '){
+			visualLayout[i][f].setIcon(eagle_grass_pic);
+		}
+		else if(theCell==' '){
+			visualLayout[i][f].setIcon(empty_place_pic);
+		}
+		
 		if(visualLayout[i][f]!=null){
 			visualLayout[i][f].repaint();
 		}
