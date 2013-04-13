@@ -139,7 +139,6 @@ public class LabGenerator {
 		generateLab(dimention, exit, exit);
 		theLab[exit.getY()][exit.getX()] = 'S';
 	}
-	
 
 	public static char[][] getLab() {
 		return theLab;
@@ -163,8 +162,10 @@ public class LabGenerator {
 				x = dimention - 1;
 			}
 		}
-
+		
 		return new Coordinate(x, y);
 
 	}
+
+	
 }

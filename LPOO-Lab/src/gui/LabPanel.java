@@ -96,6 +96,14 @@ public class LabPanel extends JPanel {
 		eagle_wall_pic=new ImageIcon(tempResized);
 	}
 	
+	public int getCell_Width() {
+		return Cell_Width;
+	}
+
+	public int getCell_Height() {
+		return Cell_Height;
+	}
+
 	public void layoutModified(char[][] newLayout,char[][]newBaseLayout){
 		
 		if(visualLayout!=null){//if we had a layout before

@@ -18,13 +18,13 @@ public class Tabuleiro implements java.io.Serializable {
 
 	public Tabuleiro(int playerX, int playerY, int swordX, int swordY,
 			char[][] lab, int mod, int nrDrag) {
-
+		
 		theGen = new GameSpecificRanGen();
 		cleanLayout=lab;
 		layout=new char[lab.length][lab.length];
 		dragonArray = new Dragon[nrDrag];
 		
-
+		printCleanLayout();
 		// setup Hero
 		setupHero(playerX, playerY);
 		setupEagle();
@@ -52,8 +52,17 @@ public class Tabuleiro implements java.io.Serializable {
 
 		}
 	}
+	public void printCleanLayout() {
+		for (int l = 0; l <= Coordinate.getBounds().getY(); l++) {
+			for (int c = 0; c <= Coordinate.getBounds().getX(); c++) {
+				System.out.print(" " + cleanLayout[l][c] + " ");
+			}
+			System.out.println("");
 
+		}
+	}
 	private void grabExit() {
+		System.out.println("grabing");
 		for (int i = 0; i <= Coordinate.getBounds().getX(); i++) {
 			if (cleanLayout[0][i] == 'S') {
 				exit =new Element('S',i,0);
@@ -74,6 +83,7 @@ public class Tabuleiro implements java.io.Serializable {
 				return;
 			}
 		}
+		System.out.println("no ret");
 	}
 
 	private void exitLab() {
@@ -306,6 +316,9 @@ public class Tabuleiro implements java.io.Serializable {
 
 	public boolean isFinished() {
 		return terminated;
+	}
+	public int getMode(){
+		return mode;
 	}
 
 	public char[][] getLayout() {
