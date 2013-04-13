@@ -7,7 +7,7 @@ public class LabGenerator {
 
 	private static char[][] theLab;
 
-	static private void initLab(int dimention) {
+	static public void initLab(int dimention) {
 		theLab = new char[dimention][dimention];
 		for (int i = 0; i < theLab.length; i++) {
 			for (int f = 0; f < theLab.length; f++) {
@@ -140,15 +140,6 @@ public class LabGenerator {
 		theLab[exit.getY()][exit.getX()] = 'S';
 	}
 	
-	public static char[][] InitEditorLab(int dimention){
-		char editlab[][] = new char[dimention][dimention];
-		for (int i = 0; i < editlab.length; i++) {
-			for (int f = 0; f < editlab.length; f++) {
-				editlab[i][f] = 'x';
-			}
-		}
-		return editlab;
-	}
 
 	public static char[][] getLab() {
 		return theLab;

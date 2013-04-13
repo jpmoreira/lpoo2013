@@ -14,14 +14,16 @@ public class EditorWindow extends JFrame{
 	private char [][] labedit;
 	
 	public EditorWindow(GUI_InputHandler handler,int editor_size) {
+		editHandler = handler;
+		labedit = new char [editor_size][editor_size];
+		LabGenerator.initLab(editor_size);
+		labedit = LabGenerator.getLab();
 		try {
 			initialize();
 		} catch (Exception e) {
 			System.out.println("exeption");
 		}
-		editHandler = handler;
-		labedit = new char [editor_size][editor_size];
-		labedit = LabGenerator.InitEditorLab(editor_size);
+		
 	}
 
 	public void makeVisible() {
@@ -64,5 +66,9 @@ public class EditorWindow extends JFrame{
 		editPanel.setFocusable(true);
 
 		editPanel.requestFocusInWindow();
+		editPanel.layoutModified(labedit, labedit);
+		this.setBounds(300, 300, editPanel.getWidth(), editPanel.getHeight());
+		makeVisible();
 }
+	
 }
