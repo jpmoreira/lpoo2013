@@ -65,14 +65,9 @@ public class Settings_Dialog extends JDialog {
 		textfield.addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void keyTyped(KeyEvent e) {
-				System.out.println("called");
-				JTextField theTxtField=(JTextField) e.getSource();
-				String theTxt=theTxtField.getText();
-				if(theTxt.length()>0){
-					theTxt=theTxt.substring(0,theTxt.length()-1);					
-				}
-				theTxtField.setText(theTxt);
+			public void keyTyped(KeyEvent arg0) {
+
+				arg0.consume();
 			}
 			
 			@Override
@@ -120,18 +115,12 @@ public class Settings_Dialog extends JDialog {
 				
 			else{//if not a arrow key
 					if(isValidKey(theKcode)){			
-					
+						
 						String newText=String.valueOf((char) theKcode);
-						System.out.println("here "+newText);
 						((JTextField)e.getSource()).setText(newText);
 						temp=theKcode;
 					}
 					else{
-						System.out.println("there");
-						JTextField theTextField=(JTextField)e.getSource();
-						String newTxt=theTextField.getText();
-						newTxt=newTxt.substring(0,newTxt.length()-1);
-						theTextField.setText(newTxt);
 						return;
 					}
 					
@@ -240,6 +229,7 @@ public class Settings_Dialog extends JDialog {
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.setBounds(89, 256, 89, 23);
 		getContentPane().add(btnNewButton);
+		
 
 		JButton btnNewButton_1 = new JButton("Cancel");
 		btnNewButton_1.setBounds(432, 256, 89, 23);
@@ -277,8 +267,6 @@ public class Settings_Dialog extends JDialog {
 	}
 
 	private boolean isValidKey(int keyCode){
-		System.out.println("testing if "+keyCode+" is equal to "+key_up+" or "+key_down+" or "+key_left+" or "+key_right+" or "+key_eagle);
-		
 		if(keyCode==key_up || keyCode==key_down || keyCode==key_left || keyCode==key_right || keyCode==key_eagle){
 			return false;
 		}
