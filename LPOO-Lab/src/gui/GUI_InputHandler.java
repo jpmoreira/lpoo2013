@@ -12,6 +12,8 @@ import javax.management.openmbean.TabularData;
 
 import logica_jogo.Coordinate;
 import logica_jogo.Dragon;
+import logica_jogo.EditorProcessor;
+import logica_jogo.EditorProcessor.ErrorCode;
 import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
 import main_package.InputHandler;
@@ -152,29 +154,21 @@ public class GUI_InputHandler implements InputHandler {
 	}
 	public void switch_layout(char[][] newlayout){
 	
-	Coordinate playerPos = new Coordinate(0,0);
-	Coordinate swordPos = new Coordinate(0,0);
-	Dragon[] newDragonsArray = new Dragon[20];
-	int position=0;
-	int count_empty_cells=0;
-	for(int i=0;i<newlayout.length;i++){
-			for(int f=0;f<newlayout.length;f++){
-				if (newlayout[i][f] == 'H') playerPos.setXandY(f, i);
-				else if (newlayout[i][f] == 'E') swordPos.setXandY(f, i);
-				else if (newlayout[i][f] == 'D') newDragonsArray[position++]=new Dragon(f,i);
-				if (newlayout[i][f]!='x') {
-					count_empty_cells++;
-					newlayout[i][f] = ' ';
-				}
-			}
+	Tabuleiro newTab=EditorProcessor.generateInitializedTab(newlayout);	
+	if(newTab==null){//if an error occurred
+		ErrorCode error=EditorProcessor.getErrorCode();
+		if(error==ErrorCode.NotEnoughSpace){
+			//TODO case it hasn't enough empty spaces
+			System.out.println("Not enough empty spaces");
 		}
-	if(position == 0 ) position=1; // position-1 has to be positive;
-	if(!(count_empty_cells<2+position-1)){
-	newlayout=LabGenerator.generateExitforLab(newlayout);	
-	Tabuleiro newTab = new Tabuleiro(playerPos.getX(), playerPos.getY(), swordPos.getX(), swordPos.getY(), newlayout, theTab.getMode(), position-1);
+		else if(error==ErrorCode.NoExit){
+			//TODO case it hasn't a proper exit
+			System.out.println("No exit");
+		}
+	}
+	
 	theTab=newTab;
 	window.updateDrawbleContent();
-	}
 	}
 	public void loadGame(String name){
 		try
