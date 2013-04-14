@@ -2,7 +2,6 @@ package logica_jogo;
 
 public class Tabuleiro implements java.io.Serializable {
 
-	//TODO eagle fica no layout... pk?? sera q fica no cleanLayout??
 	Hero hero;
 	Element sword;
 	Element exit;
@@ -248,7 +247,7 @@ public class Tabuleiro implements java.io.Serializable {
 	}
 
 	private void setupEagle() {
-		eagle = new Eagle(hero.getX(), hero.getY());
+		eagle = new Eagle();
 		
 	}
 

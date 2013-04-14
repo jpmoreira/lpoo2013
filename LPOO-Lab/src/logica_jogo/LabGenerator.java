@@ -1,5 +1,11 @@
 package logica_jogo;
 
+
+/**
+ * A class designed to generate a maze.
+ * 
+ * 
+ */
 import java.util.Random;
 import java.util.Stack;
 
@@ -7,6 +13,12 @@ public class LabGenerator {
 
 	private static char[][] theLab;
 
+	
+	/**
+	 * 
+	 * 
+	 * @param dimention
+	 */
 	static public void initLab(int dimention) {
 		theLab = new char[dimention][dimention];
 		for (int i = 0; i < theLab.length; i++) {
@@ -16,6 +28,14 @@ public class LabGenerator {
 		}
 	}
 
+	/**
+	 * 
+	 * A method that tells the caller if the coordinate passed is a legit cell to be cleared in the lap creation process.
+	 * 
+	 * @param thePt the point that is to be tested
+	 * @return A boolean saying if this is a legit cell to be cleared or not.
+	 */
+	
 	private static boolean isPossibleWay(Coordinate thePt) {
 
 		if (thePt.getX() <= 0 || thePt.getX() >= theLab.length - 1
@@ -92,6 +112,13 @@ public class LabGenerator {
 		return true;
 	}
 
+	/**
+	 * A method that generates a maze with a given dimension starting from a given starting point.
+	 * 
+	 * @param dimention the dimension of the maze to be created
+	 * @param startingPoint A Coordinate object with the position of the starting point.
+	 * @param exit A Coordinate object with the position of the exit.
+	 */
 	private static void generateLab(int dimention, Coordinate startingPoint,
 			Coordinate exit) {
 		if (!isPossibleWay(startingPoint)
@@ -131,6 +158,12 @@ public class LabGenerator {
 
 	}
 
+	/**
+	 * 
+	 * A method that generates a maze with a given dimension
+	 * 
+	 * @param dimention The dimension of the maze to be created.
+	 */
 	public static void prepareLab(int dimention) {
 
 		initLab(dimention);
@@ -139,6 +172,12 @@ public class LabGenerator {
 		generateLab(dimention, exit, exit);
 		theLab[exit.getY()][exit.getX()] = 'S';
 	}
+	
+	/**
+	 * A method that returns the lab previously generated. If no previous generation was done null could be returned.
+	 * 
+	 * @return The maze previously generated. null may be returned.
+	 */
 
 	public static char[][] getLab() {
 		return theLab;

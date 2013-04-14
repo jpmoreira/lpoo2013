@@ -1,8 +1,14 @@
 package logica_jogo;
 
 
+/**
+ * 
+ * A Class representing o point in a coordinate system. Used to compare and verify validity of positions.
+ * 
+ * 
+ *
+ */
 public class Coordinate implements java.io.Serializable{
-	
 	
 	private static int MAX_X;
 	private static int MAX_Y;
@@ -35,7 +41,8 @@ public class Coordinate implements java.io.Serializable{
 		x=c.x;
 		y=c.y;
 	}
-public static boolean validCoordinate(int x, int y){
+	
+	public static boolean validCoordinate(int x, int y){
 		
 		if(x>=0 && x<=MAX_X && y>=0 && y<=MAX_Y){
 			return true;
@@ -43,14 +50,29 @@ public static boolean validCoordinate(int x, int y){
 		
 		return false;
 	}
+	
 	public static boolean validCoordinate(Coordinate point){
 		return (point.getX()>=0 && point.getX()<=MAX_X && point.getY()>=0 && point.getY()<=MAX_Y);
 	}
+	
+	/**
+	 * Method for setting allowed bounds necessary for position valididy verifications
+	 * 
+	 * @param x_max
+	 * @param y_max
+	 */
 	public static void setBounds(int x_max,int y_max){
 
 		MAX_X=x_max;
 		MAX_Y=y_max;
 	}
+	
+	/**
+	 * A method that returns the maximum values a Coordinate object can have
+	 * 
+	 * @return A Coordinate object whose data members are initialized to the maximum.
+	 */
+	
 	public static Coordinate getBounds(){
 		return new Coordinate(MAX_X, MAX_Y);
 	}

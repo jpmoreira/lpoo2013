@@ -1,5 +1,13 @@
 package logica_jogo;
 
+/**
+ * 
+ * A random number generator able to operate in a random or non-random way
+ * By default behaves as a random generator
+ * 
+ * 
+ *
+ */
 public class GameSpecificRanGen extends RandomGenerator implements java.io.Serializable{
 
 	private int[] dragonSleepList;
@@ -56,6 +64,8 @@ public class GameSpecificRanGen extends RandomGenerator implements java.io.Seria
 		
 	}
 	
+	
+	
 	@Override
 	public void randomModeOn() {
 		super.randomModeOn();
@@ -64,6 +74,15 @@ public class GameSpecificRanGen extends RandomGenerator implements java.io.Seria
 		dragonMoveList=null;
 	}
 
+	/**
+	 * 
+	 * A method to turn random mode off.
+	 * 
+	 * @param sleep An array of values that will be used to determine if the dragon should sleep. (0 to set to Sleep, other value otherwise). After the end of the array is reached the first element is returned in an endless loop.
+	 * @param wake An array of values that will be used to determine if the dragon should wake. (0 to set to wake, other value otherwise). After the end of the array is reached the first element is returned in an endless loop.
+	 * @param move An array of values that will be used to determine if the dragon should sleep. After the end of the array is reached the first element is returned in an endless loop.
+	 */
+	
 	public void randomModeOff(int[] sleep, int[] wake, int[] move) {
 		super.randomModeOff();
 		dragonSleepList=sleep;

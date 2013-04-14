@@ -1,4 +1,8 @@
 package logica_jogo;
+/**
+ * A simple random number generator
+ * 
+ */
 
 import java.util.Random;
 

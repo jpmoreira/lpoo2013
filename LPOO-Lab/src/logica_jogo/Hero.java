@@ -1,5 +1,12 @@
 package logica_jogo;
 
+/**
+ * 
+ * A class that implements the functionalities of required of an Hero object.
+ * 
+ *
+ */
+
 public class Hero extends Character implements java.io.Serializable {
 	
 	private boolean usedEagle=false;
@@ -10,10 +17,6 @@ public class Hero extends Character implements java.io.Serializable {
 	
 	public void Arm(){
 		placeHolder='A';
-	}
-	public void EagleShoulder(){
-		// G stands for Guardian / Guarded . Something like that :D
-		placeHolder='G';
 	}
 	public boolean isArmed(){
 		return placeHolder=='A';

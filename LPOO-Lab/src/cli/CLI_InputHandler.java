@@ -1,5 +1,11 @@
 package cli;
 
+/**
+ * A class intended to handle user input from the command line and does some basic processing with it.
+ * 
+ * 
+ */
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +22,8 @@ public class CLI_InputHandler implements InputHandler{
 	private Tabuleiro theTab;
 	private Scanner inputScanner;
 	
+	
+
 	public CLI_InputHandler(Tabuleiro tab) {
 		theTab=tab;
 		inputScanner=new Scanner(System.in);
@@ -25,6 +33,7 @@ public class CLI_InputHandler implements InputHandler{
 		theTab=null;
 		inputScanner=new Scanner(System.in);
 	}
+
 	
 	public void getInGameInput(){
 		char input='\0';			

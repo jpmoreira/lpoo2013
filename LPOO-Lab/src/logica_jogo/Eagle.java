@@ -1,35 +1,40 @@
 package logica_jogo;
 
 
-
+/**
+ * 
+ * A class that implements the functionalities of required of an Eagle object.
+ * 
+ *
+ *
+ */
 
 
 public class Eagle extends Character {
 
-	/** True if eagle is waiting on position or hero shoulder */
-	private boolean flying;
 
-	/** Coordinates of the Eagle when is sleeping */
+	private boolean flying;
 	private Coordinate startPos;
 	private Coordinate endingPos;
 	private boolean hasSword;
 
-	public Eagle(int x, int y) {
-		super('e', x, y);
+	/**
+	 * Eagle constructor that places eagle at position (-1,-1). Eagle starts as a vanished element.
+	 * 
+	 */
+	public Eagle() {
+		super('e', 0, 0);
 		vanish();
 		hasSword=false;
 	}
 
 	/**
-	 * Updates the Coordinates of the Eagle depending on it relation to the hero
-	 * Attached and/or sleeping
+	 * A method that initiates the Eagle usage, unvanishing it and placing it at the first position in her way from "h" to "s".
+	 * This method should be called before moveEagle.
 	 * 
-	 * @param o
-	 *            Object o (Hero)
-	 * @return Position of eagle after update
+	 * @param h An element the Eagle should use as the starting point.
+	 * @param s An element the Eagle should use as the ending point
 	 */
-
-
 	public void StartEagle(Element h,Element s) {
 		/* Method that should be called before moveEagle */
 		if(!((Hero)h).eagleUsed()&&s.isPlaying()){
@@ -42,7 +47,12 @@ public class Eagle extends Character {
 		}
 	}
 
-	/* TODO: Adapt Dijkstra Algorithm and improve later to A* */
+	/**
+	 * A function that returns a Coordinate object containing the next position the Eagle will go to.
+	 * This function is based on the Bresenham algorithm, therefore no floating point arithmetic is used.
+	 * 
+	 * @return A Coordinate object representing the position the eagle is supposed to go to.
+	 */
 
 	public Coordinate newEaglePos() {
 		
@@ -81,15 +91,22 @@ public class Eagle extends Character {
 
 	}
 	
+	/**
+	 * A function that should be called when the eagle has reached the sword.
+	 * This method inverts the starting and ending position and changes the value of hasSword data member.
+	 * 
+	 */
 
 	
+	
 	public void reachedSword(){
-		System.out.println("reached");
 		Coordinate temp=startPos;
 		startPos=endingPos;
 		endingPos=temp;
 		hasSword=true;
 	}
+	
+	
 	
 	public boolean isFlying(){
 		return flying;
