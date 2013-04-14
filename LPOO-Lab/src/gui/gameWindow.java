@@ -197,18 +197,18 @@ public class gameWindow {
 		});
 		mnEditor.add(mntmNewEditor);
 
-		JMenuItem mntmLoadEditorFile = new JMenuItem("Load Editor File");
-		mnEditor.add(mntmLoadEditorFile);
-		
-		JMenuItem mntmSettings = new JMenuItem("Settings");
-		mntmSettings.addMouseListener(new MouseAdapter() {
+		JMenu mnSettings = new JMenu("Settings");
+		menuBar.add(mnSettings);
+		JMenuItem mntmSettings_options= new JMenuItem("Options");
+		mntmSettings_options.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				JDialog d1 = new JDialog(frame, "Settings", Dialog.ModalityType.DOCUMENT_MODAL);
+				inputHandler.init_JDialog();
 			}
 		
 		});
-
+		
+		mnSettings.add(mntmSettings_options);
 	}
 
 	LabPanel getMainPanel() {
@@ -245,10 +245,9 @@ public class gameWindow {
 
 	public void readjustSizes() {
 
-		// TODO change thiss!!!!
+		
 		Dimension d = new Dimension(mainPanel.getWidth(),mainPanel.getHeight());
 		frame.getContentPane().setPreferredSize(d);
 		frame.pack();
-		// frame.setSize(mainPanel.getWidth()+20,mainPanel.getHeight()+theControlPanel.getHeight()+20);
-	}
+		}
 }

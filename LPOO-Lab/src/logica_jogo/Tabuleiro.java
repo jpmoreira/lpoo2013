@@ -1,5 +1,7 @@
 package logica_jogo;
 
+
+
 public class Tabuleiro implements java.io.Serializable {
 
 	//TODO eagle fica no layout... pk?? sera q fica no cleanLayout??
@@ -12,7 +14,7 @@ public class Tabuleiro implements java.io.Serializable {
 	GameSpecificRanGen theGen;
 	boolean terminated;
 	boolean debugging;
-
+	
 	char[][] layout;
 	char[][] cleanLayout;
 
@@ -22,8 +24,7 @@ public class Tabuleiro implements java.io.Serializable {
 		theGen = new GameSpecificRanGen();
 		cleanLayout=lab;
 		layout=new char[lab.length][lab.length];
-		dragonArray = new Dragon[nrDrag];
-		
+	
 		printCleanLayout();
 		// setup Hero
 		setupHero(playerX, playerY);
@@ -31,12 +32,12 @@ public class Tabuleiro implements java.io.Serializable {
 		// setup sword
 		setupSword(swordX, swordY);
 
-		// setup dragon
+		// setup dragon 
 		setupDragons(nrDrag);
 
 		grabExit();
 
-		mode = mod;
+		mode = mod ;
 		terminated = false;
 		debugging = false;
 
