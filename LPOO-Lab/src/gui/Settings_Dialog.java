@@ -36,11 +36,11 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Cancel");
-		btnNewButton_1.setBounds(287, 256, 89, 23);
+		btnNewButton_1.setBounds(432, 256, 89, 23);
 		getContentPane().add(btnNewButton_1);
 
 		JSlider Lab_slider = new JSlider();
-		Lab_slider.setBounds(176, 11, 200, 26);
+		Lab_slider.setBounds(200, 11, 200, 26);
 
 		Lab_slider.setValue(10);
 		Lab_slider.setMinimum(10);
@@ -57,24 +57,24 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(lblL);
 
 		Slider_value = new JLabel("" + Lab_slider.getValue());
-		Slider_value.setBounds(266, 34, 46, 14);
+		Slider_value.setBounds(286, 34, 46, 14);
 		getContentPane().add(Slider_value);
 
 		JLabel lblDragonType = new JLabel("Dragon Behaviour Type");
-		lblDragonType.setBounds(10, 56, 135, 23);
+		lblDragonType.setBounds(10, 56, 168, 23);
 		getContentPane().add(lblDragonType);
 
 		JRadioButton rdbtnDragon1 = new JRadioButton("1 - Static Dragon");
-		rdbtnDragon1.setBounds(10, 86, 135, 23);
+		rdbtnDragon1.setBounds(10, 86, 185, 23);
 		rdbtnDragon1.setSelected(true);
 		getContentPane().add(rdbtnDragon1);
 
 		JRadioButton rdbtnDragon3 = new JRadioButton("3 - Sleep / Wake Dragon");
-		rdbtnDragon3.setBounds(301, 86, 167, 23);
+		rdbtnDragon3.setBounds(377, 86, 210, 23);
 		getContentPane().add(rdbtnDragon3);
 
 		JRadioButton rdbtnDragon2 = new JRadioButton("2 - Moving Dragon");
-		rdbtnDragon2.setBounds(157, 86, 129, 23);
+		rdbtnDragon2.setBounds(200, 86, 155, 23);
 		getContentPane().add(rdbtnDragon2);
 
 		game_mode_btg = new ButtonGroup();
@@ -83,7 +83,7 @@ public class Settings_Dialog extends JDialog {
 		game_mode_btg.add(rdbtnDragon3);
 
 		JLabel lblKeyboardKeys = new JLabel("Keyboard keys");
-		lblKeyboardKeys.setBounds(10, 120, 89, 14);
+		lblKeyboardKeys.setBounds(10, 120, 130, 14);
 		getContentPane().add(lblKeyboardKeys);
 
 		up_key_textField = new JTextField();
@@ -112,12 +112,12 @@ public class Settings_Dialog extends JDialog {
 
 		eagle_key_textField = new JTextField();
 		addlistener(eagle_key_textField);
-		eagle_key_textField.setBounds(365, 145, 40, 20);
+		eagle_key_textField.setBounds(484, 145, 40, 20);
 		getContentPane().add(eagle_key_textField);
 		eagle_key_textField.setColumns(10);
 
 		JLabel lblEagle = new JLabel("Eagle");
-		lblEagle.setBounds(330, 147, 33, 17);
+		lblEagle.setBounds(421, 146, 71, 17);
 		getContentPane().add(lblEagle);
 
 		JLabel lblUp = new JLabel("UP");
@@ -129,13 +129,13 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(lblLeft);
 
 		JLabel lblDown = new JLabel("DOWN");
-		lblDown.setBounds(196, 197, 40, 20);
+		lblDown.setBounds(196, 197, 59, 20);
 		getContentPane().add(lblDown);
 
 		JLabel lblRight = new JLabel("RIGHT");
-		lblRight.setBounds(295, 176, 40, 20);
+		lblRight.setBounds(295, 176, 71, 20);
 		getContentPane().add(lblRight);
-		setBounds(frame.getX(), frame.getY(), 490, 335);
+		setBounds(frame.getX(), frame.getY(), 614, 335);
 
 	}
 
@@ -185,5 +185,9 @@ public class Settings_Dialog extends JDialog {
 		else if (textfield == right_key_textField) key_right = temp;
 	}
 	
+	
+	void setupKeyLabels(){
+		
+	}
 	
 }
