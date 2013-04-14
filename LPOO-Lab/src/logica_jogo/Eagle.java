@@ -32,13 +32,14 @@ public class Eagle extends Character {
 
 	public void StartEagle(Element h,Element s) {
 		/* Method that should be called before moveEagle */
+		if(!((Hero)h).eagleUsed()&&s.isPlaying()){
 		startPos=new Coordinate(h.getPosition());
 		endingPos=s.getPosition();
 		
 		unvanish();
 		((Hero) h).useEagle();
 		position=new Coordinate(h.getX(), h.getY());
-		
+		}
 	}
 
 	/* TODO: Adapt Dijkstra Algorithm and improve later to A* */
