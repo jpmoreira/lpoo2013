@@ -16,7 +16,18 @@ public class Tabuleiro implements java.io.Serializable {
 	
 	char[][] layout;
 	char[][] cleanLayout;
-
+	/**
+	 * Constructor that initializes a instance of Tabuleiro with the following parameters
+	 * 
+	 * 
+	 * @param playerX
+	 * @param playerY
+	 * @param swordX
+	 * @param swordY
+	 * @param lab The maze of the game
+	 * @param mod Int that setups game mode, 0 for Static Dragons , 1 for no Sleeping Dragons, 2 for Sleep/Awaken Dragons 
+	 * @param nrDrag
+	 */
 	public Tabuleiro(int playerX, int playerY, int swordX, int swordY,
 			char[][] lab, int mod, int nrDrag) {
 		
@@ -42,7 +53,9 @@ public class Tabuleiro implements java.io.Serializable {
 
 		updateLayout();
 	}
-
+	/**
+	 * Prints Game Maze on console with Hero, Dragons, etc
+	 */
 	public void printLayout() {
 		for (int l = 0; l <= Coordinate.getBounds().getY(); l++) {
 			for (int c = 0; c <= Coordinate.getBounds().getX(); c++) {
@@ -52,6 +65,9 @@ public class Tabuleiro implements java.io.Serializable {
 
 		}
 	}
+	/**
+	 * Prints clean maze on console without Hero , Dragons, etc.
+	 */
 	public void printCleanLayout() {
 		for (int l = 0; l <= Coordinate.getBounds().getY(); l++) {
 			for (int c = 0; c <= Coordinate.getBounds().getX(); c++) {
@@ -61,6 +77,10 @@ public class Tabuleiro implements java.io.Serializable {
 
 		}
 	}
+	
+	/**
+	 *  Parses the Maze (cleanLayout) finds exit position and attributes it to variable exit.
+	 */
 	private void grabExit() {
 		System.out.println("grabing");
 		for (int i = 0; i <= Coordinate.getBounds().getX(); i++) {
@@ -85,7 +105,8 @@ public class Tabuleiro implements java.io.Serializable {
 		}
 		System.out.println("no ret");
 	}
-
+	
+	
 	private void exitLab() {
 		if (hero.isArmed()) {// if armed
 			terminated = true;
@@ -251,7 +272,10 @@ public class Tabuleiro implements java.io.Serializable {
 		eagle = new Eagle();
 		
 	}
-
+	/**
+	 * Verifies if Dragon is close to hero then if Dragon kills the hero or gets killed.
+	 * @param dragon
+	 */
 	private void verifyDragonProximity(Dragon dragon) {
 		int dx = Math.abs(dragon.getX() - hero.getX());
 		int dy = Math.abs(dragon.getY() - hero.getY());
@@ -270,7 +294,14 @@ public class Tabuleiro implements java.io.Serializable {
 	public void setLayout(char[][] newLO) {
 		layout = newLO;
 	}
-
+	/**
+	 * Turns of the Random Generator Off
+	 * See the specification of RandomGenerator
+	 * 
+	 * @param move - Array of int that will be returned to type of dragon moviment
+	 * @param sleep - Array of int that will be the return to the type of sleep mode
+	 * @param wake - Array of int that will be the return for the type of wake
+	 */
 	public void makeNonRandom(int[] move, int[] sleep, int[] wake) {
 		theGen.randomModeOff(sleep, wake, move);
 	}

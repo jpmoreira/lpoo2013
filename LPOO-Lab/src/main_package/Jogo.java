@@ -1,18 +1,9 @@
 package main_package;
 import gui.GUI_InputHandler;
-import gui.gameWindow;
 
 import java.io.Serializable;
-import java.io.ObjectInputStream.GetField;
-import java.util.Currency;
-import java.util.Random;
-import java.util.Stack;
 
-import javax.swing.JFrame;
-
-import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
-
 import cli.CLI_InputHandler;
 
 
@@ -25,7 +16,7 @@ public class Jogo implements Serializable{
 	
 	public static void main(String[] args) {
 		
-		inpHandler=new CLI_InputHandler();//start with cli input, set no tab
+		inpHandler=new CLI_InputHandler();
 				
 	
 	int playingMode=inpHandler.getPlayingMode();
