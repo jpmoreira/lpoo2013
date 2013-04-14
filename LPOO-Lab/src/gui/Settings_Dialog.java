@@ -24,64 +24,139 @@ public class Settings_Dialog extends JDialog {
 	private JTextField eagle_key_textField;
 	private JLabel Slider_value;
 	private ButtonGroup game_mode_btg;
-	private int key_up, key_left, key_right, key_down,temp;
+	private int key_up, key_left, key_right, key_down,key_eagle,temp;
 
 	public Settings_Dialog(JFrame frame) {
+		
 		super(frame, "Settings", true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.setBounds(89, 256, 89, 23);
-		getContentPane().add(btnNewButton);
+		
+		
+		setupOKandCancelButtons();
 
-		JButton btnNewButton_1 = new JButton("Cancel");
-		btnNewButton_1.setBounds(432, 256, 89, 23);
-		getContentPane().add(btnNewButton_1);
+		
+		setupMazeSizeSliderAndLabel();
 
-		JSlider Lab_slider = new JSlider();
-		Lab_slider.setBounds(200, 11, 200, 26);
+		
+		setupGameModeButtons();
+		
+		setupKeyLabels();
+		
+		setBounds(frame.getX(), frame.getY(), 614, 335);
 
-		Lab_slider.setValue(10);
-		Lab_slider.setMinimum(10);
-		getContentPane().add(Lab_slider);
-		Lab_slider.addChangeListener(new ChangeListener() {
-			/** TODO: complete slider change event */
-			public void stateChanged(ChangeEvent arg0) {
-				int slider_val = ((JSlider) arg0.getSource()).getValue();
-				Slider_value.setText("" + slider_val);
+		
+	}
+
+	private void save_settings() {
+		for (Enumeration<AbstractButton> buttons = game_mode_btg.getElements(); buttons
+				.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			if (button.isSelected()) {
+				char selected = button.getText().charAt(0);
+				int mode = (Character.getNumericValue(selected)) - 1;
 			}
+		}
+	}
+	
+	private void addlistener(JTextField textfield){
+	
+		textfield.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				System.out.println("called");
+				JTextField theTxtField=(JTextField) e.getSource();
+				String theTxt=theTxtField.getText();
+				if(theTxt.length()>0){
+					theTxt=theTxt.substring(0,theTxt.length()-1);					
+				}
+				theTxtField.setText(theTxt);
+			}
+			
+			@Override
+			
+			public void keyPressed(KeyEvent e) {
+				int theKcode=e.getKeyCode();
+				System.out.println("the code="+theKcode);
+				
+				
+				if(theKcode==KeyEvent.VK_UP || theKcode==KeyEvent.VK_DOWN || theKcode==KeyEvent.VK_LEFT || theKcode==KeyEvent.VK_RIGHT){
+				
+				if(!isValidKey(theKcode) ){
+					JTextField theTextField=(JTextField)e.getSource();
+					String newTxt=theTextField.getText();
+					theTextField.setText(newTxt);
+					return;
+				}
+				
+				if (theKcode == KeyEvent.VK_UP ) {
+					((JTextField)e.getSource()).setText("UP");
+					temp = e.getKeyCode();
+				} 
+				
+				else if (theKcode == KeyEvent.VK_DOWN ) {
+					((JTextField)e.getSource()).setText("DOWN");
+					temp = e.getKeyCode();
+				}
+				
+				else if (theKcode == KeyEvent.VK_LEFT ) {
+					((JTextField)e.getSource()).setText("LEFT");
+					temp = e.getKeyCode();
+				}
+				
+				else if (theKcode == KeyEvent.VK_RIGHT ) {
+					((JTextField)e.getSource()).setText("RIGHT");
+					temp = theKcode;
+				}
+			if (e.getSource() == up_key_textField) key_up = temp;
+			else if (e.getSource() == down_key_textField) key_down = temp;
+			else if (e.getSource() == left_key_textField) key_left = temp;
+			else if (e.getSource() == right_key_textField) key_right = temp;
+			else if (e.getSource() == eagle_key_textField) key_eagle =temp;
+			}
+				
+				
+			else{//if not a arrow key
+					if(isValidKey(theKcode)){			
+					
+						String newText=String.valueOf((char) theKcode);
+						System.out.println("here "+newText);
+						((JTextField)e.getSource()).setText(newText);
+						temp=theKcode;
+					}
+					else{
+						System.out.println("there");
+						JTextField theTextField=(JTextField)e.getSource();
+						String newTxt=theTextField.getText();
+						newTxt=newTxt.substring(0,newTxt.length()-1);
+						theTextField.setText(newTxt);
+						return;
+					}
+					
+					if (e.getSource() == up_key_textField) key_up = temp;
+					else if (e.getSource() == down_key_textField) key_down = temp;
+					else if (e.getSource() == left_key_textField) key_left = temp;
+					else if (e.getSource() == right_key_textField) key_right = temp;
+					else if (e.getSource() == eagle_key_textField) key_eagle =temp;
+					
+			}
+
+		}
+			
+		
+		
+		
+		
+		
+		
 		});
-		JLabel lblL = new JLabel("Labyrinth Size");
-		lblL.setBounds(38, 11, 102, 23);
-		getContentPane().add(lblL);
-
-		Slider_value = new JLabel("" + Lab_slider.getValue());
-		Slider_value.setBounds(286, 34, 46, 14);
-		getContentPane().add(Slider_value);
-
-		JLabel lblDragonType = new JLabel("Dragon Behaviour Type");
-		lblDragonType.setBounds(10, 56, 168, 23);
-		getContentPane().add(lblDragonType);
-
-		JRadioButton rdbtnDragon1 = new JRadioButton("1 - Static Dragon");
-		rdbtnDragon1.setBounds(10, 86, 185, 23);
-		rdbtnDragon1.setSelected(true);
-		getContentPane().add(rdbtnDragon1);
-
-		JRadioButton rdbtnDragon3 = new JRadioButton("3 - Sleep / Wake Dragon");
-		rdbtnDragon3.setBounds(377, 86, 210, 23);
-		getContentPane().add(rdbtnDragon3);
-
-		JRadioButton rdbtnDragon2 = new JRadioButton("2 - Moving Dragon");
-		rdbtnDragon2.setBounds(200, 86, 155, 23);
-		getContentPane().add(rdbtnDragon2);
-
-		game_mode_btg = new ButtonGroup();
-		game_mode_btg.add(rdbtnDragon1);
-		game_mode_btg.add(rdbtnDragon2);
-		game_mode_btg.add(rdbtnDragon3);
-
+		
+	}
+	
+	
+	void setupKeyLabels(){
 		JLabel lblKeyboardKeys = new JLabel("Keyboard keys");
 		lblKeyboardKeys.setBounds(10, 120, 130, 14);
 		getContentPane().add(lblKeyboardKeys);
@@ -135,59 +210,78 @@ public class Settings_Dialog extends JDialog {
 		JLabel lblRight = new JLabel("RIGHT");
 		lblRight.setBounds(295, 176, 71, 20);
 		getContentPane().add(lblRight);
-		setBounds(frame.getX(), frame.getY(), 614, 335);
-
-	}
-
-	private void save_settings() {
-		for (Enumeration<AbstractButton> buttons = game_mode_btg.getElements(); buttons
-				.hasMoreElements();) {
-			AbstractButton button = buttons.nextElement();
-			if (button.isSelected()) {
-				char selected = button.getText().charAt(0);
-				int mode = (Character.getNumericValue(selected)) - 1;
-			}
-		}
-	}
-	
-	private void addlistener(JTextField textfield){
-	
-		textfield.addKeyListener(new KeyAdapter() {
 		
-			@Override
-			public void keyTyped(KeyEvent e) {
-				temp = e.getKeyCode();
-				((JTextField)e.getSource()).setText(String.valueOf((char) key_up));
 
+		
+	}
+
+	void setupGameModeButtons(){
+		JRadioButton rdbtnDragon1 = new JRadioButton("1 - Static Dragon");
+		rdbtnDragon1.setBounds(10, 86, 185, 23);
+		rdbtnDragon1.setSelected(true);
+		getContentPane().add(rdbtnDragon1);
+
+		JRadioButton rdbtnDragon3 = new JRadioButton("3 - Sleep / Wake Dragon");
+		rdbtnDragon3.setBounds(377, 86, 210, 23);
+		getContentPane().add(rdbtnDragon3);
+
+		JRadioButton rdbtnDragon2 = new JRadioButton("2 - Moving Dragon");
+		rdbtnDragon2.setBounds(200, 86, 155, 23);
+		getContentPane().add(rdbtnDragon2);
+
+		game_mode_btg = new ButtonGroup();
+		game_mode_btg.add(rdbtnDragon1);
+		game_mode_btg.add(rdbtnDragon2);
+		game_mode_btg.add(rdbtnDragon3);
+		
+	}
+	
+	void setupOKandCancelButtons(){
+		JButton btnNewButton = new JButton("OK");
+		btnNewButton.setBounds(89, 256, 89, 23);
+		getContentPane().add(btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("Cancel");
+		btnNewButton_1.setBounds(432, 256, 89, 23);
+		getContentPane().add(btnNewButton_1);
+		
+	}
+
+	void setupMazeSizeSliderAndLabel(){
+		JSlider Lab_slider = new JSlider();
+		Lab_slider.setBounds(200, 11, 200, 26);
+		
+
+		Lab_slider.setValue(10);
+		Lab_slider.setMinimum(10);
+		getContentPane().add(Lab_slider);
+		Lab_slider.addChangeListener(new ChangeListener() {
+			/** TODO: complete slider change event */
+			public void stateChanged(ChangeEvent arg0) {
+				int slider_val = ((JSlider) arg0.getSource()).getValue();
+				Slider_value.setText("" + slider_val);
 			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
-					((JTextField)e.getSource()).setText("UP");
-					temp = e.getKeyCode();
-				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					((JTextField)e.getSource()).setText("DOWN");
-					temp = e.getKeyCode();
-				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					((JTextField)e.getSource()).setText("LEFT");
-					temp = e.getKeyCode();
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					((JTextField)e.getSource()).setText("RIGHT");
-					temp = e.getKeyCode();
-				}
-			}
-
 		});
-		if (textfield == up_key_textField) key_up = temp;
-		else if (textfield == down_key_textField) key_down = temp;
-		else if (textfield == left_key_textField) key_left = temp;
-		else if (textfield == right_key_textField) key_right = temp;
-	}
-	
-	
-	void setupKeyLabels(){
+		JLabel lblL = new JLabel("Labyrinth Size");
+		lblL.setBounds(38, 11, 102, 23);
+		getContentPane().add(lblL);
+
+		Slider_value = new JLabel("" + Lab_slider.getValue());
+		Slider_value.setBounds(286, 34, 46, 14);
+		getContentPane().add(Slider_value);
+
+		JLabel lblDragonType = new JLabel("Dragon Behaviour Type");
+		lblDragonType.setBounds(10, 56, 168, 23);
+		getContentPane().add(lblDragonType);
 		
 	}
-	
+
+	private boolean isValidKey(int keyCode){
+		System.out.println("testing if "+keyCode+" is equal to "+key_up+" or "+key_down+" or "+key_left+" or "+key_right+" or "+key_eagle);
+		
+		if(keyCode==key_up || keyCode==key_down || keyCode==key_left || keyCode==key_right || keyCode==key_eagle){
+			return false;
+		}
+		return true;
+	}
 }
