@@ -1,6 +1,8 @@
 package gui;
 
-import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -10,8 +12,6 @@ import javax.swing.JOptionPane;
 
 import logica_jogo.LabGenerator;
 import pictures.PictureLoader;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class EditorWindow extends JFrame{
 	private LabPanel editPanel;
@@ -111,6 +111,10 @@ public class EditorWindow extends JFrame{
 		editPanel.requestFocusInWindow();
 		editPanel.layoutModified(labedit, labedit);
 		this.setBounds(300, 300, editPanel.getWidth(), editPanel.getHeight());
+		// Solves the problem with border dimensions on different looks and feels (Operative systems)
+		Dimension d = new Dimension(editPanel.getWidth(),editPanel.getHeight());
+		this.getContentPane().setPreferredSize(d);
+		this.pack();
 		makeVisible();
 		
 }

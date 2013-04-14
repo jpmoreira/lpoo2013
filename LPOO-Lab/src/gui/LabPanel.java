@@ -3,7 +3,6 @@ package gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -116,11 +115,11 @@ public class LabPanel extends JPanel {
 			}
 		}
 		
-		
-		
 		layout=newLayout;
 		baseLayout=newBaseLayout;
 		visualLayout=new JLabel[layout.length][layout.length];
+		
+		//visualLayout=new JLabel[layout.length][layout.length];
 		
 		for(int i=0;i<layout.length;i++){
 			for(int f=0;f<layout.length;f++){

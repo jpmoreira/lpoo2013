@@ -1,10 +1,12 @@
 package gui;
 
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,6 +21,7 @@ public class gameWindow {
 	private LabPanel mainPanel;
 	private GUI_InputHandler inputHandler;
 	private char[][] editor_maze;
+	private JMenuBar menuBar ;
 
 	/**
 	 * Create the application.
@@ -76,8 +79,8 @@ public class gameWindow {
 
 		mainPanel.requestFocusInWindow();
 		frame.setResizable(false);
+		menuBar = new JMenuBar();
 
-		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
 		JMenu GameMenu = new JMenu("Game");
@@ -87,8 +90,19 @@ public class gameWindow {
 		NewGame_menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				inputHandler.makeGame();
-			}
+				int result = JOptionPane.showConfirmDialog(
+			            frame,
+			            "Make a new Game ?",
+			            "New Game",
+			            JOptionPane.YES_NO_OPTION);
+
+			        if (result == JOptionPane.YES_OPTION){
+			            inputHandler.makeGame();
+			        }
+			       	        		
+			    	}
+				
+			
 		});
 		GameMenu.add(NewGame_menu);
 
@@ -96,8 +110,10 @@ public class gameWindow {
 		SaveGame_menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				String save_name = JOptionPane.showInputDialog(frame,"Save Name");
-				if(save_name!=null)inputHandler.saveGame(save_name);
+				String save_name = JOptionPane.showInputDialog(frame,
+						"Save Name");
+				if (save_name != null)
+					inputHandler.saveGame(save_name);
 				redirectFocus();
 			}
 		});
@@ -107,28 +123,50 @@ public class gameWindow {
 		LoadGame_menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				String load_name = JOptionPane.showInputDialog(frame,"Save Name");
-				if(load_name!=null)inputHandler.loadGame(load_name);
+				String load_name = JOptionPane.showInputDialog(frame,
+						"Load Name");
+				if (load_name != null)
+					inputHandler.loadGame(load_name);
 				redirectFocus();
 			}
 		});
 		GameMenu.add(LoadGame_menu);
 
 		JMenuItem ExitGame_menu = new JMenuItem("Exit");
+		ExitGame_menu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				int result = JOptionPane.showConfirmDialog(
+			            frame,
+			            "Do you want to exit the game ?",
+			            "Exit Game",
+			            JOptionPane.YES_NO_OPTION);
+
+			        if (result == JOptionPane.YES_OPTION){
+			           System.exit(0);
+			        }
+			            		
+			    	}
+				
+			
+		});
 		GameMenu.add(ExitGame_menu);
+		
 
 		JMenu mnEditor = new JMenu("Editor");
 		menuBar.add(mnEditor);
 
 		JMenuItem mntmNewEditor = new JMenuItem("New Editor");
-		mntmNewEditor .addMouseListener(new MouseAdapter() {
+		mntmNewEditor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				int valid = 0;
 				int editordim = 0;
 				do {
 					String editor_dim = JOptionPane
-							.showInputDialog(frame,"Qual é a dimensão que deseja? (Min: 10, Max: 200)");
+							.showInputDialog(frame,
+									"Qual é a dimensão que deseja? (Min: 10, Max: 200)");
+					if(editor_dim!=null){
 					try {
 						editordim = Integer.parseInt(editor_dim);
 						if (editordim < 10 || editordim > 200) {
@@ -138,8 +176,9 @@ public class gameWindow {
 											"Erro, introduza um valor superior a 10 e menor que 200",
 											"Warning",
 											JOptionPane.WARNING_MESSAGE);
+							valid = 0;
 						}
-						valid = 1;
+						else valid = 2;
 					}
 
 					catch (NumberFormatException nfe) {
@@ -147,9 +186,10 @@ public class gameWindow {
 								"Erro, valor introduzido não é um inteiro",
 								"Warning", JOptionPane.WARNING_MESSAGE);
 						valid = 0;
-					}
+					}}
+					else valid=1;
 
-					if (valid == 1)
+					if (valid == 2)
 						inputHandler.Prepare_Editor(editordim);
 				} while (valid == 0);
 
@@ -159,6 +199,15 @@ public class gameWindow {
 
 		JMenuItem mntmLoadEditorFile = new JMenuItem("Load Editor File");
 		mnEditor.add(mntmLoadEditorFile);
+		
+		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mntmSettings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				JDialog d1 = new JDialog(frame, "Settings", Dialog.ModalityType.DOCUMENT_MODAL);
+			}
+		
+		});
 
 	}
 
@@ -175,8 +224,9 @@ public class gameWindow {
 		this.frame.setResizable(false);
 	}
 
-	public void updateDrawbleContent(){
-		mainPanel.layoutModified(inputHandler.getLayout(),inputHandler.getBaseLayout());
+	public void updateDrawbleContent() {
+		mainPanel.layoutModified(inputHandler.getLayout(),
+				inputHandler.getBaseLayout());
 
 		readjustSizes();
 	}
@@ -196,11 +246,9 @@ public class gameWindow {
 	public void readjustSizes() {
 
 		// TODO change thiss!!!!
-		Dimension d = mainPanel.getRequiredDimension();
-		// theControlPanel.setBounds(10, theControlPanel.getY(),
-		// mainPanel.getWidth(), theControlPanel.getHeight());
-		// int width=(int) d.getWidth()+theControlPanel.getWidth()+5;
-		// int height=(int) d.getHeight()+theControlPanel.getHeight();
+		Dimension d = new Dimension(mainPanel.getWidth(),mainPanel.getHeight());
+		frame.getContentPane().setPreferredSize(d);
+		frame.pack();
 		// frame.setSize(mainPanel.getWidth()+20,mainPanel.getHeight()+theControlPanel.getHeight()+20);
 	}
 }

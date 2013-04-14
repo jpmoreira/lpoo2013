@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dialog;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileInputStream;
@@ -8,7 +9,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.management.openmbean.TabularData;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import logica_jogo.Coordinate;
 import logica_jogo.Dragon;
@@ -176,6 +180,14 @@ public class GUI_InputHandler implements InputHandler {
 	window.updateDrawbleContent();
 	}
 	}
+	protected void init_JDialog(String name){
+		JDialog d1 = new JDialog(window.getFrame(),name,Dialog.ModalityType.DOCUMENT_MODAL);
+		setup_Dialog(d1);
+	}
+	private void setup_Dialog(JDialog dialog){
+		JPanel dial = new JPanel();
+		JButton okBtn = new JButton("OK");
+	}
 	public void loadGame(String name){
 		try
 	      {
@@ -188,12 +200,13 @@ public class GUI_InputHandler implements InputHandler {
 	         in.close();
 	         fileIn.close();
 	      }catch(IOException i)
-	      {
+	      {		
+	    	 JOptionPane.showMessageDialog(window.getFrame(),"File not Found !","IOException not found",JOptionPane.ERROR_MESSAGE );
 	         i.printStackTrace();
 	         return;
 	      }catch(ClassNotFoundException c)
 	      {
-	         System.out.println("Tabuleiro class not found");
+	         JOptionPane.showMessageDialog(window.getFrame(),"File is not valid !","ClassNotFoundException",JOptionPane.ERROR_MESSAGE );
 	         c.printStackTrace();
 	         return;
 	      }
