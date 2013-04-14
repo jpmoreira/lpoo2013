@@ -446,4 +446,8 @@ public class Tabuleiro implements java.io.Serializable {
 	public char [][] getBaseLayout(){
 		return cleanLayout;
 	}
+	
+	public void setDragonsArray(Dragon[] newArray){
+		dragonArray=newArray;
+	}
 }
