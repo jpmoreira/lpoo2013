@@ -1,5 +1,10 @@
 package main_package;
 
+/**
+ * An interface with a set of methods every InputHandler should implement
+ * 
+ */
+
 import java.util.Scanner;
 
 import logica_jogo.Tabuleiro;
