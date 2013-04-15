@@ -34,6 +34,7 @@ public class Settings_Dialog extends JDialog {
 
 		super(frame, "Settings", true);
 		setHandler = handler;
+		init_keys();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 
@@ -49,6 +50,14 @@ public class Settings_Dialog extends JDialog {
 
 	}
 
+	private void init_keys() {
+		key_up = setHandler.getMove_up();
+		key_down = setHandler.getMove_down();
+		key_left = setHandler.getMove_left();
+		key_right = setHandler.getMove_right();
+		key_eagle = setHandler.getSend_eagle();
+	}
+
 	private void save_settings() {
 		int mode = 0;
 		for (Enumeration<AbstractButton> buttons = game_mode_btg.getElements(); buttons
@@ -62,15 +71,15 @@ public class Settings_Dialog extends JDialog {
 
 		setHandler.setPrefs(mode, Integer.parseInt(Slider_value.getText()),
 				Integer.parseInt(Dragon_slider.getText()));
-		setHandler.setkeyPrefs(key_up, key_down, key_right, key_left, key_eagle);
+		setHandler
+				.setkeyPrefs(key_up, key_down, key_right, key_left, key_eagle);
 		this.dispose();
 	}
-	
-	private JTextField setCodeText(JTextField textfield, int theKcode){
+
+	private JTextField setCodeText(JTextField textfield, int theKcode) {
 		if (theKcode == KeyEvent.VK_UP) {
 			textfield.setText("UP");
-		}
-		else if (theKcode == KeyEvent.VK_DOWN) {
+		} else if (theKcode == KeyEvent.VK_DOWN) {
 			textfield.setText("DOWN");
 		}
 
@@ -80,11 +89,12 @@ public class Settings_Dialog extends JDialog {
 
 		else if (theKcode == KeyEvent.VK_RIGHT) {
 			textfield.setText("RIGHT");
-		}
-		else textfield.setText(String.valueOf((char) theKcode));
-		
+		} else
+			textfield.setText(String.valueOf((char) theKcode));
+
 		return textfield;
 	}
+
 	private void addlistener(JTextField textfield) {
 
 		textfield.addKeyListener(new KeyAdapter() {
@@ -179,37 +189,46 @@ public class Settings_Dialog extends JDialog {
 		addlistener(up_key_textField);
 		up_key_textField.setBounds(200, 193, 40, 20);
 		getContentPane().add(up_key_textField);
+		up_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		up_key_textField.setColumns(10);
-		up_key_textField=setCodeText(up_key_textField, setHandler.getMove_up());
-		
+		up_key_textField = setCodeText(up_key_textField,
+				setHandler.getMove_up());
+
 		down_key_textField = new JTextField();
 		addlistener(down_key_textField);
 		down_key_textField.setBounds(200, 224, 40, 20);
 		getContentPane().add(down_key_textField);
+		down_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		down_key_textField.setColumns(10);
-		down_key_textField=setCodeText(down_key_textField, setHandler.getMove_down());
+		down_key_textField = setCodeText(down_key_textField,
+				setHandler.getMove_down());
 
 		left_key_textField = new JTextField();
 		addlistener(left_key_textField);
 		left_key_textField.setBounds(155, 224, 40, 20);
 		getContentPane().add(left_key_textField);
+		left_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		left_key_textField.setColumns(10);
-		left_key_textField=setCodeText(left_key_textField, setHandler.getMove_left());
+		left_key_textField = setCodeText(left_key_textField,
+				setHandler.getMove_left());
 
 		right_key_textField = new JTextField();
 		addlistener(right_key_textField);
 		right_key_textField.setBounds(245, 224, 40, 20);
 		getContentPane().add(right_key_textField);
+		right_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		right_key_textField.setColumns(10);
-		right_key_textField=setCodeText(right_key_textField, setHandler.getMove_right());
+		right_key_textField = setCodeText(right_key_textField,
+				setHandler.getMove_right());
 
 		eagle_key_textField = new JTextField();
 		addlistener(eagle_key_textField);
 		eagle_key_textField.setBounds(468, 210, 40, 20);
 		getContentPane().add(eagle_key_textField);
+		eagle_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		eagle_key_textField.setColumns(10);
-		eagle_key_textField=setCodeText(eagle_key_textField, setHandler.getSend_eagle());
-
+		eagle_key_textField = setCodeText(eagle_key_textField,
+				setHandler.getSend_eagle());
 
 		JLabel lblEagle = new JLabel("Eagle");
 		lblEagle.setBounds(416, 212, 48, 17);
