@@ -62,9 +62,29 @@ public class Settings_Dialog extends JDialog {
 
 		setHandler.setPrefs(mode, Integer.parseInt(Slider_value.getText()),
 				Integer.parseInt(Dragon_slider.getText()));
+		setHandler.setkeyPrefs(key_up, key_down, key_right, key_left, key_eagle);
 		this.dispose();
 	}
+	
+	private JTextField setCodeText(JTextField textfield, int theKcode){
+		if (theKcode == KeyEvent.VK_UP) {
+			textfield.setText("UP");
+		}
+		else if (theKcode == KeyEvent.VK_DOWN) {
+			textfield.setText("DOWN");
+		}
 
+		else if (theKcode == KeyEvent.VK_LEFT) {
+			textfield.setText("LEFT");
+		}
+
+		else if (theKcode == KeyEvent.VK_RIGHT) {
+			textfield.setText("RIGHT");
+		}
+		else textfield.setText(String.valueOf((char) theKcode));
+		
+		return textfield;
+	}
 	private void addlistener(JTextField textfield) {
 
 		textfield.addKeyListener(new KeyAdapter() {
@@ -160,30 +180,36 @@ public class Settings_Dialog extends JDialog {
 		up_key_textField.setBounds(200, 193, 40, 20);
 		getContentPane().add(up_key_textField);
 		up_key_textField.setColumns(10);
-
+		up_key_textField=setCodeText(up_key_textField, setHandler.getMove_up());
+		
 		down_key_textField = new JTextField();
 		addlistener(down_key_textField);
 		down_key_textField.setBounds(200, 224, 40, 20);
 		getContentPane().add(down_key_textField);
 		down_key_textField.setColumns(10);
+		down_key_textField=setCodeText(down_key_textField, setHandler.getMove_down());
 
 		left_key_textField = new JTextField();
 		addlistener(left_key_textField);
 		left_key_textField.setBounds(155, 224, 40, 20);
 		getContentPane().add(left_key_textField);
 		left_key_textField.setColumns(10);
+		left_key_textField=setCodeText(left_key_textField, setHandler.getMove_left());
 
 		right_key_textField = new JTextField();
 		addlistener(right_key_textField);
 		right_key_textField.setBounds(245, 224, 40, 20);
 		getContentPane().add(right_key_textField);
 		right_key_textField.setColumns(10);
+		right_key_textField=setCodeText(right_key_textField, setHandler.getMove_right());
 
 		eagle_key_textField = new JTextField();
 		addlistener(eagle_key_textField);
 		eagle_key_textField.setBounds(468, 210, 40, 20);
 		getContentPane().add(eagle_key_textField);
 		eagle_key_textField.setColumns(10);
+		eagle_key_textField=setCodeText(eagle_key_textField, setHandler.getSend_eagle());
+
 
 		JLabel lblEagle = new JLabel("Eagle");
 		lblEagle.setBounds(416, 212, 48, 17);
