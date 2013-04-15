@@ -79,11 +79,11 @@ public class Settings_Dialog extends JDialog {
 		input_Handler.setPrefs(mode, Integer.parseInt(slider_value_label.getText()),
 				Integer.parseInt(dragonNr_slider_label.getText()));
 		input_Handler
-				.setkeyPrefs(key_up_code, key_down_code, key_right_code, key_left_code, key_eagle_code);
+				.savekeyPrefs(key_up_code, key_down_code, key_right_code, key_left_code, key_eagle_code);
 		this.dispose();
 	}
 
-	private JTextField setCodeText(JTextField textfield, int theKcode) {
+	private JTextField setKeyLabelText(JTextField textfield, int theKcode) {
 		if (theKcode == KeyEvent.VK_UP) {
 			textfield.setText("UP");
 		} else if (theKcode == KeyEvent.VK_DOWN) {
@@ -198,7 +198,7 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(up_key_textField);
 		up_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		up_key_textField.setColumns(10);
-		up_key_textField = setCodeText(up_key_textField,
+		up_key_textField = setKeyLabelText(up_key_textField,
 				input_Handler.getMove_up_key_code());
 
 		down_key_textField = new JTextField();
@@ -207,7 +207,7 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(down_key_textField);
 		down_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		down_key_textField.setColumns(10);
-		down_key_textField = setCodeText(down_key_textField,
+		down_key_textField = setKeyLabelText(down_key_textField,
 				input_Handler.getMove_down_key_code());
 
 		left_key_textField = new JTextField();
@@ -216,7 +216,7 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(left_key_textField);
 		left_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		left_key_textField.setColumns(10);
-		left_key_textField = setCodeText(left_key_textField,
+		left_key_textField = setKeyLabelText(left_key_textField,
 				input_Handler.getMove_left_key_code());
 
 		right_key_textField = new JTextField();
@@ -225,7 +225,7 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(right_key_textField);
 		right_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		right_key_textField.setColumns(10);
-		right_key_textField = setCodeText(right_key_textField,
+		right_key_textField = setKeyLabelText(right_key_textField,
 				input_Handler.getMove_right_key_code());
 
 		eagle_key_textField = new JTextField();
@@ -234,7 +234,7 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(eagle_key_textField);
 		eagle_key_textField.setHorizontalAlignment(JTextField.CENTER);
 		eagle_key_textField.setColumns(10);
-		eagle_key_textField = setCodeText(eagle_key_textField,
+		eagle_key_textField = setKeyLabelText(eagle_key_textField,
 				input_Handler.getSend_eagle_key_code());
 
 		JLabel lblEagle = new JLabel("Eagle");
@@ -363,6 +363,13 @@ public class Settings_Dialog extends JDialog {
 
 	}
 
+	
+	/**
+	 * A function to verify that no key code is assigned twice
+	 * 
+	 * @param keyCode the key code to be tested
+	 * @return True if the keyCode is unique. False otherwise.
+	 */
 	private boolean isValidKey(int keyCode) {
 		if (keyCode == key_up_code || keyCode == key_down_code || keyCode == key_left_code
 				|| keyCode == key_right_code || keyCode == key_eagle_code) {

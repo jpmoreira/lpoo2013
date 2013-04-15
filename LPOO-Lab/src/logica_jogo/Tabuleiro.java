@@ -1,5 +1,13 @@
 package logica_jogo;
 
+/**
+ * A class to process the most basic game logic operations
+ * 
+ * 
+ * @author mppl
+ *
+ */
+
 public class Tabuleiro implements java.io.Serializable {
 
 	Hero hero;
@@ -24,8 +32,7 @@ public class Tabuleiro implements java.io.Serializable {
 	 * @param playerY
 	 * @param swordX
 	 * @param swordY
-	 * @param lab
-	 *            The maze of the game
+	 * @param lab The maze of the game
 	 * @param mod
 	 *            Int that setups game mode, 0 for Static Dragons , 1 for no
 	 *            Sleeping Dragons, 2 for Sleep/Awaken Dragons
@@ -33,12 +40,13 @@ public class Tabuleiro implements java.io.Serializable {
 	 */
 	public Tabuleiro(int playerX, int playerY, int swordX, int swordY,
 			char[][] lab, int mod, int nrDrag) {
+		System.out.println("starting");
 
 		theGen = new GameSpecificRanGen();
 		cleanLayout = lab;
 		layout = new char[lab.length][lab.length];
 
-		printCleanLayout();
+		//printCleanLayout();
 		// setup Hero
 		setupHero(playerX, playerY);
 		setupEagle();
@@ -55,12 +63,14 @@ public class Tabuleiro implements java.io.Serializable {
 		debugging = false;
 
 		updateLayout();
+		System.out.println("will return");
 	}
 
 	/**
-	 * Prints Game Maze on console with Hero, Dragons, etc
+	 * Prints Game Maze on console with all it's elements
 	 */
 	public void printLayout() {
+		System.out.println("printing layout");
 		for (int l = 0; l <= Coordinate.getBounds().getY(); l++) {
 			for (int c = 0; c <= Coordinate.getBounds().getX(); c++) {
 				System.out.print(" " + layout[l][c] + " ");
@@ -254,6 +264,14 @@ public class Tabuleiro implements java.io.Serializable {
 		sword.vanish();
 	}
 
+	/**
+	 * 
+	 * Verifies that a position is empty
+	 * 
+	 * @param x the x position of the tested cell
+	 * @param y the y position of the tested cell
+	 * @return true if the position is empty, false otherwise
+	 */
 	private boolean emptyPlace(int x, int y) {
 		if (Coordinate.validCoordinate(x, y) && cleanLayout[y][x] == ' ') {
 			return true;
@@ -290,8 +308,10 @@ public class Tabuleiro implements java.io.Serializable {
 
 	private void setupHero(int playerX, int playerY) {
 		if (emptyPlace(playerX, playerY)) {
+			System.out.println("is empty x="+playerX+" y"+playerY);
 			hero = new Hero(playerX, playerY);
 		} else {
+			System.out.println("is not");
 			Coordinate pos = findEmptyPosition();
 			hero = new Hero(pos.getX(), pos.getY());
 		}
@@ -318,8 +338,7 @@ public class Tabuleiro implements java.io.Serializable {
 	}
 
 	/**
-	 * Verifies if Dragon is close to hero then if Dragon kills the hero or gets
-	 * killed.
+	 * Verifies if Dragon is close to hero and acts accordingly 
 	 * 
 	 * @param dragon
 	 */
@@ -417,33 +436,22 @@ public class Tabuleiro implements java.io.Serializable {
 	private void moveEagle() {
 		if (eagle.isPlaying()) {
 			Coordinate newPos = eagle.newEaglePos();
-			System.out.println("eagle newPos x= " + newPos.getX() + " y= "
-					+ newPos.getY());
-			System.out.println("hero x=" + hero.getX() + " y= " + hero.getY());
-			System.out.println("sword x=" + sword.getX() + " y= "
-					+ sword.getY());
-			if (Coordinate.validCoordinate(newPos)) {
+			if (Coordinate.validCoordinate(newPos)) {//if its a legit position
 
-				if (hero.getPosition().equals(newPos) && eagle.hasSword()) {
+				if (hero.getPosition().equals(newPos) && eagle.hasSword()) {//if eagle has the sword and finds the hero at end
 					eagle.vanish();
 					hero.Arm();
 					return;
-				} else if (sword.getPosition().equals(newPos)
-						&& !eagle.hasSword()) {
-					System.out.println("cheguei");
+				} else if (sword.getPosition().equals(newPos) && !eagle.hasSword()) {//if eagle has reached sword position
 					eagle.reachedSword();
 					sword.vanish();
-				} else if (eagle.getPosition().equals(newPos)
-						&& eagle.hasSword()) {// reached end
-					System.out.println("vanish it");
-					sword = new Element('E', eagle.getX(), eagle.getY());
+				} else if (eagle.getPosition().equals(newPos)&& eagle.hasSword()) {// reached end and no hero there
+					sword = new Element('E', eagle.getX(), eagle.getY());//place sword there
 					eagle.vanish();
-					System.out.println("eagle(vanished) x=" + eagle.getX()
-							+ " y=" + eagle.getY());
 					return;
 
-				} else if (!eagle.isFlying()) {
-					for (int i = 0; i < dragonArray.length; i++) {
+				} else if (!eagle.isFlying()) {//if the eagle is not flying
+					for (int i = 0; i < dragonArray.length; i++) {//test proximity of all dragons
 						Dragon d = dragonArray[i];
 						if (d.getPosition() == newPos) {
 							if (eagle.hasSword()) {
@@ -452,21 +460,23 @@ public class Tabuleiro implements java.io.Serializable {
 							}
 							eagle.vanish();
 
-							break;
+							return;
 						}
 					}
 
 				}
-				System.out.println("eagle true x=" + eagle.getPosition().getX()
-						+ " y=" + eagle.getPosition().getX());
 
-				eagle.moveTo(newPos.getX(), newPos.getY());
+				eagle.moveTo(newPos.getX(), newPos.getY());//if every test passed move eagle then
 
 			}
 
 		}
 	}
 
+	/**
+	 * A function called when a hero tries to exit the lab
+	 * 
+	 */
 	void attemptExit() {
 		for (int i = 0; i < dragonArray.length; i++) {
 			if (dragonArray[i].isPlaying()) {

@@ -110,7 +110,7 @@ public class GUI_Processor implements InputHandler {
 	}
 	
 	/**
-	 * A method that sets preferences and saves them in a persistent way.
+	 * A method that sets preferences and saves them in a persistent way. Game commands preferences are not set here.
 	 * 
 	 * @param mode The mode the game is supposed to operate on
 	 * @param tabsize The size of the maze
@@ -128,7 +128,18 @@ public class GUI_Processor implements InputHandler {
 		prefs.put("labsize",""+tabsize);
 		prefs.put("nrOfDragons",""+nrDragons);	
 	}
-	protected void setkeyPrefs(int up, int down, int right, int left, int eagle){
+	
+	/**
+	 * 
+	 * Saves game command preferences in a persistent way. Doesn't set the actual values, therefore changes done here will only take effect on the next time a maze is generated.
+	 * 
+	 * @param up Up key code
+	 * @param down Down key code
+	 * @param right Right key code
+	 * @param left Left key code
+	 * @param eagle Eagle key code
+	 */
+	protected void savekeyPrefs(int up, int down, int right, int left, int eagle){
 		prefs.put("key_up",""+up);
 		prefs.put("key_down",""+down);
 		prefs.put("key_right",""+right);
@@ -136,6 +147,12 @@ public class GUI_Processor implements InputHandler {
 		prefs.put("key_eagle",""+eagle);
 		LoadkeysFromPreferences();
 	}
+	
+	/**
+	 * Sets game commands by loading previously saved preferences.
+	 * 
+	 */
+	
 	private void LoadkeysFromPreferences(){
 		move_up_key=(Integer.parseInt(prefs.get("key_up",""+KeyEvent.VK_UP)));
 		move_down_key=(Integer.parseInt(prefs.get("key_down",""+KeyEvent.VK_DOWN)));
@@ -145,6 +162,11 @@ public class GUI_Processor implements InputHandler {
 	}
 	
 	
+	
+	/**
+	 * A method that sets up listeners to handle game input during game execution. Uses currently loaded key values.
+	 * 
+	 */
 	@Override
 	public void HandleGameInput() {
 		window.redirectFocus();
@@ -187,6 +209,11 @@ public class GUI_Processor implements InputHandler {
 
 	}
 
+	/**
+	 * Creates a game window and does the necessary operations to generate a proper maze
+	 * 
+	 * 
+	 */
 	public void makeGame() {
 //		setLabSize();
 //		setMode();
@@ -199,6 +226,8 @@ public class GUI_Processor implements InputHandler {
 		window.updateDrawbleContent();
 	}
 
+	
+	
 	protected void Prepare_Editor(int editor_size) {
 		Editor = new EditorWindowViewController(this, editor_size);
 	}
@@ -221,23 +250,16 @@ public class GUI_Processor implements InputHandler {
 		}
 	}
 
-	public void switch_layout(char[][] newlayout) {
+	/**
+	 * 
+	 * Switches the maze for a new one and updates the game content.
+	 * 
+	 * @param newTab
+	 */
+	public void switch_Maze(Tabuleiro newTab) {
 
-		Tabuleiro newTab = EditorProcessor.generateInitializedTab(newlayout,mode);
-		if (newTab == null) {// if an error occurred
-			ErrorCode error = EditorProcessor.getErrorCode();
-			if (error == ErrorCode.NotEnoughSpace) {
-				// TODO case it hasn't enough empty spaces
-				System.out.println("Not enough empty spaces");
-			} else if (error == ErrorCode.NoExit) {
-				// TODO case it hasn't a proper exit
-				System.out.println("No exit");
-			}
-		}
-		else{//if lab is a good one
-			theTab = newTab;
-			window.updateDrawbleContent();			
-		}
+		theTab = newTab;
+		window.updateDrawbleContent();
 	}
 
 	protected void init_JDialog() {
@@ -272,6 +294,11 @@ public class GUI_Processor implements InputHandler {
 		window.updateDrawbleContent();
 	}
 
+	/**
+	 * A method that returns a layout with no elements in it.
+	 * 
+	 * @return
+	 */
 	public char[][] getBaseLayout() {
 		return theTab.getBaseLayout();
 	}
