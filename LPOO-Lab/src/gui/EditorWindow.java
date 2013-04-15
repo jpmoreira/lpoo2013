@@ -14,14 +14,14 @@ import javax.swing.JOptionPane;
 import logica_jogo.LabGenerator;
 import pictures.PictureLoader;
 
-public class EditorWindow extends JFrame{
+public class EditorWindow extends JFrame {
 	private LabPanel editPanel;
 	private GUI_InputHandler editHandler;
-	private char [][] labedit;
-	
-	public EditorWindow(GUI_InputHandler handler,int editor_size) {
+	private char[][] labedit;
+
+	public EditorWindow(GUI_InputHandler handler, int editor_size) {
 		editHandler = handler;
-		labedit = new char [editor_size][editor_size];
+		labedit = new char[editor_size][editor_size];
 		LabGenerator.initLab(editor_size);
 		labedit = LabGenerator.getLab();
 		try {
@@ -29,7 +29,7 @@ public class EditorWindow extends JFrame{
 		} catch (Exception e) {
 			System.out.println("exeption");
 		}
-		
+
 	}
 
 	public void makeVisible() {
@@ -46,29 +46,24 @@ public class EditorWindow extends JFrame{
 	 * @throws IOException
 	 */
 	private void initialize() throws IOException {
-		this.setBounds(300,300, 140, 173);
+		this.setBounds(300, 300, 140, 173);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		this.addWindowListener( new WindowAdapter()
-		{
-		    public void windowClosing(WindowEvent e)
-		    {
-		        JFrame frame = (JFrame)e.getSource();
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				JFrame frame = (JFrame) e.getSource();
 
-		        int result = JOptionPane.showConfirmDialog(
-		            frame,
-		            "Do you want to use Editor Map ?",
-		            "Exit Editor",
-		            JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showConfirmDialog(frame,
+						"Do you want to use Editor Map ?", "Exit Editor",
+						JOptionPane.YES_NO_OPTION);
 
-		        if (result == JOptionPane.YES_OPTION){
-		            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        	editHandler.switch_layout(labedit);
-		        }
-		        else{
-		        	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        }	        		
-		    	}
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					editHandler.switch_layout(labedit);
+				} else {
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
+			}
 		});
 
 		String wall_pic_path = PictureLoader.getImagePath("brick2.png");
@@ -92,16 +87,16 @@ public class EditorWindow extends JFrame{
 		editPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1){
-					int x= e.getX()/editPanel.getCell_Width();
-					int y= e.getY()/editPanel.getCell_Height();
-					update_Cell(x,y);
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					int x = e.getX() / editPanel.getCell_Width();
+					int y = e.getY() / editPanel.getCell_Height();
+					update_Cell(x, y);
 					/* TODO: Place update function on other class */
-					
+
 					editPanel.layoutModified(labedit, labedit);
-				
+
 				}
-				
+
 			}
 		});
 		editPanel.setSize(500, 500);
@@ -112,36 +107,36 @@ public class EditorWindow extends JFrame{
 		editPanel.requestFocusInWindow();
 		editPanel.layoutModified(labedit, labedit);
 		this.setBounds(300, 300, editPanel.getWidth(), editPanel.getHeight());
-		// Solves the problem with border dimensions on different looks and feels (Operative systems)
-		Dimension d = new Dimension(editPanel.getWidth(),editPanel.getHeight());
+		// Solves the problem with border dimensions on different looks and
+		// feels (Operative systems)
+		Dimension d = new Dimension(editPanel.getWidth(), editPanel.getHeight());
 		this.getContentPane().setPreferredSize(d);
 		this.pack();
 		makeVisible();
-		
-}
-	private void update_Cell (int x, int y){
+
+	}
+
+	private void update_Cell(int x, int y) {
 		switch (labedit[y][x]) {
 		case 'x':
-			labedit[y][x]=' ';
+			labedit[y][x] = ' ';
 			break;
 		case ' ':
-			labedit[y][x]='H';
+			labedit[y][x] = 'H';
 			break;
 		case 'H':
-			labedit[y][x]='D';
+			labedit[y][x] = 'D';
 			break;
 		case 'D':
-			labedit[y][x]='E';
+			labedit[y][x] = 'E';
 			break;
 		case 'E':
-			labedit[y][x]='x';
+			labedit[y][x] = 'x';
 			break;
 		default:
 			break;
 		}
-		
+
 	}
-	
-	
 
 }

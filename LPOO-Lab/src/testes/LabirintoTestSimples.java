@@ -1,8 +1,7 @@
 package testes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import logica_jogo.Coordinate;
-import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
 
 import org.junit.Test;

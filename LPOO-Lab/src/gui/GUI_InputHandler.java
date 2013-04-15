@@ -27,9 +27,11 @@ public class GUI_InputHandler implements InputHandler {
 	private int nrOfDragons = 1;
 	private GUI_InputHandler editHandler;
 	private EditorWindow Editor;
+	private int move_up,move_down,move_left,move_right,send_eagle;
 
 	public GUI_InputHandler() {
 		prefs=Preferences.userNodeForPackage(this.getClass());
+		Loadkeys();
 		mode=Integer.parseInt(prefs.get("mode",""+0));
 		labSize=Integer.parseInt(prefs.get("labsize",""+10));
 		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+1));
@@ -39,6 +41,7 @@ public class GUI_InputHandler implements InputHandler {
 
 	public GUI_InputHandler(Tabuleiro tab) {
 		prefs=Preferences.userNodeForPackage(this.getClass());
+		Loadkeys();
 		mode=Integer.parseInt(prefs.get("mode",""+0));
 		labSize=Integer.parseInt(prefs.get("labsize",""+10));
 		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+0));
@@ -54,6 +57,39 @@ public class GUI_InputHandler implements InputHandler {
 	@Override
 	public int getMode() {
 		return mode;
+	}
+	
+	
+	protected int getMove_up() {
+		return move_up;
+	}
+
+	protected int getMove_down() {
+		return move_down;
+	}
+
+	protected int getMove_left() {
+		return move_left;
+	}
+
+	protected int getMove_right() {
+		return move_right;
+	}
+
+	protected int getSend_eagle() {
+		return send_eagle;
+	}
+
+	private void setLabSize(){
+		labSize=Integer.parseInt(prefs.get("labsize",""+10));
+	}
+
+	private void setMode() {
+		mode=Integer.parseInt(prefs.get("mode",""+0));
+	}
+
+	private void setNrOfDragons() {
+		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+1));
 	}
 
 	@Override
@@ -83,6 +119,22 @@ public class GUI_InputHandler implements InputHandler {
 		prefs.put("labsize",""+tabsize);
 		prefs.put("nrOfDragons",""+nrDragons);	
 	}
+	protected void setkeyPrefs(int up, int down, int right, int left, int eagle){
+		prefs.put("key_up",""+up);
+		prefs.put("key_down",""+down);
+		prefs.put("key_right",""+right);
+		prefs.put("key_left",""+left);
+		prefs.put("key_eagle",""+eagle);
+		Loadkeys();
+	}
+	private void Loadkeys(){
+		move_up=(Integer.parseInt(prefs.get("key_up",""+KeyEvent.VK_UP)));
+		move_down=(Integer.parseInt(prefs.get("key_down",""+KeyEvent.VK_DOWN)));
+		move_left=(Integer.parseInt(prefs.get("key_left",""+KeyEvent.VK_LEFT)));
+		move_right=(Integer.parseInt(prefs.get("key_right",""+KeyEvent.VK_RIGHT)));
+		send_eagle=(Integer.parseInt(prefs.get("key_eagle",""+KeyEvent.VK_E)));
+	}
+	
 	
 	@Override
 	public void HandleGameInput() {
@@ -102,20 +154,20 @@ public class GUI_InputHandler implements InputHandler {
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_UP) {
+				if (arg0.getKeyCode() == move_up) {
 					theTab.movePlayer(0, -1);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (arg0.getKeyCode() == move_down) {
 					theTab.movePlayer(0, 1);
 					window.updateDrawbleContent();
 
-				} else if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {
+				} else if (arg0.getKeyCode() == move_left) {
 					theTab.movePlayer(-1, 0);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == KeyEvent.VK_RIGHT) {
+				} else if (arg0.getKeyCode() == move_right) {
 					theTab.movePlayer(1, 0);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == KeyEvent.VK_E) {
+				} else if (arg0.getKeyCode() == send_eagle) {
 					theTab.getEagle().StartEagle(theTab.getHero(),
 							theTab.getSword());
 					window.updateDrawbleContent();
@@ -127,6 +179,9 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	public void makeGame() {
+		setLabSize();
+		setMode();
+		setNrOfDragons();
 		LabGenerator.prepareLab(getDimention());
 		char[][] lab = LabGenerator.getLab();
 		theTab = new Tabuleiro(0, 0, 0, 0, lab, getMode(), getNumberOfDragons());
@@ -175,7 +230,7 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	protected void init_JDialog() {
-		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame());
+		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame(),window.getInputHandler());
 		 d1.setVisible(true);
 	}
 

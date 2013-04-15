@@ -1,12 +1,10 @@
 package gui;
 
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -21,7 +19,7 @@ public class gameWindow {
 	private LabPanel mainPanel;
 	private GUI_InputHandler inputHandler;
 	private char[][] editor_maze;
-	private JMenuBar menuBar ;
+	private JMenuBar menuBar;
 
 	/**
 	 * Create the application.
@@ -90,19 +88,16 @@ public class gameWindow {
 		NewGame_menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				int result = JOptionPane.showConfirmDialog(
-			            frame,
-			            "Make a new Game ?",
-			            "New Game",
-			            JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showConfirmDialog(frame,
+						"Make a new Game ?", "New Game",
+						JOptionPane.YES_NO_OPTION);
 
-			        if (result == JOptionPane.YES_OPTION){
-			            inputHandler.makeGame();
-			        }
-			       	        		
-			    	}
-				
-			
+				if (result == JOptionPane.YES_OPTION) {
+					inputHandler.makeGame();
+				}
+
+			}
+
 		});
 		GameMenu.add(NewGame_menu);
 
@@ -136,22 +131,18 @@ public class gameWindow {
 		ExitGame_menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				int result = JOptionPane.showConfirmDialog(
-			            frame,
-			            "Do you want to exit the game ?",
-			            "Exit Game",
-			            JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showConfirmDialog(frame,
+						"Do you want to exit the game ?", "Exit Game",
+						JOptionPane.YES_NO_OPTION);
 
-			        if (result == JOptionPane.YES_OPTION){
-			           System.exit(0);
-			        }
-			            		
-			    	}
-				
-			
+				if (result == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+
+			}
+
 		});
 		GameMenu.add(ExitGame_menu);
-		
 
 		JMenu mnEditor = new JMenu("Editor");
 		menuBar.add(mnEditor);
@@ -166,28 +157,29 @@ public class gameWindow {
 					String editor_dim = JOptionPane
 							.showInputDialog(frame,
 									"Qual é a dimensão que deseja? (Min: 10, Max: 200)");
-					if(editor_dim!=null){
-					try {
-						editordim = Integer.parseInt(editor_dim);
-						if (editordim < 10 || editordim > 200) {
-							JOptionPane
-									.showMessageDialog(
-											frame,
-											"Erro, introduza um valor superior a 10 e menor que 200",
-											"Warning",
-											JOptionPane.WARNING_MESSAGE);
+					if (editor_dim != null) {
+						try {
+							editordim = Integer.parseInt(editor_dim);
+							if (editordim < 10 || editordim > 200) {
+								JOptionPane
+										.showMessageDialog(
+												frame,
+												"Erro, introduza um valor superior a 10 e menor que 200",
+												"Warning",
+												JOptionPane.WARNING_MESSAGE);
+								valid = 0;
+							} else
+								valid = 2;
+						}
+
+						catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(frame,
+									"Erro, valor introduzido não é um inteiro",
+									"Warning", JOptionPane.WARNING_MESSAGE);
 							valid = 0;
 						}
-						else valid = 2;
-					}
-
-					catch (NumberFormatException nfe) {
-						JOptionPane.showMessageDialog(frame,
-								"Erro, valor introduzido não é um inteiro",
-								"Warning", JOptionPane.WARNING_MESSAGE);
-						valid = 0;
-					}}
-					else valid=1;
+					} else
+						valid = 1;
 
 					if (valid == 2)
 						inputHandler.Prepare_Editor(editordim);
@@ -199,15 +191,15 @@ public class gameWindow {
 
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
-		JMenuItem mntmSettings_options= new JMenuItem("Options");
+		JMenuItem mntmSettings_options = new JMenuItem("Options");
 		mntmSettings_options.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				inputHandler.init_JDialog();
 			}
-		
+
 		});
-		
+
 		mnSettings.add(mntmSettings_options);
 	}
 
@@ -245,9 +237,9 @@ public class gameWindow {
 
 	public void readjustSizes() {
 
-		
-		Dimension d = new Dimension(mainPanel.getWidth(),mainPanel.getHeight());
+		Dimension d = new Dimension(mainPanel.getWidth(), mainPanel.getHeight());
 		frame.getContentPane().setPreferredSize(d);
 		frame.pack();
-		}
+	}
+	
 }
