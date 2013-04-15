@@ -75,7 +75,6 @@ public class EditorWindowViewController {
 					int x = e.getX() / editPanelVC.getCell_Width();
 					int y = e.getY() / editPanelVC.getCell_Height();
 					update_Cell(x, y);
-					/* TODO: Place update function on other class */
 
 					editPanelVC.layoutModified(labedit, labedit);
 
@@ -190,7 +189,7 @@ public class EditorWindowViewController {
 	
 
 	private String[] getPicturesNames(){
-		String[] picturesArray=new String[9];
+		String[] picturesArray=new String[10];
 		
 		picturesArray[0] = PictureLoader.getImagePath("brick2.png");
 		picturesArray[1] = PictureLoader.getImagePath("hero.png");
@@ -204,6 +203,7 @@ public class EditorWindowViewController {
 				.getImagePath("eagle_grass.png");
 		picturesArray[8] = PictureLoader
 				.getImagePath("eagle_wall.png");
+		picturesArray[9] = PictureLoader.getImagePath("closed_door.png");
 		return picturesArray;
 		
 	}

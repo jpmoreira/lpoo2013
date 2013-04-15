@@ -9,7 +9,6 @@ package logica_jogo;
 
 public class Dragon extends Character implements java.io.Serializable {
 
-	// TODO typedef for placeholder instead of hardcoding them
 	private boolean sleeping;
 
 	public Dragon(int x, int y) {

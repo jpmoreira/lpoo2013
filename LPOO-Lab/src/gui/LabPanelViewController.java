@@ -31,6 +31,8 @@ public class LabPanelViewController{
 	private ImageIcon empty_place_pic;
 	private ImageIcon eagle_wall_pic;
 	private ImageIcon eagle_grass_pic;
+	private ImageIcon closed_door_pic;//TODO add to documentation
+	private ImageIcon open_door_pic;
 
 	private char[][] layout = null;
 	private char[][] baseLayout = null;
@@ -87,6 +89,7 @@ public class LabPanelViewController{
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 		empty_place_pic = new ImageIcon(tempResized);
+		open_door_pic= new ImageIcon(tempResized);
 
 		temp = ImageIO.read(new File(picsArray[7]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
@@ -97,6 +100,11 @@ public class LabPanelViewController{
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 		eagle_wall_pic = new ImageIcon(tempResized);
+		
+		temp = ImageIO.read(new File(picsArray[9]));
+		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
+				java.awt.Image.SCALE_SMOOTH);
+		closed_door_pic= new ImageIcon(tempResized);
 	}
 
 	public int getCell_Width() {
@@ -189,7 +197,12 @@ public class LabPanelViewController{
 			visualLayout[i][f].setIcon(eagle_grass_pic);
 		} else if (theCell == ' ') {
 			visualLayout[i][f].setIcon(empty_place_pic);
+		} else if (theCell == 'S'){
+			visualLayout[i][f].setIcon(closed_door_pic);
+		}else if(theCell == 's'){
+			visualLayout[i][f].setIcon(open_door_pic);
 		}
+		
 
 		if (visualLayout[i][f] != null) {
 			visualLayout[i][f].repaint();

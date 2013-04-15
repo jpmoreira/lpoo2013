@@ -135,7 +135,7 @@ public class EditorProcessor {
 		}
 		Dragon[] dragons = getDragons(positions.length - 2, positions);
 
-		updateLabWithExit();//TODO change in corners cant have exit
+		updateLabWithExit();
 		if (errorCode == ErrorCode.NoExit) {// verify if there's an exit
 			System.out.println("no exit");
 			return null;
