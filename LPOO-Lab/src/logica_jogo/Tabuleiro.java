@@ -540,7 +540,6 @@ public class Tabuleiro implements java.io.Serializable {
 	public void setDragonsArray(Dragon[] newArray) {
 		dragonArray = newArray;
 	}
-	//TODO UML and define image
 	private void verifyDoorState(){
 		for(int i=0 ;i<dragonArray.length;i++){
 			if(dragonArray[0].isPlaying()){
