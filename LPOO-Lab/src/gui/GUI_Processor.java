@@ -188,9 +188,6 @@ public class GUI_Processor implements InputHandler {
 	}
 
 	public void makeGame() {
-//		setLabSize();
-//		setMode();
-//		setNrOfDragons();
 		LabGenerator.prepareLab(labSize);
 		char[][] lab = LabGenerator.getLab();
 		System.out.println("starting game with mode="+mode);

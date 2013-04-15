@@ -54,6 +54,8 @@ public class Settings_Dialog extends JDialog {
 		setupKeyLabels();
 
 		setBounds(frame.getX(), frame.getY(), 614, 387);
+		
+		setResizable(false);
 
 	}
 
