@@ -127,22 +127,22 @@ public class EditorProcessor {
 	 *         given maze.
 	 */
 
-	public static Tabuleiro generateInitializedTab(char[][] labToParse) {
+	public static Tabuleiro generateInitializedTab(char[][] labToParse, int theMode) {
 		Coordinate[] positions = getPositions(labToParse);
 		if (errorCode == ErrorCode.NotEnoughSpace) {// verify if there is enough
-													// empty positions
+			System.out.println("no space");										// empty positions
 			return null;
 		}
 		Dragon[] dragons = getDragons(positions.length - 2, positions);
 
-		updateLabWithExit();
+		updateLabWithExit();//TODO change in corners cant have exit
 		if (errorCode == ErrorCode.NoExit) {// verify if there's an exit
+			System.out.println("no exit");
 			return null;
 		}
-		// TODO change mode
 		Tabuleiro theTab = new Tabuleiro(positions[0].getX(),
 				positions[0].getY(), positions[1].getX(), positions[1].getY(),
-				theLab, 1, dragons.length);
+				theLab, theMode, dragons.length);
 		theTab.setDragonsArray(dragons);
 		errorCode = ErrorCode.NoErr;
 		return theTab;
@@ -156,28 +156,28 @@ public class EditorProcessor {
 
 	private static void updateLabWithExit() {
 
-		for (int i = 0; i < theLab.length; i++) {
+		for (int i = 1; i < theLab.length-1; i++) {
 			if (theLab[0][i] == ' ') {
 				theLab[0][i] = 'S';
 				errorCode = ErrorCode.NoErr;
 				return;
 			}
 		}
-		for (int i = 0; i < theLab.length; i++) {
+		for (int i = 1; i < theLab.length-1; i++) {
 			if (theLab[theLab.length - 1][i] == ' ') {
 				theLab[theLab.length - 1][i] = 'S';
 				errorCode = ErrorCode.NoErr;
 				return;
 			}
 		}
-		for (int i = 0; i < theLab.length; i++) {
+		for (int i = 1; i < theLab.length-1; i++) {
 			if (theLab[i][0] == ' ') {
 				theLab[i][0] = 'S';
 				errorCode = ErrorCode.NoErr;
 				return;
 			}
 		}
-		for (int i = 0; i < theLab.length; i++) {
+		for (int i = 1; i < theLab.length-1; i++) {
 			if (theLab[i][theLab.length - 1] == ' ') {
 				theLab[i][theLab.length - 1] = 'S';
 				errorCode = ErrorCode.NoErr;

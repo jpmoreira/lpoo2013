@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class LabPanel extends JPanel {
+public class LabPanelViewController{
 
 	private final int Cell_Width = 32;
 	private final int Cell_Height = 32;
@@ -31,21 +31,23 @@ public class LabPanel extends JPanel {
 	private char[][] layout = null;
 	private char[][] baseLayout = null;
 	private JLabel[][] visualLayout = null;
+	private JPanel thePanel;
 
-	public LabPanel(String wall_pic_path, String dragon_pic_path,
-			String hero_pic_path, String sword_pic_path,
-			String sleeping_dragon_pic_path, String armed_hero_pic_path,
-			String empty_pic_path, String eagle_grass_pic_path,
-			String eagle_wall_pic_path) throws IOException {
+	public LabPanelViewController(String[] picsArray) throws IOException {
 
-		Image temp = ImageIO.read(new File(wall_pic_path));
+		thePanel=new JPanel();
+		loadPictures(picsArray);
+	}
+
+	private void loadPictures(String[] picsArray) throws IOException {
+		Image temp = ImageIO.read(new File(picsArray[0]));
 		Image tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		brick_pic = new ImageIcon(tempResized);
 		System.out.println("brick");
 
-		temp = ImageIO.read(new File(dragon_pic_path));
+		temp = ImageIO.read(new File(picsArray[2]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
@@ -53,25 +55,25 @@ public class LabPanel extends JPanel {
 
 		System.out.println("dragon");
 
-		temp = ImageIO.read(new File(hero_pic_path));
+		temp = ImageIO.read(new File(picsArray[1]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		hero_pic = new ImageIcon(tempResized);
 
-		temp = ImageIO.read(new File(sword_pic_path));
+		temp = ImageIO.read(new File(picsArray[4]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		sword_pic = new ImageIcon(tempResized);
 
-		temp = ImageIO.read(new File(sleeping_dragon_pic_path));
+		temp = ImageIO.read(new File(picsArray[3]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		sleeping_dragon_pic = new ImageIcon(tempResized);
 
-		temp = ImageIO.read(new File(armed_hero_pic_path));
+		temp = ImageIO.read(new File(picsArray[5]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
@@ -79,20 +81,20 @@ public class LabPanel extends JPanel {
 
 		System.out.println("just before");
 
-		temp = ImageIO.read(new File(empty_pic_path));
+		temp = ImageIO.read(new File(picsArray[6]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		empty_place_pic = new ImageIcon(tempResized);
 		System.out.println("just before");
 
-		temp = ImageIO.read(new File(eagle_grass_pic_path));
+		temp = ImageIO.read(new File(picsArray[7]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
 		eagle_grass_pic = new ImageIcon(tempResized);
 
-		temp = ImageIO.read(new File(eagle_wall_pic_path));
+		temp = ImageIO.read(new File(picsArray[8]));
 		tempResized = temp.getScaledInstance(Cell_Width, Cell_Height,
 				java.awt.Image.SCALE_SMOOTH);
 
@@ -113,7 +115,7 @@ public class LabPanel extends JPanel {
 			for (int i = 0; i < visualLayout.length; i++) {
 				for (int f = 0; f < visualLayout.length; f++) {
 					if (visualLayout[i][f] != null) {
-						remove(visualLayout[i][f]);
+						thePanel.remove(visualLayout[i][f]);
 					}
 				}
 			}
@@ -130,11 +132,11 @@ public class LabPanel extends JPanel {
 				visualLayout[i][f] = new JLabel();
 				visualLayout[i][f].setBounds(f * Cell_Width, i * Cell_Height,
 						Cell_Width, Cell_Height);
-				add(visualLayout[i][f]);
+				thePanel.add(visualLayout[i][f]);
 			}
 		}
 
-		setBounds(getX(), getY(), layout.length * Cell_Width, layout.length
+		thePanel.setBounds(thePanel.getX(), thePanel.getY(), layout.length * Cell_Width, layout.length
 				* Cell_Height);// resize
 
 		updateVisualLayout();
@@ -147,7 +149,7 @@ public class LabPanel extends JPanel {
 				updateVisualLayoutCell(i, f);
 			}
 		}
-		repaint();// draw again
+		thePanel.repaint();// draw again
 	}
 
 	private void updateVisualLayoutCell(int i, int f) {
@@ -183,15 +185,15 @@ public class LabPanel extends JPanel {
 
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		if (layout != null) {
-			updateVisualLayout();
-		}
-
-	}
+//	@Override
+//	protected void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//
+//		if (layout != null) {
+//			updateVisualLayout();
+//		}
+//
+//	}
 
 	public Dimension getRequiredDimension() {
 		if (layout == null) {
@@ -200,5 +202,8 @@ public class LabPanel extends JPanel {
 		return new Dimension(layout.length * Cell_Width, layout.length
 				* Cell_Height);
 
+	}
+	public JPanel getPanel(){
+		return thePanel;
 	}
 }

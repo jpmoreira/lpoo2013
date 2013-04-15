@@ -1,10 +1,10 @@
 package main_package;
-import gui.GUI_InputHandler;
+import gui.GUI_Processor;
 
 import java.io.Serializable;
 
 import logica_jogo.Tabuleiro;
-import cli.CLI_InputHandler;
+import cli.CLI_Processor;
 
 
 public class Jogo implements Serializable{
@@ -16,13 +16,13 @@ public class Jogo implements Serializable{
 	
 	public static void main(String[] args) {
 		
-		inpHandler=new CLI_InputHandler();
+		inpHandler=new CLI_Processor();
 				
 	
 	int playingMode=inpHandler.getPlayingMode();
 	
 	if(playingMode==0){//switch to GUI mode
-		inpHandler=new GUI_InputHandler();
+		inpHandler=new GUI_Processor();
 	}
 	
 		

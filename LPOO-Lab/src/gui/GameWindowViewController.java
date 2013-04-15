@@ -1,4 +1,8 @@
 package gui;
+/**
+ * A view Controller for the game window
+ * 
+ */
 
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -10,23 +14,24 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import pictures.PictureLoader;
 
-public class gameWindow {
+public class GameWindowViewController {
 
 	private JFrame frame;
-	private LabPanel mainPanel;
-	private GUI_InputHandler inputHandler;
+	private LabPanelViewController mainPanelVC;
+	private GUI_Processor inputHandler;
 	private char[][] editor_maze;
 	private JMenuBar menuBar;
 
 	/**
-	 * Create the application.
+	 * Simple Constructor.
 	 * 
-	 * @throws IOException
+	 * @param handler An object of type GUI_Processor that will handle user input and do some processing as well as some interaction between different windows.
 	 */
-	public gameWindow(GUI_InputHandler handler) {
+	public GameWindowViewController(GUI_Processor handler) {
 		try {
 			initialize();
 		} catch (Exception e) {
@@ -35,13 +40,14 @@ public class gameWindow {
 		inputHandler = handler;
 	}
 
+	/**
+	 * A method to make the window visible
+	 * 
+	 */
 	public void makeVisible() {
 		frame.setVisible(true);
 	}
 
-	public void setupListeners() {
-
-	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -53,32 +59,31 @@ public class gameWindow {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		String wall_pic_path = PictureLoader.getImagePath("brick2.png");
-		String hero_pic_path = PictureLoader.getImagePath("hero.png");
-		String dragon_pic_path = PictureLoader.getImagePath("dragon.png");
-		String sleeping_dragon_pic_path = PictureLoader
-				.getImagePath("sleeping_dragon.png");
-		String sword_pic_path = PictureLoader.getImagePath("sword.png");
-		String armed_pic_path = PictureLoader.getImagePath("hero.png");
-		String empty_pic_path = PictureLoader.getImagePath("grass.jpg");
-		String eagle_grass_pic_path = PictureLoader
-				.getImagePath("eagle_grass.png");
-		String eagle_wall_pic_path = PictureLoader
-				.getImagePath("eagle_wall.png");
+		
 
 		frame.getContentPane().setLayout(null);
 
-		mainPanel = new LabPanel(wall_pic_path, dragon_pic_path, hero_pic_path,
-				sword_pic_path, sleeping_dragon_pic_path, armed_pic_path,
-				empty_pic_path, eagle_grass_pic_path, eagle_wall_pic_path);
-		frame.getContentPane().add(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.setFocusable(true);
+		String[] picNames=getPicturesNames();
+		
+		mainPanelVC = new LabPanelViewController(picNames);
+		frame.getContentPane().add(mainPanelVC.getPanel());
+		mainPanelVC.getPanel().setLayout(null);
+		mainPanelVC.getPanel().setFocusable(true);
 
-		mainPanel.requestFocusInWindow();
+		mainPanelVC.getPanel().requestFocusInWindow();
 		frame.setResizable(false);
 		menuBar = new JMenuBar();
 
+		setupMenuBar();
+	}
+
+	
+	/**
+	 * Sets up the menu bar present on the game window.
+	 * 
+	 * 
+	 */
+	private void setupMenuBar() {
 		frame.setJMenuBar(menuBar);
 
 		JMenu GameMenu = new JMenu("Game");
@@ -156,7 +161,7 @@ public class gameWindow {
 				do {
 					String editor_dim = JOptionPane
 							.showInputDialog(frame,
-									"Qual é a dimensão que deseja? (Min: 10, Max: 200)");
+									"What's the desired dimension for the maze? (Min: 10, Max: 200)");
 					if (editor_dim != null) {
 						try {
 							editordim = Integer.parseInt(editor_dim);
@@ -164,7 +169,7 @@ public class gameWindow {
 								JOptionPane
 										.showMessageDialog(
 												frame,
-												"Erro, introduza um valor superior a 10 e menor que 200",
+												"Error, please write a number bigger than 9 and smaller than 201",
 												"Warning",
 												JOptionPane.WARNING_MESSAGE);
 								valid = 0;
@@ -174,7 +179,7 @@ public class gameWindow {
 
 						catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(frame,
-									"Erro, valor introduzido não é um inteiro",
+									"Erro, valor introduzido nï¿½o ï¿½ um inteiro",
 									"Warning", JOptionPane.WARNING_MESSAGE);
 							valid = 0;
 						}
@@ -203,11 +208,11 @@ public class gameWindow {
 		mnSettings.add(mntmSettings_options);
 	}
 
-	LabPanel getMainPanel() {
-		return mainPanel;
+	public JPanel getMainPanel() {
+		return mainPanelVC.getPanel();
 	}
 
-	GUI_InputHandler getInputHandler() {
+	GUI_Processor getInputHandler() {
 		return inputHandler;
 	}
 
@@ -217,7 +222,7 @@ public class gameWindow {
 	}
 
 	public void updateDrawbleContent() {
-		mainPanel.layoutModified(inputHandler.getLayout(),
+		mainPanelVC.layoutModified(inputHandler.getLayout(),
 				inputHandler.getBaseLayout());
 
 		readjustSizes();
@@ -231,15 +236,45 @@ public class gameWindow {
 		return editor_maze;
 	}
 
+	/**
+	 * A function to redirect focus to the game panel.
+	 * 
+	 * 
+	 */
 	public void redirectFocus() {
-		mainPanel.requestFocusInWindow();
+		mainPanelVC.getPanel().requestFocusInWindow();
 	}
 
+	/**
+	 * A method used to resize the frame to fit the game content
+	 * 
+	 */
 	public void readjustSizes() {
 
-		Dimension d = new Dimension(mainPanel.getWidth(), mainPanel.getHeight());
+		Dimension d = new Dimension(mainPanelVC.getPanel().getWidth(), mainPanelVC.getPanel().getHeight());
 		frame.getContentPane().setPreferredSize(d);
 		frame.pack();
 	}
+	
+	
+	private String[] getPicturesNames(){
+		String[] picturesArray=new String[9];
+		
+		picturesArray[0] = PictureLoader.getImagePath("brick2.png");
+		picturesArray[1] = PictureLoader.getImagePath("hero.png");
+		picturesArray[2] = PictureLoader.getImagePath("dragon.png");
+		picturesArray[3] = PictureLoader
+				.getImagePath("sleeping_dragon.png");
+		picturesArray[4] = PictureLoader.getImagePath("sword.png");
+		picturesArray[5] = PictureLoader.getImagePath("hero.png");
+		picturesArray[6] = PictureLoader.getImagePath("grass.jpg");
+		picturesArray[7] = PictureLoader
+				.getImagePath("eagle_grass.png");
+		picturesArray[8] = PictureLoader
+				.getImagePath("eagle_wall.png");
+		return picturesArray;
+	}
+	
+
 	
 }

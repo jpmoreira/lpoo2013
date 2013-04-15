@@ -71,7 +71,7 @@ public class Tabuleiro implements java.io.Serializable {
 	}
 
 	/**
-	 * Prints clean maze on console without Hero , Dragons, etc.
+	 * Prints clean maze on console without any game element in it.
 	 */
 	public void printCleanLayout() {
 		for (int l = 0; l <= Coordinate.getBounds().getY(); l++) {

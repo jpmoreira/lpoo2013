@@ -1,7 +1,7 @@
 package cli;
 
 /**
- * A class intended to handle user input from the command line and does some basic processing with it.
+ * A class intended to handle user input from the command line and do some basic processing with it.
  * 
  * 
  */
@@ -18,18 +18,18 @@ import logica_jogo.Tabuleiro;
 import main_package.InputHandler;
 
 
-public class CLI_InputHandler implements InputHandler{
+public class CLI_Processor implements InputHandler{
 	private Tabuleiro theTab;
 	private Scanner inputScanner;
 	
 	
 
-	public CLI_InputHandler(Tabuleiro tab) {
+	public CLI_Processor(Tabuleiro tab) {
 		theTab=tab;
 		inputScanner=new Scanner(System.in);
 	}
 	
-	public CLI_InputHandler(){
+	public CLI_Processor(){
 		theTab=null;
 		inputScanner=new Scanner(System.in);
 	}

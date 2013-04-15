@@ -1,5 +1,11 @@
 package gui;
 
+/**
+ * A class that handles some user input and processes some game related data. It manages the operations related to persistence mechanisms.
+ * It transfers and articulates operations between the game login and the viewControllers
+ * 
+ */
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileInputStream;
@@ -17,36 +23,35 @@ import logica_jogo.LabGenerator;
 import logica_jogo.Tabuleiro;
 import main_package.InputHandler;
 
-public class GUI_InputHandler implements InputHandler {
+public class GUI_Processor implements InputHandler {
 
 	private Tabuleiro theTab;
-	private gameWindow window;
+	private GameWindowViewController window;
 	private int labSize = 10;
 	private Preferences prefs;
 	private int mode = 0;
 	private int nrOfDragons = 1;
-	private GUI_InputHandler editHandler;
-	private EditorWindow Editor;
-	private int move_up,move_down,move_left,move_right,send_eagle;
+	private EditorWindowViewController Editor;
+	private int move_up_key,move_down_key,move_left_key,move_right_key,send_eagle_key;
 
-	public GUI_InputHandler() {
+	public GUI_Processor() {
 		prefs=Preferences.userNodeForPackage(this.getClass());
-		Loadkeys();
+		LoadkeysFromPreferences();
 		mode=Integer.parseInt(prefs.get("mode",""+0));
 		labSize=Integer.parseInt(prefs.get("labsize",""+10));
 		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+1));
 		theTab = null;
-		setupWindow();
+		setupGameWindow();
 	}
 
-	public GUI_InputHandler(Tabuleiro tab) {
+	public GUI_Processor(Tabuleiro tab) {
 		prefs=Preferences.userNodeForPackage(this.getClass());
-		Loadkeys();
+		LoadkeysFromPreferences();
 		mode=Integer.parseInt(prefs.get("mode",""+0));
 		labSize=Integer.parseInt(prefs.get("labsize",""+10));
 		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+0));
 		theTab = tab;
-		setupWindow();
+		setupGameWindow();
 	}
 
 	@Override
@@ -60,37 +65,27 @@ public class GUI_InputHandler implements InputHandler {
 	}
 	
 	
-	protected int getMove_up() {
-		return move_up;
+	protected int getMove_up_key_code() {
+		return move_up_key;
 	}
 
-	protected int getMove_down() {
-		return move_down;
+	protected int getMove_down_key_code() {
+		return move_down_key;
 	}
 
-	protected int getMove_left() {
-		return move_left;
+	protected int getMove_left_key_code() {
+		return move_left_key;
 	}
 
-	protected int getMove_right() {
-		return move_right;
+	protected int getMove_right_key_code() {
+		return move_right_key;
 	}
 
-	protected int getSend_eagle() {
-		return send_eagle;
+	protected int getSend_eagle_key_code() {
+		return send_eagle_key;
 	}
 
-	private void setLabSize(){
-		labSize=Integer.parseInt(prefs.get("labsize",""+10));
-	}
 
-	private void setMode() {
-		mode=Integer.parseInt(prefs.get("mode",""+0));
-	}
-
-	private void setNrOfDragons() {
-		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+1));
-	}
 
 	@Override
 	public int getNumberOfDragons() {
@@ -103,8 +98,8 @@ public class GUI_InputHandler implements InputHandler {
 		return 0;
 	}
 
-	private void setupWindow() {
-		window = new gameWindow(this);
+	private void setupGameWindow() {
+		window = new GameWindowViewController(this);
 		window.makeVisible();
 	}
 
@@ -114,7 +109,21 @@ public class GUI_InputHandler implements InputHandler {
 		theTab = newTab;
 	}
 	
+	/**
+	 * A method that sets preferences and saves them in a persistent way.
+	 * 
+	 * @param mode The mode the game is supposed to operate on
+	 * @param tabsize The size of the maze
+	 * @param nrDragons The number of dragons
+	 */
 	public void setPrefs(int mode, int tabsize, int nrDragons){
+		
+		//set the values ready for next initialization
+		this.mode=mode;
+		this.nrOfDragons=nrDragons;
+		this.labSize=tabsize;
+		
+		//save preferences
 		prefs.put("mode",""+mode);
 		prefs.put("labsize",""+tabsize);
 		prefs.put("nrOfDragons",""+nrDragons);	
@@ -125,14 +134,14 @@ public class GUI_InputHandler implements InputHandler {
 		prefs.put("key_right",""+right);
 		prefs.put("key_left",""+left);
 		prefs.put("key_eagle",""+eagle);
-		Loadkeys();
+		LoadkeysFromPreferences();
 	}
-	private void Loadkeys(){
-		move_up=(Integer.parseInt(prefs.get("key_up",""+KeyEvent.VK_UP)));
-		move_down=(Integer.parseInt(prefs.get("key_down",""+KeyEvent.VK_DOWN)));
-		move_left=(Integer.parseInt(prefs.get("key_left",""+KeyEvent.VK_LEFT)));
-		move_right=(Integer.parseInt(prefs.get("key_right",""+KeyEvent.VK_RIGHT)));
-		send_eagle=(Integer.parseInt(prefs.get("key_eagle",""+KeyEvent.VK_E)));
+	private void LoadkeysFromPreferences(){
+		move_up_key=(Integer.parseInt(prefs.get("key_up",""+KeyEvent.VK_UP)));
+		move_down_key=(Integer.parseInt(prefs.get("key_down",""+KeyEvent.VK_DOWN)));
+		move_left_key=(Integer.parseInt(prefs.get("key_left",""+KeyEvent.VK_LEFT)));
+		move_right_key=(Integer.parseInt(prefs.get("key_right",""+KeyEvent.VK_RIGHT)));
+		send_eagle_key=(Integer.parseInt(prefs.get("key_eagle",""+KeyEvent.VK_E)));
 	}
 	
 	
@@ -154,20 +163,20 @@ public class GUI_InputHandler implements InputHandler {
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == move_up) {
+				if (arg0.getKeyCode() == move_up_key) {
 					theTab.movePlayer(0, -1);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == move_down) {
+				} else if (arg0.getKeyCode() == move_down_key) {
 					theTab.movePlayer(0, 1);
 					window.updateDrawbleContent();
 
-				} else if (arg0.getKeyCode() == move_left) {
+				} else if (arg0.getKeyCode() == move_left_key) {
 					theTab.movePlayer(-1, 0);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == move_right) {
+				} else if (arg0.getKeyCode() == move_right_key) {
 					theTab.movePlayer(1, 0);
 					window.updateDrawbleContent();
-				} else if (arg0.getKeyCode() == send_eagle) {
+				} else if (arg0.getKeyCode() == send_eagle_key) {
 					theTab.getEagle().StartEagle(theTab.getHero(),
 							theTab.getSword());
 					window.updateDrawbleContent();
@@ -179,18 +188,19 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	public void makeGame() {
-		setLabSize();
-		setMode();
-		setNrOfDragons();
-		LabGenerator.prepareLab(getDimention());
+//		setLabSize();
+//		setMode();
+//		setNrOfDragons();
+		LabGenerator.prepareLab(labSize);
 		char[][] lab = LabGenerator.getLab();
-		theTab = new Tabuleiro(0, 0, 0, 0, lab, getMode(), getNumberOfDragons());
+		System.out.println("starting game with mode="+mode);
+		theTab = new Tabuleiro(0, 0, 0, 0, lab, mode, nrOfDragons);
 		theTab.printLayout();
 		window.updateDrawbleContent();
 	}
 
 	protected void Prepare_Editor(int editor_size) {
-		Editor = new EditorWindow(this, editor_size);
+		Editor = new EditorWindowViewController(this, editor_size);
 	}
 
 	public char[][] getLayout() {
@@ -213,7 +223,7 @@ public class GUI_InputHandler implements InputHandler {
 
 	public void switch_layout(char[][] newlayout) {
 
-		Tabuleiro newTab = EditorProcessor.generateInitializedTab(newlayout);
+		Tabuleiro newTab = EditorProcessor.generateInitializedTab(newlayout,mode);
 		if (newTab == null) {// if an error occurred
 			ErrorCode error = EditorProcessor.getErrorCode();
 			if (error == ErrorCode.NotEnoughSpace) {
@@ -224,13 +234,14 @@ public class GUI_InputHandler implements InputHandler {
 				System.out.println("No exit");
 			}
 		}
-
-		theTab = newTab;
-		window.updateDrawbleContent();
+		else{//if lab is a good one
+			theTab = newTab;
+			window.updateDrawbleContent();			
+		}
 	}
 
 	protected void init_JDialog() {
-		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame(),window.getInputHandler());
+		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame(),this);
 		 d1.setVisible(true);
 	}
 
