@@ -1,13 +1,11 @@
 package testes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import logica_jogo.Coordinate;
 import logica_jogo.Dragon;
 import logica_jogo.Tabuleiro;
 
 import org.junit.Test;
-
-import cli.CLI_InputHandler;
 
 public class LabirintoMoreComplexTest {
 

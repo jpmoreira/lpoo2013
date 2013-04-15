@@ -55,6 +55,18 @@ public class GUI_InputHandler implements InputHandler {
 	public int getMode() {
 		return mode;
 	}
+	
+	private void setLabSize(){
+		labSize=Integer.parseInt(prefs.get("labsize",""+10));
+	}
+
+	private void setMode() {
+		mode=Integer.parseInt(prefs.get("mode",""+0));
+	}
+
+	private void setNrOfDragons() {
+		nrOfDragons=Integer.parseInt(prefs.get("nrOfDragons",""+1));
+	}
 
 	@Override
 	public int getNumberOfDragons() {
@@ -127,6 +139,9 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	public void makeGame() {
+		setLabSize();
+		setMode();
+		setNrOfDragons();
 		LabGenerator.prepareLab(getDimention());
 		char[][] lab = LabGenerator.getLab();
 		theTab = new Tabuleiro(0, 0, 0, 0, lab, getMode(), getNumberOfDragons());
@@ -175,7 +190,7 @@ public class GUI_InputHandler implements InputHandler {
 	}
 
 	protected void init_JDialog() {
-		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame());
+		 Settings_Dialog d1 = new  Settings_Dialog(window.getFrame(),window.getInputHandler());
 		 d1.setVisible(true);
 	}
 
