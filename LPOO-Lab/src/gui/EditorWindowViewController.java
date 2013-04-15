@@ -17,12 +17,14 @@ import javax.swing.JOptionPane;
 import logica_jogo.EditorProcessor;
 import logica_jogo.EditorProcessor.ErrorCode;
 import logica_jogo.LabGenerator;
+import logica_jogo.Tabuleiro;
 import pictures.PictureLoader;
 
 public class EditorWindowViewController {
 	private LabPanelViewController editPanelVC;
 	private GUI_Processor editHandler;
 	private char[][] labedit;
+	private Tabuleiro processedTab;
 	private JFrame theFrame;
 	private EditorProcessor theProcessor;
 
@@ -137,7 +139,7 @@ public class EditorWindowViewController {
 	private void setupReturnListener(){
 		theFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				theProcessor.generateInitializedTab(labedit, editHandler.getMode());
+				processedTab=theProcessor.generateInitializedTab(labedit, editHandler.getMode());
 				
 				if(theProcessor.getErrorCode()==ErrorCode.NoErr){//In case no error
 					promptUserToSaveEditedMap(e);
@@ -162,7 +164,7 @@ public class EditorWindowViewController {
 		
 		if (result == JOptionPane.YES_OPTION) {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			editHandler.switch_layout(labedit);
+			editHandler.switch_Maze(processedTab);
 		} else {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}

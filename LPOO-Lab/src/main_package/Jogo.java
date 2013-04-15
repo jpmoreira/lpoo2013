@@ -6,6 +6,13 @@ import java.io.Serializable;
 import logica_jogo.Tabuleiro;
 import cli.CLI_Processor;
 
+/**
+ * 
+ * An initial class that does game initial launch and change of input method.
+ * 
+ * @author mppl
+ *
+ */
 
 public class Jogo implements Serializable{
 
@@ -26,7 +33,6 @@ public class Jogo implements Serializable{
 	}
 	
 		
-	//TODO how to get input from window!!!
 	inpHandler.makeGame();
 		
 		inpHandler.HandleGameInput();//deliever command to the inputHandler
