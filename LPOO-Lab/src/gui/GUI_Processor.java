@@ -94,8 +94,7 @@ public class GUI_Processor implements InputHandler {
 
 	@Override
 	public int getPlayingMode() {
-		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	private void setupGameWindow() {
@@ -179,7 +178,7 @@ public class GUI_Processor implements InputHandler {
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+				
 
 			}
 

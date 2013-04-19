@@ -258,7 +258,7 @@ public class GameWindowViewController {
 	
 	
 	private String[] getPicturesNames(){
-		String[] picturesArray=new String[9];
+		String[] picturesArray=new String[10];
 		
 		picturesArray[0] = PictureLoader.getImagePath("brick2.png");
 		picturesArray[1] = PictureLoader.getImagePath("hero.png");
@@ -272,6 +272,7 @@ public class GameWindowViewController {
 				.getImagePath("eagle_grass.png");
 		picturesArray[8] = PictureLoader
 				.getImagePath("eagle_wall.png");
+		picturesArray[9]= PictureLoader.getImagePath("closed_door.png");
 		return picturesArray;
 	}
 	

@@ -327,7 +327,6 @@ public class Settings_Dialog extends JDialog {
 		Lab_slider.setMinimum(10);
 		getContentPane().add(Lab_slider);
 		Lab_slider.addChangeListener(new ChangeListener() {
-			/** TODO: complete slider change event */
 			public void stateChanged(ChangeEvent arg0) {
 				int slider_val = ((JSlider) arg0.getSource()).getValue();
 				slider_value_label.setText("" + slider_val);
@@ -353,7 +352,6 @@ public class Settings_Dialog extends JDialog {
 		getContentPane().add(dragons_slider);
 
 		dragons_slider.addChangeListener(new ChangeListener() {
-			/** TODO: complete slider change event */
 			public void stateChanged(ChangeEvent arg0) {
 				int dragons_val = ((JSlider) arg0.getSource()).getValue();
 				dragonNr_slider_label.setText("" + dragons_val);
